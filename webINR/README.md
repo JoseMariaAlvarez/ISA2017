@@ -40,3 +40,10 @@ Install the requirements,
 ```
 $ pip install --proxy http://proxy.es:1234 -r requirements.txt
 ```
+
+For local testing purposes, MySQL-Python will be required. Para probarlo en local, con las conexiones MySQL necesita
+
+```
+$ sudo apt install libmysqlclient-dev
+$ pip install MySQL-python
+```
