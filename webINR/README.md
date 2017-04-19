@@ -19,5 +19,24 @@ $ python manage.py makemigrations
 ```
 To run the server simply:
 ```
-$ python manage.py runserver 
+$ python manage.py runserver
+```
+
+### Install Django using Anaconda
+
+To create a new environment,
+```
+$ conda create --name django python=3.5
+```
+Clone the repository,
+```
+$ git clone https://github.com/JoseMariaAlvarez/ISA2017.git
+```
+Activate the environment,
+```
+$ activate django
+```
+Install the requirements,
+```
+$ pip install --proxy http://proxy.es:1234 -r requirements.txt
 ```
