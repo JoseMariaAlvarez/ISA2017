@@ -7,8 +7,31 @@ class Comentario(models.Model):
 		db_column="NSS", max_length=45, blank=True, null=True)
 
 class PacienteClinica(models.Model):
+
 	nss = models.CharField(
 		db_column="NSS", max_length=45, blank=True, null=True)
+	password = models.CharField(db_column='password', max_length=45, blank=True, null=False)
+	dni = models.CharField(db_column='dni', max_length=45, blank=True, null=False)
+	nombre = models.CharField(
+		db_column="Nombre", max_length=45, blank=False, null=True)
+	apellido_1 = models.CharField(
+		db_column="apellido_1", max_length=45, blank=False, null=True)
+	apellido_2 = models.CharField(
+		db_column="apellido_2", max_length=45, blank=False, null=True)
+	cp = models.IntegerField(db_column='cp', max_length=5, blank=False, null=True)
+	telefono = models.IntegerField(db_column='telefono', max_length='15', blank=False, null=True)
+	ciudad = models.CharField(
+		db_column="ciudad", max_length=45, blank=False, null=True)
+	provincia = models.CharField(
+		db_column="provincia", max_length=45, blank=False, null=True)
+	pais = models.CharField(
+		db_column="pais", max_length=45, blank=False, null=True)
+	fecha_nacimiento = models.DateField(db_column='fecha_nacimiento', null=True)
+	sexo_choices = (
+		('0', 'hombre'),
+		('1', 'mujer'),)
+	sexo = models.CharField(max_length=1, choices=sexo_choices, default='Sin especificar')
+	
 
 class Diagnostico(models.Model):
 	idDiagnostico = models.CharField(
