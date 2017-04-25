@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ControlINR</string>
+    <string name="guias">Guias</string>
+    <string name="para_el_paciente">Para el paciente</string>
+    <string name="para_el_profesional">Para el profesional</string>
+    <string name="en_caso_de_emergencia">En caso de emergencia</string>
+    <string name="pregunta_alcohol">¿Puede tomar bebidas alcohólicas?</string>
+    <string name="pregunta_quien_medicamento">¿Quiénes pueden tomar este tipo de anticoagulantes?</string>
+    <string name="texto_alcohol">Evite el consumo de alcohol porque puede afectar a su tratamiento anticoagulante. No obstante, puede tomar vino en una cantidad moderada acompañando a las comidas, siempre que no se lo hayan restringido por otros motivos. Evite las bebidas alcohólicas de alta graduación y los excesos, ya que pueden llegar a hacer imposible el control del tratamiento.</string>
+    <string name="texto_quien_medicamento">Este tipo de anticoagulantes están aprobados para la prevención del ictus en pacientes con fibrilación auricular de origen no valvular. Antes de iniciar el tratamiento con uno de estos nuevos anticoagulantes orales, se recomienda evaluar la función del riñón o del hígado (en función del fármaco). Está contraindicado su uso en pacientes con insuficiencia renal grave o portadores de válvulas cardíacas.</string>
+    <string name="pregunta_otros_medicamentos">¿Puede tomar otros medicamentos?</string>
+    <string name="texto_otros_medicamentos">Este tipo de fármacos presentan pocas interacciones con otros fármacos, sin embargo, se han descrito algunas interacciones con diferentes tipos de medicamentos, por ello, no deje de advertir a su médico de su condición de anticoagulado si éste va a recetarle algo nuevo. Ante cualquier duda consulte siempre con su médico o su farmacéutico.</string>
+</resources>

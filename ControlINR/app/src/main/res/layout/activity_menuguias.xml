@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:text="@string/guias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textGuias"
+        android:layout_weight="0.08"
+        android:textSize="30sp" />
+
+    <Button
+        android:text="@string/para_el_paciente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btPaciente"
+        android:layout_weight="0.08"
+        android:onClick="abrirPaciente" />
+
+    <Button
+        android:text="@string/para_el_profesional"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btProfesional"
+        android:layout_weight="0.08"
+        android:onClick="abrirProfesional" />
+
+    <Button
+        android:text="@string/en_caso_de_emergencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btEmergencia"
+        android:layout_weight="0.08"
+        android:onClick="abrirEmergencia" />
+</LinearLayout>
