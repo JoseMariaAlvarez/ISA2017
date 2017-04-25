@@ -25,9 +25,9 @@ class PacienteClinica(models.Model):
     apellido_2 = models.CharField(
         db_column="apellido_2", max_length=45, blank=False, null=True)
     cp = models.IntegerField(
-        db_column='cp', max_length=5, blank=False, null=True)
+        db_column='cp', blank=False, null=True)
     telefono = models.IntegerField(
-        db_column='telefono', max_length='15', blank=False, null=True)
+        db_column='telefono', blank=False, null=True)
     ciudad = models.CharField(
         db_column="ciudad", max_length=45, blank=False, null=True)
     provincia = models.CharField(
