@@ -139,7 +139,7 @@ Django nos ofrece una API Python para trabajar con estos modelos sin necesidad d
 python manage.py shell
 ```
 Desde ahí ejecutaremos la siguiente secuencia de comandos:
-```
+```python
 $ from blog.models import Contacto, Empresa
 $ c1 = Contacto(nombre="Marco", apellidos="Sánchez Sánchez", email="marco@sanchez.com")
 $ c1.save()
@@ -167,14 +167,14 @@ def index(request):
 ```
 Esta es la vista más simple que podemos crear. Devuelve una respuesta.
 
->También podríamos incluir código HTML en la respuesta. Por ejemplo:
->```python
+También podríamos incluir código HTML en la respuesta. Por ejemplo:
+```python
 def index(request):
     time_now = datetime.datetime.now()
     html = "<p>Hora: %s.</p>" % time_now
     return HttpResponse(html)
 ```
->Esto no es una buena práctica porque implicaría cambiar el código para cambiar el diseño. Como veremos más adelante, el diseño se hará utilizando un sistema de plantillas.
+Esto no es una buena práctica porque implicaría cambiar el código para cambiar el diseño. Como veremos más adelante, el diseño se hará utilizando un sistema de plantillas.
 
  Para que la vista cumpla su función necesitamos *mapearla* a una URL. Abrimos *proyecto/mysite/urls.py* y lo cambiamos por:
 ```python
