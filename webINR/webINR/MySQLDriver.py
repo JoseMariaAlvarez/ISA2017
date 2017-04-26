@@ -1,15 +1,18 @@
-import mysql.connector
+import MySQLdb
 
 
 class MySQLConn:
 
-    def __init__(self, database, username, password):
+    def __init__(self, database, username, password, host, port=3306):
         self.database = database
         self.username = username
         self.password = password
+        self.host = host
+        self.port = port
+
         try:
-            self.cnx = mysql.connector.connect(
-                user=username, password=password, database=database)
+            self.cnx = MySQLdb.connect(
+                user=username, passwd=password, db=database, host=host, port=port)
         except Exception as e:
             raise e
 
