@@ -50,3 +50,10 @@ For local testing purposes, MySQL-Python will be required.
 $ sudo apt install libmysqlclient-dev
 $ pip install MySQL-python
 ```
+
+### Install using Anaconda
+
+To install simply:
+```
+$ conda install mysql-python
+```
