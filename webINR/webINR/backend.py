@@ -10,7 +10,7 @@ class LoginBackend(object):
                 database="usuariossanitarios", username='root', password='root')
             cursor = connection.cursor
 
-            query = ('SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="%s" AND password="%s"' % (
+            query = ('SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="?" AND password="?"',(
                 request.POST['username'], request.POST['password']))
             cursor.execute(query)
             for usuario, password, nombre, apellido1 in cursor:
