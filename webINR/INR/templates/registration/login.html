@@ -1,66 +1,91 @@
-{% extends "admin/base_site.html" %}
 {% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
-{{ form.media }}
-{% endblock %}
+    <title>WbINR</title>
 
-{% block bodyclass %}{{ block.super }} login{% endblock %}
+    {% load staticfiles %}
+    <!-- Bootstrap -->
+    <link href="{% static 'INR/vendors/bootstrap/dist/css/bootstrap.min.css' %}"  rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'INR/vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
 
-{% block usertools %}{% endblock %}
+    <!-- Custom Theme Style -->
+    <link href="{% static 'INR/css/custom.min.css' %}" rel="stylesheet">
+    <style>
+    .fa-pill{
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=.5);
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      color: #2A3F54;
+    }
+    .fa-pill:before {
+      content: "\f205";
+    }
+    </style>
+  </head>
 
-{% block nav-global %}{% endblock %}
+  <body class="login">
+    <div>
 
-{% block content_title %}{% endblock %}
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
 
-{% block breadcrumbs %}{% endblock %}
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
 
-{% block content %}
-{% if form.errors and not form.non_field_errors %}
-<p class="errornote">
-{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-</p>
-{% endif %}
+            {% if form.non_field_errors %}
+              {% for error in form.non_field_errors %}
+              <div class="alert alert-info alert-dismissible fade in"  style="text-shadow:none;" role="alert">
+                <button class="close" aria-label="Close" type="button" data-dismiss="alert"><span aria-hidden="true">×</span></button>
+                <strong>{{ error }}</strong>
+              </div>
+              {% endfor %}
+            {% endif %}
 
-{% if form.non_field_errors %}
-{% for error in form.non_field_errors %}
-<p class="errornote">
-    {{ error }}
-</p>
-{% endfor %}
-{% endif %}
+            <form method="post" style="text-shadow:none;" >
+              {% csrf_token %}
+              <h1><i class="fa fa-pill"></i> <kbd style="background-color: #2A3F54; color: #ECF0F1;"><em>Wb</em>INR</kbd></h1>
+              <div>
+                {{ form.username.label_tag }}
+                {{ form.username }} <!-- <input type="text" class="form-control" placeholder="Identificador" maxlength="254" required /> -->
+                {{ form.username.errors }}
+              </div>
+              <div>
+                {{ form.password.label_tag }}
+                {{ form.password }} <!-- <input type="password" class="form-control" placeholder="Clave" required /> -->
+                {{ form.password.errors }}
+                <input type="hidden" name="next" value="{{ next }}" />
+              </div>
+              <div class="form-actions">
+                <input class="btn btn-default" type="submit" style="float:none;margin-left:0px" value="{% trans 'Log in' %}" />
+              </div>
+              <div class="clearfix"></div>
+            </form>
 
-<div id="content-main">
+            {% url 'admin_password_reset' as password_reset_url %}
+            {% if password_reset_url %}
+            <div class="separator">
+              <div class="clearfix"></div>
+              <br />
 
-{% if user.is_authenticated %}
-<p class="errornote">
-{% blocktrans trimmed %}
-    You are authenticated as {{ username }}, but are not authorized to
-    access this page. Would you like to login to a different account?
-{% endblocktrans %}
-</p>
-{% endif %}
+              <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+            </div>
+            {% endif %}
 
-<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-row">
-    {{ form.username.errors }}
-    {{ form.username.label_tag }} {{ form.username }}
-  </div>
-  <div class="form-row">
-    {{ form.password.errors }}
-    {{ form.password.label_tag }} {{ form.password }}
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-  <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
-  </div>
-</form>
+          </section>
+        </div>
+      </div>
 
-</div>
-{% endblock %}
+    </div>
+
+  </body>
+</html>
