@@ -65,11 +65,11 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="#"><i class="fa fa-home"></i> Página principal </a></li>
+                  <li><a href="/"><i class="fa fa-home"></i> Página principal </a></li>
 
                   <li><a><i class="fa fa-user"></i> Gestor de pacientes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Ficha de paciente</a></li>
+                      <li><a href="/ficha/">Ficha de paciente</a></li>
                       <li><a href="#">INR<span class="label label-success pull-right">Próximamente</span></a></li>
                       <li><a href="#">Calendario<span class="label label-success pull-right">Próximamente</span></a></li>
                     </ul>
@@ -93,7 +93,7 @@
 
             <!-- menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="right" title="Cerrar sesión" href="{% url 'admin:logout' %}">
+              <a data-toggle="tooltip" data-placement="right" title="Cerrar sesión" href="{% url 'logout'  %}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -120,7 +120,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="{% url 'admin:logout' %}"><i class="fa fa-sign-out pull-right"></i> {% trans 'Log out' %}</a></li>
+                    <li><a href="{% url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> {% trans 'Log out' %}</a></li>
                   </ul>
                 </li>
                 <!-- profile -->
