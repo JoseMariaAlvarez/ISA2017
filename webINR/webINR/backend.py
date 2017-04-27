@@ -16,8 +16,8 @@ class LoginBackend(object):
             user = None
 
             for usuario, password, nombre, apellido1 in cursor:
-                user, created = User.objects.get_or_create(
-                    username=usuario, password=password, first_name=nombre, last_name=apellido1)
+                user = User.objects.get_or_create(
+                    username=usuario, password=password, first_name=nombre, last_name=apellido1)[0]
             return user
 
         except User.DoesNotExist:
