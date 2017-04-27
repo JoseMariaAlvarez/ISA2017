@@ -7,7 +7,7 @@ class LoginBackend(object):
     def authenticate(self, request, username=None, password=None):
         try:
             connection = MySQLConn(
-                host="localhost", database="usuariossanitarios", username='root', password='mysql', port=3306)
+                host="localhost", database="usuariossanitarios", username='root', password='root', port=3306)
             cursor = connection.cursor
 
             query = 'SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="%s" AND password="%s"' % (request.POST['username'], request.POST['password'])
