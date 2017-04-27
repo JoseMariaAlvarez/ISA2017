@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+<div class>
+  <!-- page title -->
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Gestor de pacientes</h3>
+    </div>
+  </div>
+  <!-- /page title -->
+
+  <div class="clearfix"></div>
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="alert alert-danger alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <strong>Ningún paciente seleccionado.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-sm-8 col-xs-12">
+      <div class="x_panel">
+          <div class="x_title">
+            <h2>Información del paciente</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="row">
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                Número de paciente:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                NIF:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                Nombre:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                Apellidos:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-9 col-sm-9 col-xs-12 form-group">
+                Dirección:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                Teléfono de contacto:
+                <input type="text" readonly="readonly" placeholder="" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="x_panel">
+          <div class="x_title">
+            <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Diagnóstico</th>
+                    <th>Comentario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>CPE</th>
+                    <td>Embolismo graso</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>XNS</th>
+                    <td>Válvula cardiaca izquierda</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Últimas visitas <small>Mostrando últimas 5 visitas</small></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Resultado</th>
+                <th>Dosis</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>22/01/2004</td>
+                <td>2.3</td>
+                <td>15</td>
+                <td><i class="fa fa-file-pdf-o"></i>&nbsp;<i class="fa fa-search"></i></td>
+              </tr>
+              <tr>
+                <td>04/02/2005</td>
+                <td>2.5</td>
+                <td>17.5</td>
+                <td><i class="fa fa-file-pdf-o"></i>&nbsp;<i class="fa fa-search"></i></td>
+              </tr>
+              <tr>
+                <td>11/04/2005</td>
+                <td>2.4</td>
+                <td>17</td>
+                <td><i class="fa fa-file-pdf-o"></i>&nbsp;<i class="fa fa-search"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
