@@ -10,7 +10,8 @@ class LoginBackend(object):
                 host="localhost", database="usuariossanitarios", username='root', password='root', port=3306)
             cursor = connection.cursor
 
-            query = 'SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="%s" AND password="%s"' % (request.POST['username'], request.POST['password'])
+            query = 'SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="%s" AND password="%s"' % (
+                request.POST['username'], request.POST['password'])
             cursor.execute(query)
 
             user = None
@@ -22,7 +23,6 @@ class LoginBackend(object):
 
         except User.DoesNotExist:
             return None
-
 
     def get_user(self, user_id):
         try:
