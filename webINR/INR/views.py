@@ -51,3 +51,20 @@ def dar_alta(request):
         form = AltaForm()
 
     return render(request, 'alta.html', {'form': form})
+
+
+@login_required
+def search(request):
+    if request.method == 'POST':
+        form = AltaForm(request.POST)
+
+        if form.is_valid():
+            if form.cleaned_data['query_choice'] == 'dni':
+                res = PacienteClinica.objects.get(dni=form.cleaned_data['dni'])
+                return render(request, template_name='busqueda.html', context={'nss': res.nss, 'dni': res.dni, 'nombre': res.nombre, 'apellido1': res.apellido_1})
+            else:
+                res = PacienteClinica.objects.get(nss=form.cleaned_data['nss'])
+                return render(request, template_name='busqueda.html', context={'nss': res.nss, 'dni': res.dni, 'nombre': res.nombre, 'apellido1': res.apellido_1})
+    else:
+        form = AltaForm()
+    return render(request, 'busqueda.html', {'form': form})
