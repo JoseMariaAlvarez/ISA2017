@@ -6,5 +6,5 @@ class AltaForm(forms.Form):
                       ('nss', 'NSS')]
     nss = forms.CharField(label='NSS', max_length=20)
     dni = forms.CharField(label='DNI', max_length=10)
-    query_choice = forms.ChoiceField(choices=SEARCH_CHOICES, widget=forms.RadioSelect())
-    
+    query_choice = forms.ChoiceField(
+        label='Escoja busqueda', choices=SEARCH_CHOICES, widget=forms.RadioSelect())
