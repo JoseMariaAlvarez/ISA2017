@@ -13,7 +13,7 @@ class PacienteClinica(models.Model):
     nss = models.CharField(
         db_column="NSS", max_length=45, blank=True, null=True)
     password = models.CharField(
-        db_column='password', max_length=45, blank=False, null=False)
+        db_column='password', max_length=45, blank=False, null=False, default=uuid.uuid4().hex)
     token = models.CharField(db_column='token', max_length=45,
                              blank=False, null=False, default=uuid.uuid4().hex)
     dni = models.CharField(
