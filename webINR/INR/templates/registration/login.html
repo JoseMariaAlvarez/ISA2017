@@ -63,7 +63,7 @@
                 {{ form.password.label_tag }}
                 {{ form.password }} <!-- <input type="password" class="form-control" placeholder="Clave" required /> -->
                 {{ form.password.errors }}
-                <input type="hidden" name="next" value="{{ next }}" />
+                <input type="hidden" name="next" value="/" />
               </div>
               <div class="form-actions">
                 <input class="btn btn-default" type="submit" style="float:none;margin-left:0px" value="{% trans 'Log in' %}" />
