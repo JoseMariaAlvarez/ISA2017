@@ -36,6 +36,16 @@ def dar_alta(request):
                                    for i in range(10))
                 PacienteClinica.objects.get_or_create(
                     nss=row[0], dni=row[1], nombre=row[2], apellido_1=row[3], password=password)
+            else:
+                query = 'SELECT nss,dni,nombre,apellido1 FROM pacientes WHERE nss=\"%s\"' % form.cleaned_data[
+                    'nss']
+                cursor.execute(query)
+                row = cursor.fetchone()
+                password = ''.join(random.choice(string.lowercase)
+                                   for i in range(10))
+                PacienteClinica.objects.get_or_create(
+                    nss=row[0], dni=row[1], nombre=row[2], apellido_1=row[3], password=password)
+
             return HttpResponse('User created')
     else:
         form = AltaForm()
