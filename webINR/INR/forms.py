@@ -4,7 +4,7 @@ from django import forms
 class AltaForm(forms.Form):
     SEARCH_CHOICES = [('dni', 'DNI'),
                       ('nss', 'NSS')]
-    nss = forms.CharField(label='NSS', max_length=20)
-    dni = forms.CharField(label='DNI', max_length=10)
     query_choice = forms.ChoiceField(
-        label='Escoja busqueda', choices=SEARCH_CHOICES, widget=forms.RadioSelect())
+        label='Escoja tipo de busqueda', choices=SEARCH_CHOICES, widget=forms.RadioSelect())
+    nss = forms.CharField(label='NSS', max_length=20, widget=forms.TextInput(attrs={'class' : 'form-control'}))
+    dni = forms.CharField(label='DNI', max_length=10, widget=forms.TextInput(attrs={'class' : 'form-control'}))
