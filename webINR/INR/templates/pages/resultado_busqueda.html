@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Búsqueda de pacientes{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+          <h2>Buscar <small> en el sistema </small></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>NSS</th>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{nss}}</td>
+                <td>{{dni}}</td>
+                <td>{{nombre}}</td>
+                <td>{{apellido1}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <a type="button" href="/buscar/" role="button" class="btn btn-primary">Realizar otra búsqueda</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

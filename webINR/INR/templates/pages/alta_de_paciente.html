@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Alta de pacientes{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+          <h2>Dar de alta <small> a un nuevo paciente en el sistema </small></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+          <form action="/alta/" method="post">
+          	{% csrf_token %}
+            {% for field in form %}
+              {% if field.html_name == "query_choice" %}
+              <p>
+                <label for="{{field.html_name}}">Escoja el tipo de busqueda:</label>
+                <div class="btn-group" data-toggle="buttons">
+                  {% for choice in form.fields.query_choice.choices %}
+                  <label id="{{field.id_for_label}}" class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="{{field.html_name}}" id="{{field.id_for_label}}" value="{{choice.0}}">{{choice.1}}
+                  </label>
+                  {% endfor %}
+                </div>
+              </p>
+              {% else %}
+              <p>
+                <label for="{{ field.name }}">{{ field.label }}:</label>
+                {{ field }}
+              </p>
+              {% endif %}
+            {% endfor %}
+            <div class="ln_solid"></div>
+          	<input type="submit" class="btn btn-success" value="Dar de alta">
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

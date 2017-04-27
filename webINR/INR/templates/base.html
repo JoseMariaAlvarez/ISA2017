@@ -69,6 +69,7 @@
 
                   <li><a><i class="fa fa-user"></i> Gestor de pacientes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="/buscar/">Buscar paciente</a></li>
                       <li><a href="/ficha/">Ficha de paciente</a></li>
                       <li><a href="#">INR<span class="label label-success pull-right">Próximamente</span></a></li>
                       <li><a href="#">Calendario<span class="label label-success pull-right">Próximamente</span></a></li>
@@ -77,7 +78,7 @@
 
                   <li><a><i class="fa fa-rocket"></i> Administración <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Registrar paciente</a></li>
+                      <li><a href="/alta/">Alta de paciente</a></li>
                     </ul>
                   </li>
               </div>
@@ -174,7 +175,20 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          {% block content %}{% endblock %}
+          <div class>
+            <!-- page title -->
+            <div class="page-title">
+              <div class="title_left">
+                <h3>{% block title %}{% endblock %}</h3>
+              </div>
+            </div>
+            <!-- /page title -->
+
+            <div class="clearfix"></div>
+
+            {% block content %}{% endblock %}
+
+          </div>
         </div>
         <!-- /page content -->
 
