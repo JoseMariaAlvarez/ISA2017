@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ControlINR</string>
-    <string name="guias">Guias</string>
+    <string name="guias">Guías</string>
     <string name="para_el_paciente">Para el paciente</string>
     <string name="para_el_profesional">Para el profesional</string>
     <string name="en_caso_de_emergencia">En caso de emergencia</string>
