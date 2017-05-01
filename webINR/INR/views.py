@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import AltaForm
 from webINR import MySQLDriver
-from models import PacienteClinica
+from models import PacienteClinica, Visita
 import random
 import string
 
@@ -64,3 +64,10 @@ def buscar(request):
         form = AltaForm()
 
     return render(request, 'pages/buscar_paciente.html', {'form': form})
+
+@login_required
+def get_citas(request, nss):
+    if request.method == 'GET':
+        res = Visita.objects.filter(paciente__nss=nss)
+        return render(request, template_name='pages/resultado_visita.html', context={'resultados': res})
+
