@@ -94,9 +94,9 @@ def cambiar_visita(request, id):
 
 @login_required
 def get_datos_demograficos(request, nss):
-    if request.method == 'POST':
+    if request.method == 'GET':
         connection = MySQLDriver.MySQLConn(
-            host="localhost", database="usuariossanitarios", username="root", password="angel", port=3306)
+            host="localhost", database="usuariossanitarios", username="root", password="root", port=3306)
         cursor = connection.cursor
 
         query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM pacientes WHERE nss=%s' % nss
@@ -105,3 +105,5 @@ def get_datos_demograficos(request, nss):
         context = {'nss': row[0], 'dni': row[1], 'nombre': row[2], 'apellido1': row[3], 'apellido2': row[4], 'direccion': row[5], 'cp': row[
             6], 'telefono': row[7], 'ciudad': row[8], 'provincia': row[9], 'pais': row[10], 'fecha_nacimiento': row[11], 'sexo': row[12]}
         return render(request, 'pages/datos_demograficos.html', context)
+    else:
+        return HttpResponse('Method not allowed')
