@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from .forms import AltaForm
+from .forms import AltaForm, VisitaForm
 from webINR import MySQLDriver
 from models import PacienteClinica, Visita
 import random
@@ -48,6 +48,7 @@ def dar_alta(request):
 
     return render(request, 'pages/alta_de_paciente.html', {'form': form})
 
+
 @login_required
 def buscar(request):
     if request.method == 'POST':
@@ -65,9 +66,26 @@ def buscar(request):
 
     return render(request, 'pages/buscar_paciente.html', {'form': form})
 
+
 @login_required
-def get_citas(request, nss):
+def get_visitas(request, nss):
     if request.method == 'GET':
         res = Visita.objects.filter(paciente__nss=nss)
         return render(request, template_name='pages/resultado_visita.html', context={'resultados': res})
 
+
+@login_required
+def cambiar_visita(request, id):
+    obj = Visita.objects.get(id=id)
+    if request.method == 'POST':
+        form = VisitaForm(request.POST, instance=obj)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Visita actualizada con exito')
+
+    else:
+        obj = Visita.objects.get(id=id)
+        form = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha, 'valorINR': obj.valorINR,
+                                   'dosis': obj.dosis, 'duracion': obj.duracion, 'peso': obj.peso, 'rango': obj.rango, 'paciente': obj.paciente, 'comentario': obj.comentario, 'medicacion': obj.medicacion})
+    return render(request, 'pages/modificar_visitas.html', {'form': form, 'id': id})
