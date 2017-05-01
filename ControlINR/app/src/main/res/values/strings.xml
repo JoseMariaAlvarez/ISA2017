@@ -5,25 +5,31 @@
     <string name="para_el_profesional">Para el profesional</string>
     <string name="en_caso_de_emergencia">En caso de emergencia</string>
     <string name="pregunta_alcohol">¿Puede tomar bebidas alcohólicas?</string>
-    <string name="pregunta_quien_medicamento">¿Quiénes pueden tomar este tipo de anticoagulantes?</string>
-    <string name="texto_alcohol">Evite el consumo de alcohol porque puede afectar a su tratamiento anticoagulante. No obstante, puede tomar vino en una cantidad moderada acompañando a las comidas, siempre que no se lo hayan restringido por otros motivos. Evite las bebidas alcohólicas de alta graduación y los excesos, ya que pueden llegar a hacer imposible el control del tratamiento.</string>
-    <string name="texto_quien_medicamento">Este tipo de anticoagulantes están aprobados para la prevención del ictus en pacientes con fibrilación auricular de origen no valvular. Antes de iniciar el tratamiento con uno de estos nuevos anticoagulantes orales, se recomienda evaluar la función del riñón o del hígado (en función del fármaco). Está contraindicado su uso en pacientes con insuficiencia renal grave o portadores de válvulas cardíacas.</string>
+    <string name="texto_alcohol">Evite el consumo de alcohol porque puede afectar a su tratamiento
+        anticoagulante. No obstante, puede tomar vino en una cantidad moderada acompañando a las
+        comidas, siempre que no se lo hayan restringido por otros motivos. Evite las bebidas
+        alcohólicas de alta graduación y los excesos, ya que pueden llegar a hacer imposible el
+        control del tratamiento.</string>
     <string name="pregunta_otros_medicamentos">¿Puede tomar otros medicamentos?</string>
-    <string name="texto_otros_medicamentos">Este tipo de fármacos presentan pocas interacciones con otros fármacos, sin embargo, se han descrito algunas interacciones con diferentes tipos de medicamentos, por ello, no deje de advertir a su médico de su condición de anticoagulado si éste va a recetarle algo nuevo. Ante cualquier duda consulte siempre con su médico o su farmacéutico.</string>
+    <string name="texto_otros_medicamentos">Este tipo de fármacos presentan pocas interacciones con
+        otros fármacos, sin embargo, se han descrito algunas interacciones con diferentes tipos de
+        medicamentos, por ello, no deje de advertir a su médico de su condición de anticoagulado si
+        éste va a recetarle algo nuevo. Ante cualquier duda consulte siempre con su médico o su
+        farmacéutico.</string>
     <string name="ir_dentista">En caso de ir al dentista</string>
     <string name="texto_ir_dentista">
         En primer lugar hay que avisar al médico que lleva el control del tratamiento.
         Se distinguen 3 casos:
         1. Las personas que toman anticoagulantes de forma temporal porque sufrieron una tromboflebitis o una
         embolia pulmonar deberían esperar a finalizar el tratamiento, salvo que se trate de una actuación puntual.
-        Si no se puede esperar la exodoncia deberá planificarse para después del próximo control programado o contactar 
-        con su médico responsable. Si el INR es menor de 3 y la exodoncia no reviste riesgo hemorrágico, no hay 
+        Si no se puede esperar la exodoncia deberá planificarse para después del próximo control programado o contactar
+        con su médico responsable. Si el INR es menor de 3 y la exodoncia no reviste riesgo hemorrágico, no hay
         que hacer nada, salvo tratamiento local.
         2. Las personas que toman anticoagulantes de forma indefinida porque tienen una fibrilación auricular
         u otra patología con INR entre 2-3 y tienen que realizarse una exodoncia, deben seguir las mismas indicaciones
         que en el caso anterior.
-        3. Las personas que sufren una enfermedad de las válvulas del corazón, llevan una prótesis valvular o 
-        han sufrido un infarto de miocardio, así como las que tienen mucha anemia o una cifra baja de plaquetas, 
+        3. Las personas que sufren una enfermedad de las válvulas del corazón, llevan una prótesis valvular o
+        han sufrido un infarto de miocardio, así como las que tienen mucha anemia o una cifra baja de plaquetas,
         la exodoncia debería realizarse siempre por un Odontólogo médico que pueda evaluar debidamente el riesgo
         hemorrágico y trombótico de su paciente.
 
@@ -31,7 +37,7 @@
             deben recibir anestesia con adrenalina.
             b. Los pacientes valvulares tienen que hacer profilaxis antibiótica
             para prevenir la endocarditis bacteriana.
-            
+
         Flemón. Si el flemón es lo primero que aparece, hay que comenzar a
         tomar espiramicina, un comprimido cada 8 horas, y consultar con el
         Dentista.
@@ -119,7 +125,7 @@
 
             Hay algunas heridas que por su tamaño o profundidad requieren unos
             puntos de sutura, por lo que la persona anticoagulada debe hacerse
-            un vendaje apretado y acudir al Centro de Urgencias más cercano a su
+            un vendaje apretado y acudir al centro de urgencias más cercano a su
             domicilio.
 
             Cuando no existe herida pero sí se ha recibido un golpe muy fuerte o
@@ -317,4 +323,229 @@
         Deben ser valoradas por el médico de cabecera o el especialista, teniendo
         en cuenta siempre su efectividad frente al riesgo.</string>
 
+    <string name="aco">¿Qué son los anticoagulantes orales?</string>
+    <string name="texto_aco">
+        Los anticoagulantes son fármacos que modifican la coagulación de la sangre para que
+        el coágulo no se forme dentro de los vasos sanguíneos, haciendo más difícil que se
+        produzca una trombosis o una embolia. Su principal efecto consiste en retardar el
+        tiempo de coagulación de la sangre.\nConcretamente, los anticoagulantes orales son
+        fármacos que impiden que la vitamina K pueda ser utilizada por el hígado para formar
+        los factores de la coagulación II, VII, IX y X (cuatro de los trece que hay), lo cual
+        hace que la sangre tarde más tiempo en coagular. Por esta razón a los anticoagulantes
+        orales se les llama también antivitaminas K.\n\nHay distintos anticoagulantes orales.
+        Se diferencian en el nombre y en el tiempo que tardan en producir su efecto y en dejar
+        de actuar en el organismo, pero todos tienen la misma acción. En España tenemos acenocumarol
+        (Sintrom®) y warfarina (Aldocumar®).\n\nSintrom® es el anticoagulante más utilizado en
+        nuestro país. Su nombre genérico es acenocumarol.Existen dos presentaciones: Sintrom Uno®
+        (1 miligramo de acenocumarol) y Sintrom 4® (4 miligramos de acenocumarol). Es el anticoagulante
+        que menos tiempo permanece en la sangre, por lo que, si deja de tomarse, su efecto comienza
+        a desaparecer pasadas doce horas.\n\nAldocumar® es el otro anticoagulante disponible en
+        España. Su efecto permanece en la sangre más tiempo que el del Sintrom®; como consecuencia,
+        el INR es más estable. Si deja de tomarse, su efecto no comienza a desaparecer hasta pasadas
+        unas 30 horas. Hay comprimidos de 1 mg (de color rosa), de 3 mg (de color azul), de 5 mg
+        (de color amarillo) y de 10 mg (de color blanco).\n\nSintrom® y Aldocumar® no se pueden
+        intercambiar porque las cantidades no son equivalentes. Ambos tienen ventajas y desventajas,
+        que obligatoriamente deberían ser conocidas por los que los manejan.</string>
+
+    <string name="quienes_aco">¿Quiénes toman anticoagulantes orales?</string>
+    <string name="texto_quienes_aco">
+        Toman anticoagulantes orales todas las personas con riesgo de formar trombos o embolias.
+        Estas personas son:\n1. Las que tienen enfermas las válvulas del corazón, para evitar
+        las embolias.\n2. Las que llevan prótesis valvulares cardiacas, para que no se obstruya
+        la válvula.\n3. Las personas con arritmia tipo fibrilación auricular, para evitar el infarto
+        cerebral.\n4. Las personas que tienen el corazón dilatado (miocardiopatía) como consecuencia
+        de otra enfermedad, como puede ser un infarto de miocardio, para evitar las embolias.\n5. Las
+        personas que han tenido una trombosis en las piernas o una embolia pulmonar, para que no
+        se repita.\n\nResumiendo, tienen que tomar anticoagulantes orales todas aquellas personas
+        que tienen peligro de sufrir una trombosis o una embolia y, si ésta ya ha tenido lugar,
+        para que no se repita, siempre poniendo en una balanza el beneficio que se quiere conseguir
+        frente a los riesgos que puede suponer este tratamiento en determinadas circunstancias.</string>
+
+    <string name="administrar_aco">¿Cómo se administran los anticoagulantes orales?</string>
+    <string name="texto_administrar_aco">
+        Se administran siempre por vía oral, en comprimidos. El médico debe elegir siempre el
+        anticoagulante (Sintrom® o Aldocumar®) que más se ajuste a las características del paciente,
+        utilizando el comprimido que tenga la cantidad de producto que más se acerque a sus
+        requerimientos.\n\nLos anticoagulantes no son como otros fármacos y cada persona necesita
+        una cantidad distinta para alcanzar el mismo efecto. Su dosis ha de ser ajustada
+        individualmente tras la realización de un análisis que mide el tiempo que tarda la sangre
+        en coagular.</string>
+
+    <string name="cantidad">¿Cómo se sabe la cantidad que hay que tomar?</string>
+    <string name="texto_cantidad">Cuando el médico instaura un tratamiento con anticoagulantes
+        orales comienza con una dosis aproximada que calcula según sea la constitución física del
+        paciente, su edad y el estado de su enfermedad.\n\nLa acción de los anticoagulantes orales
+        no es rápida: si hay prisa en comenzar, ha de asociarse una heparina de bajo peso molecular
+        durante al menos los cinco primeros días y hasta que se alcancen los niveles que se desea,
+        y en ese momento suspender la heparina. El que una persona tome más cantidad de
+        anticoagulante que otra no quiere decir que esté más enferma, sino que posee un patrón
+        genético diferente y, como consecuencia, su organismo responde de manera diferente al
+        anticoagulante, necesitando más o menos cantidad para conseguir el mismo efecto.\n\nLa
+        prueba que se utiliza para saber la cantidad que hay que tomar sigue siendo el tiempo de
+        protrombina, pero su resultado se expresa como INR (International Normalized Ratio).\n\nLas
+        personas que están anticoaguladas por trombosis venosa (a excepción del Síndrome
+        antifosfolípido -SAF) o por fibrilación auricular han de mantener el INR entre 2 y 3,
+        es decir, para ellas el Rango terapéutico será 2-3, pero teniendo siempre en cuenta que el
+        valor medio es 2.5.\n\nLas personas portadoras de prótesis valvular o con enfermedad
+        valvular en fibrilación auricular han de mantener un INR más alto, es decir un Rango
+        terapéutico = 2.5-3.5, procurando mantenerse siempre en el valor de 3, que es el valor
+        medio.</string>
+
+    <string name="donde_control">¿Dónde se debe realizar el control de la terapéutica
+        anticoagulante?</string>
+    <string name="texto_donde_control">El control del paciente anticoagulado se realiza en los
+        centros de salud, estando limitado a la realización del INR.</string>
+
+    <string name="tiempo_control">¿Cada cuánto tiempo hay que realizar los controles del INR?</string>
+    <string name="texto_tiempo_control">El intervalo entre controles debe ser fijado teniendo en
+        cuenta las características de los pacientes: los que son muy inestables deben controlarse
+        con mayor frecuencia; aquellos que mantienen bien su rango terapéutico deberían hacerlo
+        cada 4-6 semanas.\n\nLos controles sirven para verificar que la dosis que se está tomando
+        es la adecuada para prevenir el episodio tromboembólico y corregirla si fuera
+        necesario.\n\nCuando el INR es menor que el límite bajo de su rango terapéutico hay que
+        aumentar la dosis de anticoagulante, no esperar a que se recupere por sí mismo. Cuando
+        el INR es mayor que el límite alto de su rango terapéutico hay que disminuir la dosis de
+        anticoagulante, a ser posible haciendo el cambio de dosis el mismo día del control. Por
+        este motivo siempre se aconseja tomar el anticoagulante antes de la cena.</string>
+
+    <string name="dieta">¿Es necesario seguir una dieta determinada?</string>
+    <string name="texto_dieta">El anticoagulado puede comer de todo evitando los excesos, entendiendo por
+        exceso comer en grandes cantidades o comer siempre lo mismo: una dieta variada como la dieta
+        mediterránea es una dieta sana y equilibrada.\n\nHay una serie de alimentos que tienen mucha
+        vitamina K o que provocan flatulencia, dando lugar a que se forme más vitamina K: col,
+        coliflor, coles de Bruselas, col lombarda, repollo, brócoli, chocolate en tabletas, castañas,
+        pasteles de boniato, turrones y mazapanes, etc. Estos alimentos deben tomarse en pequeñas
+        cantidades, pero no están prohibidos. Lo mismo se aconseja con la cerveza, sobre todo porque
+        es bebida de temporada, y, a veces cuando se toma, se toma en mucha cantidad. Un poco de vino
+        con la comida o de cerveza no es perjudicial, siempre que no se mezclen muchas cosas: no hay
+        que olvidar que el hígado tiene que metabolizar muchos fármacos y a veces no puede metabolizar
+        el alcohol; además, no todas las personas poseen igual capacidad para hacerlo. Asimismo, las
+        bebidas alcohólicas de alta graduación son totalmente desaconsejables, ya que pueden
+        llegar a hacer imposible el control del tratamiento.\n\nExisten numerosos listados de
+        prohibiciones. Algunos de ellos alejados de toda lógica, tales como el té o el perejil,
+        pasando por alto que las tablas existentes hablan de microgramos de vitamina K por 100 gramos
+        de alimento. Efectivamente, 100 gramos de té verde o de perejil contienen mucha vitamina K,
+        pero nadie utiliza 100 gramos de té para hacer una infusión o 100 gramos de perejil en las comidas.\n\nOtra
+        cosa importante es mantener el peso, restringiendo aquellos alimentos con más calorías y
+        dejarse de hacer dietas adelgazantes a temporadas: los cambios de dieta y los cambios de peso
+        pueden modificar el efecto del anticoagulante hasta el punto de hacer a correr al paciente
+        un riesgo innecesario.\n\nPor último, cabe destacar que  el tabaco es muy rico en vitamina K,
+        por lo que puede frenar el efecto del anticoagulante, además de ser perjudicial especialmente
+        para los pulmones.</string>
+
+    <string name="oscilaciones">¿Cómo se pueden evitar las oscilaciones del INR?</string>
+    <string name="texto_oscilaciones">Muchos factores pueden ser causa de oscilaciones del INR,
+        unos pueden ser evitados por el propio paciente, pero otros no dependen de él.\n\nEl propio
+        paciente puede ayudar a mantener el INR:\n\n• Realizando siempre su control en el mismo
+        sitio.\n• Tomando el anticoagulante regularmente, más o menos a la misma hora. Como en
+        general se toman menos fármacos en la cena, ésta podría ser la mejor hora.\n• Tomando el
+        resto del tratamiento como se le ha indicado, evitando dejar dosis porque se le haya
+        terminado o porque quiera descansar un día.\n• Evitando que la toma del anticoagulante
+        coincida en el tiempo con la toma de protectores gástricos.\n• Siendo regular en las
+        comidas, evitando pasar muchas horas sin comer y huyendo de las dietas "mágicas" para
+        adelgazar.\n• No tomando bebidas alcohólicas con el estómago vacío y haciéndolo siempre
+        con moderación.\n• Utilizando como analgésico Paracetamol, sin superar los 1.5 gramos
+        diarios y sólo en caso de dolor.\n\nEl INR puede verse modificado además, y sobre todo,
+        porque la obtención de la muestra de sangre sea incorrecta:\n\n1. En la punción
+        venosa:\n• La cantidad de sangre extraída ha de corresponder exactamente a la cantidad de
+        anticoagulante que lleva dentro el tubo de recogida.\n• La punción ha de ser limpia, sin
+        dificultad.\n\n2. En la punción capilar:\n• El pulpejo del dedo ha de estar turgente para
+        que se deje pinchar.\n• La sangre debe fluir realizando una ligera presión en círculo
+        alrededor del dedo, nunca "ordeñarlo".</string>
+
+    <string name="cuando_aco">¿Cuándo hay que tomar el anticoagulante (Sintrom®, Aldocumar®)?</string>
+    <string name="texto_cuando_aco">Los anticoagulantes orales no permanecen en la sangre las
+        mismas horas, y el efecto sobre los factores de la coagulación también es diferente: el
+        Sintrom® se mantiene en la sangre de 8 a 12 horas y el Aldocumar® se mantiene de 36 a 42
+        horas. Según esto, la persona que toma Aldocumar®, deberá tomar una única dosis diaria;
+        pero las personas que toman Sintrom® y tienen oscilaciones continuas del INR, deberían
+        repartir la dosis diaria en dos veces y tomar una antes del desayuno y otra antes de la
+        cena.\n\nComo recomendación general, los anticoagulantes orales deben ser tomados,
+        aproximadamente, siempre a la misma hora, de forma que se transforme en una costumbre y
+        sea más difícil el olvido.</string>
+
+    <string name="error_dosis">¿Qué debe hacer el paciente cuando olvide una dosis o cometa un
+        error?</string>
+    <string name="texto_error_dosis">Es importante conocer cómo se planifica la dosis que necesita
+        una persona. Sabemos que cada una posee una sensibilidad diferente y los comprimidos
+        existente pueden no adecuarse a sus necesidades.\n\nLo primero que se hace es calcular la
+        dosis semanal, repartiéndola de la mejor forma entre los distintos días de la semana,
+        procurando que las diferencias entre los días sean mínimas. Con Aldocumar® esto es más
+        fácil que con Sintrom® porque existen comprimidos de 1, 3, 5 y 10 miligramos; los
+        comprimidos de Sintrom® permiten menor juego, sobre todo en personas que necesitan dosis muy
+        pequeñas.\n\nLo segundo que se debe hacer es planificar la semana teniendo en cuenta los
+        días de la semana y no los días del mes, por dos razones: para no estar siempre pendiente
+        del calendario y porque, en el caso del Sintrom®, se ajusta más a su forma de actuar.\n\nSi
+        el paciente olvida tomar la dosis a la hora que tiene por costumbre, la puede tomar más tarde,
+        pero no debería recuperar la dosis de un día añadiéndola a la del día siguiente. Lo que sí
+        podría hacer es repartir la cantidad olvidada entre los días siguientes para que no exista
+        un cambio tan brusco en la coagulabilidad de la sangre. De esta misma forma debería actuar
+        cuando comete un error y toma una cantidad distinta a la que lleva indicada para ese día.</string>
+
+    <string name="complicaciones">¿Causan complicaciones los anticoagulantes orales?</string>
+    <string name="texto_complicaciones">Sí, si se manejan mal, tanto por parte del personal
+        sanitario como por parte del propio paciente. La mayor complicación de los anticoagulantes
+        orales es la hemorragia.\n\nTodas las personas, tomen o no anticoagulantes, pueden sangrar
+        en alguna ocasión y, aunque pueden aparecer hemorragias graves, la mayor parte de las veces
+        no tienen consecuencias.\n\nLas personas que toman anticoagulantes pueden sangrar por las
+        mismas razones que las que no los toman, pero, una vez se produce la hemorragia, tardan más
+        en dejar de sangrar.\n\nPara que se produzca una hemorragia, tiene que existir además un
+        factor desencadenante, por ejemplo una úlcera de estómago, una subida brusca de la tensión
+        arterial, un esfuerzo muy importante no controlado, etc. Por este motivo son muy importantes
+        el control periódico, la educación sanitaria tanto del paciente anticoagulado como de sus
+        familiares y la colaboración de todo el personal sanitario implicado en su seguimiento,
+        evitando en lo posible la polifarmacia y las situaciones de riesgo.</string>
+
+    <string name="sangrar">¿Por dónde se puede sangrar?</string>
+    <string name="texto_sangrar">Se puede sangrar por cualquier sitio, lo que recibe diferentes
+        nombres. A continuación, se mencionarán algunos lugares por donde se puede sangrar, algunos
+        consejos para evitarlo y normas sobre cómo proceder, pues en la mayoría de los casos
+        las puede resolver el propio paciente.\n\nHemorragia nasal o epistaxis.\n¿Cómo se puede
+        prevenir? En aquellas situaciones en que el aire y el ambiente son muy secos, es aconsejable
+        aplicar vaselina sobre la mucosa de la nariz. Asimismo, el control de la tensión arterial es
+        de especial importancia para prevenir este tipo de hemorragia.\n\n¿Cómo se puede tratar?\n1.
+        Si una persona anticoagulada sangra por la nariz, debe hacer presión sobre la zona hasta
+        dejar de sangrar.\n2. Si con esto no es suficiente, ha de aplicarse un tapón de gasa o
+        algodón apretado con un hemostático local (ya se venden preparados en la farmacia) y
+        esperar un par de horas.\n3. Si la hemorragia no cesa o la tensión arterial está elevada
+        debe acudir al servicio de urgencias más próximo para un taponamiento más eficaz.\n\nVómitos
+        de sangre o hemoptisis. Si sufre un vómito de sangre roja o con aspecto de posos de café,
+        debe acudir al servicio de urgencias de un hospital para verificar que no se trata de una
+        neumonía.\n\nMelenas. Si las heces son negras, pastosas y malolientes (no está tomando
+        ningún preparado que contenga hierro ni ha comido morcilla), debe acudir al servicio de
+        urgencias de un hospital, porque puede tratarse de una pequeña úlcera de estómago que esté
+        sangrando.\n\nOrina con sangre o hematuria. Ya sea la orina de color rojo o de color oscuro,
+        debe consultar siempre con su médico, al que llevará al mismo tiempo una muestra de esa
+        orina. La hematuria es la única hemorragia que SÍ puede ser debida únicamente a un exceso de
+        anticoagulante, pero también puede ser el único síntoma de una infección urinaria o de la
+        presencia de un cálculo. Sea cual sea la causa, beba abundante agua para limpiar las vías
+        urinarias.\n\nHemorragia vaginal. Una cosa que debe tener clara la mujer anticoagulada es
+        que los anticoagulantes orales no hacen sangrar más con la regla. Si así fuera, se debería
+        a que la dosis es excesiva o a que existe algún problema local, por lo que debe comunicarlo
+        a su médico cuando acuda a la consulta y mientras tanto, hacer un reposo relativo para que
+        la hemorragia sea menos intensa. Si el sangrado ocurre entre dos reglas, aunque sea mínimo,
+        debe comunicarlo también para que sea el médico quien lo valore y contemple la posibilidad
+        de enviarla al ginecólogo. Asimismo, la mujer anticoagulada que sangra después de la menopausia debe
+        visitar al especialista de ginecología obligadamente.\n\nHematoma cerebral. Si nota dolor de
+        cabeza intenso y persistente, acompañado de vómitos, ha de acudir al servicio de urgencias
+        del hospital y referir además que está tomando anticoagulantes orales. Si esto le ocurre
+        después de un tiempo de haberse caído, no se olvide de referir al médico que le asista en
+        urgencias que se ha caído para que le haga un TAC.</string>
+
+    <string name="autocontrol">¿Qué es el autocontrol del INR?</string>
+    <string name="texto_autocontrol">Se llama autocontrol al hecho de el paciente se responsabiliza
+        de su propio control del INR. Para ello utiliza pequeños equipos, llamados coagulómetros
+        portátiles, que miden la coagulación de la sangre de la misma forma que los diabéticos miden
+        sus niveles de azúcar.\n\nEl autocontrol proporciona al paciente anticoagulado:\n• Más
+        autonomía, ya que puede verificar su INR en cualquier lugar y circunstancia sin tener
+        que desplazarse al centro de salud.\n• Controles más frecuentes, ya que lo ideal es verificar
+        una vez por semana que el INR se mantiene en el rango terapéutico fijado, para modificar la
+        dosis si es necesario.\n• Controles a demanda, es decir poder comprobar si un nuevo medicamento
+        modifica el INR y ajustar la dosis de manera inmediata, ajustar el INR para ir al Dentista,
+        verificar el INR ante una caída grave, etc.\n\nEl autocontrol tiene la ventaja de que
+        siempre es la misma persona la que lo hace y con el mismo equipo. Es obligado seguir un
+        cursillo de entrenamiento para adquirir soltura, quitar miedos y aprender a manejar las dosis.
+        Está demostrado que el autocontrol permite una anticoagulación más regular en el tiempo y
+        proporciona al anticoagulado una mayor libertad y responsabilidad.</string>
+    
 </resources>
