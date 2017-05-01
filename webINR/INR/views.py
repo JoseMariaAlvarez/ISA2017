@@ -42,6 +42,7 @@ def dar_alta(request):
             PacienteClinica.objects.get_or_create(
                 nss=row[0], dni=row[1], nombre=row[2], apellido_1=row[3], password=password)
 
+            connection.close()
             return HttpResponse('Paciente dado de alta en la base de datos.')
     else:
         form = AltaForm()
@@ -89,3 +90,18 @@ def cambiar_visita(request, id):
         form = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha, 'valorINR': obj.valorINR,
                                    'dosis': obj.dosis, 'duracion': obj.duracion, 'peso': obj.peso, 'rango': obj.rango, 'paciente': obj.paciente, 'comentario': obj.comentario, 'medicacion': obj.medicacion})
     return render(request, 'pages/modificar_visitas.html', {'form': form, 'id': id})
+
+
+@login_required
+def get_datos_demograficos(request, nss):
+    if request.method == 'POST':
+        connection = MySQLDriver.MySQLConn(
+            host="localhost", database="usuariossanitarios", username="root", password="angel", port=3306)
+        cursor = connection.cursor
+
+        query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM pacientes WHERE nss=%s' % nss
+        cursor.execute(query)
+        row = cursor.fetchone()
+        context = {'nss': row[0], 'dni': row[1], 'nombre': row[2], 'apellido1': row[3], 'apellido2': row[4], 'direccion': row[5], 'cp': row[
+            6], 'telefono': row[7], 'ciudad': row[8], 'provincia': row[9], 'pais': row[10], 'fecha_nacimiento': row[11], 'sexo': row[12]}
+        return render(request, 'pages/datos_demograficos.html', context)
