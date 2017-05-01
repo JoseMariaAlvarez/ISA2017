@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^buscar/$', views.buscar, name='busqueda'),
     url(r'^visitas/(?P<nss>\w{0,50})/$', views.get_visitas, name='visita'),
     url(r'^modvisitas/(?P<id>\w{0,50})/$', views.cambiar_visita, name='modvisitas'),
+    url(r'^datos_paciente/(?P<nss>\w{0,50})/$', views.get_datos_demograficos, name='datos_paciente'),
 ]
