@@ -8,6 +8,9 @@ class Comentario(models.Model):
     texto = models.CharField(
         db_column="NSS", max_length=45, blank=True, null=True)
 
+    def __str__(self):
+        return '%s' % self.texto
+
 
 class PacienteClinica(models.Model):
     nss = models.CharField(
@@ -42,6 +45,9 @@ class PacienteClinica(models.Model):
     sexo = models.CharField(
         max_length=1, choices=sexo_choices, default='Sin especificar')
 
+    def __str__(self):
+        return '%s - %s %s' % (self.dni, self.nombre, self.apellido_1)
+
 
 class Diagnostico(models.Model):
     idDiagnostico = models.CharField(
@@ -54,6 +60,8 @@ class Diagnostico(models.Model):
 class Medicacion(models.Model):
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=True, null=True)
+    def __str__(self):
+        return '%s' % self.nombre
 
 
 class Visita(models.Model):
