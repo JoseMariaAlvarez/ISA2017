@@ -69,8 +69,8 @@
 
                   <li><a><i class="fa fa-user"></i> Gestor de pacientes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/buscar/">Buscar paciente</a></li>
-                      <li><a href="/ficha/">Ficha de paciente</a></li>
+                      <li><a href="{% url 'busqueda' %}">Buscar paciente</a></li>
+                      <li><a href="{% url 'ficha' %}">Ficha de paciente</a></li>
                       <li><a href="#">INR<span class="label label-success pull-right">Próximamente</span></a></li>
                       <li><a href="#">Calendario<span class="label label-success pull-right">Próximamente</span></a></li>
                     </ul>
@@ -78,7 +78,7 @@
 
                   <li><a><i class="fa fa-rocket"></i> Administración <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/alta/">Alta de paciente</a></li>
+                      <li><a href="{% url 'alta' %}">Alta de paciente</a></li>
                     </ul>
                   </li>
               </div>
@@ -186,7 +186,28 @@
 
             <div class="clearfix"></div>
 
-            {% block content %}{% endblock %}
+            {% block content %}
+              <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Creo... creo que estoy roto.</h2>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <div data-example-id="simple-jumbotron">
+                      <div class="jumbotron" style="margin-bottom: 0;">
+                        <h1>¡Hola!</h1>
+                        <p>Se están implementando cambios en la web. No te preocupes si algo <i>parece roto</i>... ¡probablemente lo esté! Pero trabajamos para solucionarlo.</p>
+                      </div>
+                    </div>.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            {% endblock %}
 
           </div>
         </div>
