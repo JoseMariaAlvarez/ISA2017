@@ -11,9 +11,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
-    public void abrirGuias(View v){
+
+    /** Es llamado cuando el usuario hace click sobre el botón Guías */
+    public void abrirGuias(View v) {
         Intent intent =new Intent(this, MenuGuias.class);
         startActivity(intent);
     }

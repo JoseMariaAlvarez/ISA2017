@@ -27,16 +27,23 @@ public class MenuGuias extends AppCompatActivity {
         ListView lv = (ListView) findViewById(android.R.id.list);
         lv.setAdapter((adapter));
         */
+
     }
-    public void abrirPaciente(View v){
+
+    /** Es llamado cuando el usuario hace click sobre el botón Paciente */
+    public void abrirPaciente(View v) {
         Intent intent =new Intent(this, GuiaPaciente.class);
         startActivity(intent);
     }
-    public void abrirProfesional(View v){
+
+    /** Es llamado cuando el usuario hace click sobre el botón Profesional */
+    public void abrirProfesional(View v) {
         Intent intent =new Intent(this, GuiaProfesional.class);
         startActivity(intent);
     }
-    public void abrirEmergencia(View v){
+
+    /** Es llamado cuando el usuario hace click sobre el botón Emergencia */
+    public void abrirEmergencia(View v) {
         Intent intent =new Intent(this, GuiaEmergencia.class);
         startActivity(intent);
     }
