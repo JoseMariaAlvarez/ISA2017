@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 """
 Django settings for webINR project.
 
@@ -30,8 +32,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+## Añadimos nuestra aplicación a la lista de aplicaciones instalada (por qué en primer lugar: https://code.djangoproject.com/ticket/20186)
 INSTALLED_APPS = [
-    'INR.apps.InrConfig', # https://code.djangoproject.com/ticket/20186
+    'INR.apps.InrConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

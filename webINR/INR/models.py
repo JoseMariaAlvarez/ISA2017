@@ -60,6 +60,7 @@ class Diagnostico(models.Model):
 class Medicacion(models.Model):
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=True, null=True)
+        
     def __str__(self):
         return '%s' % self.nombre
 

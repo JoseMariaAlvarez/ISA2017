@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django.contrib import admin
 from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita
 
@@ -7,7 +8,7 @@ from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita
 
     using = 'Auth'
 
-    
+
     def save_model(self, request, obj, form, change):
     	# save_model to database Auth
         obj.save(using=self.using)
@@ -21,7 +22,7 @@ from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita
         return super(AuthDBModelAdmin, self).get_queryset(request).using(self.using)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    	# Populate foreignkeys using a query 
+    	# Populate foreignkeys using a query
         return super(AuthDBModelAdmin, self).formfield_for_foreignkey(db_field, request, using=self.using, **kwargs)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
@@ -29,6 +30,8 @@ from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita
         return super(AuthDBModelAdmin, self).formfield_for_manytomany(db_field, request, using=self.using, **kwargs)
 """
 
+## Añadimos los modelos para ser modificados desde el panel de administrador (/admin/)
+## Si queremos acceder al panel, debemos crear un superusuario antes.
 admin.site.register(Comentario)
 admin.site.register(PacienteClinica)
 admin.site.register(Diagnostico)

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """webINR URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -23,5 +24,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
-    url(r'^', include("INR.urls")),
+    url(r'^', include("INR.urls")),  ## incluyo las URLs de la aplicación INR
 ]
