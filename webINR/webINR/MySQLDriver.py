@@ -1,5 +1,8 @@
 import mysql.connector
 
+"""Driver for MySQL connections, currently supporting a cursor
+    to operate with the object. The connection object must be either 
+    closed or destroyed. """ 
 
 class MySQLConn:
 

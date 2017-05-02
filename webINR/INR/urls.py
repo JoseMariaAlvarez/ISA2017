@@ -2,6 +2,14 @@ from django.conf.urls import url
 
 from . import views
 
+""" Accessible URL patterns. 
+    * ficha/
+    * alta/
+    * buscar/
+    * visitas/<nss>
+    * modvisitas/<id>
+    * datos_paciente/<nss>
+"""
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^ficha/$', views.ver_ficha, name='ficha'),
