@@ -7,32 +7,75 @@
     <TextView
         android:text="@string/guide"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textGuias"
-        android:layout_weight="0.08"
-        android:textSize="30sp" />
+        android:textSize="15pt"
+        android:gravity="center"
+        android:layout_height="45dp"
+        android:id="@+id/textGuias" />
 
-    <Button
-        android:text="@string/para_el_paciente_button"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btPaciente"
-        android:layout_weight="0.08"
-        android:onClick="abrirPaciente" />
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:id="@+id/id_"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:text="@string/para_el_profesional"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btProfesional"
-        android:layout_weight="0.08"
-        android:onClick="abrirProfesional" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_weight="0.05"
+            android:background="@color/color2"
+            android:onClick="abrirPaciente">
 
-    <Button
-        android:text="@string/en_caso_de_emergencia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btEmergencia"
-        android:layout_weight="0.08"
-        android:onClick="abrirEmergencia" />
+            <ImageView
+                android:layout_height="100dp"
+                android:id="@+id/i_paciente"
+                android:cropToPadding="true"
+                android:src="@drawable/paciente_icono"
+                android:layout_width="67dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:text="@string/para_el_paciente_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tv_paciente"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="15pt"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_weight="0.05"
+            android:background="@color/color3"
+            android:onClick="abrirEmergencia">
+
+            <ImageView
+                android:layout_height="100dp"
+                android:id="@+id/i_emergencia"
+                android:src="@drawable/emergencia_alerta_icono"
+                android:cropToPadding="true"
+                android:layout_width="74dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:text="@string/en_caso_de_emergencia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tv_emergencia"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="15pt"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

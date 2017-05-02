@@ -8,27 +8,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="es.uma.controlinr.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuGuias"
-            android:parentActivityName=".MainActivity"
+        <activity android:name="es.uma.controlinr.MenuGuias"
+            android:parentActivityName="es.uma.controlinr.MainActivity"
             >
         </activity>
-        <activity android:name=".GuiaPaciente"
-            android:parentActivityName=".MenuGuias"
+        <activity android:name="es.uma.controlinr.GuiaPaciente"
+            android:parentActivityName="es.uma.controlinr.MenuGuias"
             >
         </activity>
-        <activity android:name=".GuiaProfesional"
-            android:parentActivityName=".MenuGuias"
+        <activity android:name="es.uma.controlinr.GuiaProfesional"
+            android:parentActivityName="es.uma.controlinr.MenuGuias"
             >
         </activity>
-        <activity android:name=".GuiaEmergencia"
-            android:parentActivityName=".MenuGuias"
+        <activity android:name="es.uma.controlinr.GuiaEmergencia"
+            android:parentActivityName="es.uma.controlinr.MenuGuias"
             >
         </activity>
     </application>

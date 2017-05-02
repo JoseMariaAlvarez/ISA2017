@@ -1,4 +1,4 @@
-package com.example.juanignacio.controlinr;
+package es.uma.controlinr;
 
 import org.junit.Test;
 

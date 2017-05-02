@@ -14,6 +14,8 @@
     <string name="meals_icon">comidas_icono.png</string>
     <string name="automed_icon">automed_icono.png</string>
     <string name="alarm_icon">alarmas_icono.png</string>
+    <string name="paciente_icon">paciente_icono.png</string>
+    <string name="emergencia_alerta_icon">emergencia_alerta_icono.png</string>
 
     <string name="guias">Guías</string>
 

@@ -1,8 +1,10 @@
-package com.example.juanignacio.controlinr;
+package es.uma.controlinr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ExpandableListView;
+
+import com.example.juanignacio.controlinr.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

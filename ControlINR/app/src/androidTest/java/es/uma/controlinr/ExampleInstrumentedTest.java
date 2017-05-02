@@ -1,4 +1,4 @@
-package com.example.juanignacio.controlinr;
+package es.uma.controlinr;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
