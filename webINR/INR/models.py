@@ -27,6 +27,8 @@ class PacienteClinica(models.Model):
         db_column="apellido_1", max_length=45, blank=False, null=True)
     apellido_2 = models.CharField(
         db_column="apellido_2", max_length=45, blank=False, null=True)
+    direccion = models.CharField(
+        db_column="direccion", max_length=90, blank=False, null=True)
     cp = models.IntegerField(
         db_column='cp', blank=False, null=True)
     telefono = models.IntegerField(
@@ -60,7 +62,7 @@ class Diagnostico(models.Model):
 class Medicacion(models.Model):
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=True, null=True)
-        
+
     def __str__(self):
         return '%s' % self.nombre
 
