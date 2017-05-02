@@ -3,6 +3,8 @@ package com.example.juanignacio.controlinr;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.juanignacio.controlinr.R;
+
 /**
  * Created by Juan Ignacio on 25/04/2017.
  */

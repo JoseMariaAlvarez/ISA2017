@@ -2,8 +2,6 @@ package com.example.juanignacio.controlinr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.ExpandedMenuView;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
