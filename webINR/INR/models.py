@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 import uuid
 
-
+# Comentario model
 class Comentario(models.Model):
     texto = models.CharField(
         db_column="NSS", max_length=45, blank=True, null=True)
@@ -11,7 +11,7 @@ class Comentario(models.Model):
     def __str__(self):
         return '%s' % self.texto
 
-
+# PacienteClinica model
 class PacienteClinica(models.Model):
     nss = models.CharField(
         db_column="NSS", max_length=45, blank=True, null=True)
@@ -48,7 +48,7 @@ class PacienteClinica(models.Model):
     def __str__(self):
         return '%s - %s %s' % (self.dni, self.nombre, self.apellido_1)
 
-
+# Diagnostico model
 class Diagnostico(models.Model):
     idDiagnostico = models.CharField(
         db_column="idDiagnostico", max_length=45, blank=False, null=False, primary_key=True)
@@ -56,14 +56,14 @@ class Diagnostico(models.Model):
         db_column="Nombre", max_length=45, blank=False, null=True)
     paciente = models.ForeignKey(PacienteClinica)
 
-
+# Medicacion model
 class Medicacion(models.Model):
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=True, null=True)
     def __str__(self):
         return '%s' % self.nombre
 
-
+# Visita model
 class Visita(models.Model):
     fecha = models.DateField()
     valorINR = models.DecimalField(
