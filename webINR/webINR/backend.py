@@ -1,6 +1,10 @@
 from django.contrib.auth.models import User
 from MySQLDriver import MySQLConn
 
+""" Docstring for custom backend. (https://docs.djangoproject.com/en/1.11/topics/auth/customizing/)
+    Authenticate and get_user methods are overriden to match the login requirements 
+    of this application. It asks a remote database for the information (Username, Password)
+    and acts in consequence """
 
 class LoginBackend(object):
 
