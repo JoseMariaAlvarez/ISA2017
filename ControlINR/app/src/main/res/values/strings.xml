@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">ControlINR</string>
-    <string name="guias">Guias</string>
+
+    <string name="calendar">Calendario</string>
+    <string name="guide">Guías</string>
+    <string name="graphs">Gráficas</string>
+    <string name="meals">Comidas</string>
+    <string name="automedication">Automedicación</string>
+    <string name="alarm">Alertas</string>
+
+    <string name="calendar_icon">calendario_icono.png</string>
+    <string name="guide_icon">guias_icono.png</string>
+    <string name="graphic_icon">graficas_icono.png</string>
+    <string name="meals_icon">comidas_icono.png</string>
+    <string name="automed_icon">automed_icono.png</string>
+    <string name="alarm_icon">alarmas_icono.png</string>
+
     <string name="para_el_paciente">Para el paciente</string>
     <string name="para_el_profesional">Para el profesional</string>
     <string name="en_caso_de_emergencia">En caso de emergencia</string>
