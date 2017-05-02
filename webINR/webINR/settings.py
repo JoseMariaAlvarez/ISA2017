@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'INR.apps.InrConfig', # https://code.djangoproject.com/ticket/20186
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'INR.apps.InrConfig',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [

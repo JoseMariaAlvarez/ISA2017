@@ -1,0 +1,64 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WbINR</title>
+
+    {% load staticfiles %}
+    <!-- Bootstrap -->
+    <link href="{% static 'INR/vendors/bootstrap/dist/css/bootstrap.min.css' %}"  rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'INR/vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'INR/css/custom.min.css' %}" rel="stylesheet">
+    <style>
+    .fa-pill{
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=.5);
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      color: #2A3F54;
+    }
+    .fa-pill:before {
+      content: "\f205";
+    }
+    </style>
+  </head>
+
+  <body class="login">
+    <div>
+
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+
+
+
+            <form method="post" style="text-shadow:none;" >
+              <h1><i class="fa fa-pill"></i> <kbd style="background-color: #2A3F54; color: #ECF0F1;"><em>Wb</em>INR</kbd></h1>
+              <div class="alert alert-success alert-dismissible fade in"  style="text-shadow:none;" role="alert">
+                <strong>Desconectado correctamente</strong>
+              </div>
+              <a class="btn btn-default" type="submit" href="{% url 'login'  %}" >Iniciar sesión</a>
+              <div class="clearfix"></div>
+            </form>
+
+
+          </section>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from .forms import AltaForm
+from .forms import AltaForm, VisitaForm
 from webINR import MySQLDriver
-from models import PacienteClinica
+from models import PacienteClinica, Visita
 import random
 import string
 
@@ -20,6 +20,9 @@ def ver_ficha(request):
 
 @login_required
 def dar_alta(request):
+    """ A connection tot he remote server is issued,
+    in order to check whether the data given exists. In case
+    it doesn't exist a new user is created. """
     if request.method == 'POST':
         form = AltaForm(request.POST)
 
@@ -42,14 +45,18 @@ def dar_alta(request):
             PacienteClinica.objects.get_or_create(
                 nss=row[0], dni=row[1], nombre=row[2], apellido_1=row[3], password=password)
 
+            connection.close()
             return HttpResponse('Paciente dado de alta en la base de datos.')
     else:
         form = AltaForm()
 
     return render(request, 'pages/alta_de_paciente.html', {'form': form})
 
+
 @login_required
 def buscar(request):
+    """ Search in the local DB for DNI and NSS
+    information. """
     if request.method == 'POST':
         form = AltaForm(request.POST)
 
@@ -64,3 +71,54 @@ def buscar(request):
         form = AltaForm()
 
     return render(request, 'pages/buscar_paciente.html', {'form': form})
+
+
+@login_required
+def get_visitas(request, nss):
+    """ All the Visitas objects matching
+    the given NSS are rendered """
+    if request.method == 'GET':
+        res = Visita.objects.filter(paciente__nss=nss)
+        return render(request, template_name='pages/resultado_visita.html', context={'resultados': res})
+
+
+@login_required
+def cambiar_visita(request, id):
+    """ Allowing for Visita objects modification, 
+    including all the parameters belonging to the 
+    given patient """
+    
+    obj = Visita.objects.get(id=id)
+    if request.method == 'POST':
+        form = VisitaForm(request.POST, instance=obj)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Visita actualizada con exito')
+
+    else:
+        obj = Visita.objects.get(id=id)
+        form = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha, 'valorINR': obj.valorINR,
+                                   'dosis': obj.dosis, 'duracion': obj.duracion, 'peso': obj.peso, 'rango': obj.rango, 'paciente': obj.paciente, 'comentario': obj.comentario, 'medicacion': obj.medicacion})
+    return render(request, 'pages/modificar_visitas.html', {'form': form, 'id': id})
+
+
+@login_required
+def get_datos_demograficos(request, nss):
+    """ Connect to the remote database and 
+    retrieve the data from the database to render
+    it on the client. No data is stored locally"""
+    
+    if request.method == 'GET':
+        connection = MySQLDriver.MySQLConn(
+            host="localhost", database="usuariossanitarios", username="root", password="root", port=3306)
+        cursor = connection.cursor
+
+        query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM pacientes WHERE nss=%s' % nss
+        cursor.execute(query)
+        row = cursor.fetchone()
+        context = {'nss': row[0], 'dni': row[1], 'nombre': row[2], 'apellido1': row[3], 'apellido2': row[4], 'direccion': row[5], 'cp': row[
+            6], 'telefono': row[7], 'ciudad': row[8], 'provincia': row[9], 'pais': row[10], 'fecha_nacimiento': row[11], 'sexo': row[12]}
+        return render(request, 'pages/datos_demograficos.html', context)
+    else:
+        return HttpResponse('Method not allowed')
