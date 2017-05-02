@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.juanignacio.controlinr.R;
+import es.uma.controlinr.R;
 
 /**
  * Created by Juan Ignacio on 25/04/2017.
@@ -32,21 +32,4 @@ public class MenuGuias extends AppCompatActivity {
 
     }
 
-    /** Es llamado cuando el usuario hace click sobre el botón Paciente */
-    public void abrirPaciente(View v) {
-        Intent intent =new Intent(this, GuiaPaciente.class);
-        startActivity(intent);
-    }
-
-    /** Es llamado cuando el usuario hace click sobre el botón Profesional */
-    public void abrirProfesional(View v) {
-        Intent intent =new Intent(this, GuiaProfesional.class);
-        startActivity(intent);
-    }
-
-    /** Es llamado cuando el usuario hace click sobre el botón Emergencia */
-    public void abrirEmergencia(View v) {
-        Intent intent =new Intent(this, GuiaEmergencia.class);
-        startActivity(intent);
-    }
 }

@@ -7,12 +7,7 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-
-import com.example.juanignacio.controlinr.R;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;

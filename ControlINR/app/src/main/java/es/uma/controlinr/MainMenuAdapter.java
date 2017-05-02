@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.juanignacio.controlinr.R;
+import es.uma.controlinr.R;
 
 import java.util.ArrayList;
 
@@ -54,8 +54,8 @@ public class MainMenuAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.row_main_menu, null);
 
             container = new ViewContainer();
-            container.text = (TextView) view.findViewById(R.id.tv_text);
-            container.image = (ImageView) view.findViewById(R.id.iv_image);
+            container.text = (TextView) view.findViewById(R.id.tv_patient_text);
+            container.image = (ImageView) view.findViewById(R.id.iv_patient_image);
             container.layout = (LinearLayout) view.findViewById(R.id.ll_row);
 
             view.setTag(container);

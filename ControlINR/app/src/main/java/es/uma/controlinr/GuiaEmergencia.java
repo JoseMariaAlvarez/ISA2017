@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.example.juanignacio.controlinr.R;
+import es.uma.controlinr.R;
 
 /**
  * Created by Juan Ignacio on 25/04/2017.
