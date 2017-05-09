@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'^alta/$', views.dar_alta, name='alta'),
     url(r'^buscar/$', views.buscar, name='busqueda'),
     url(r'^modvisitas/(?P<id>\w{0,50})/$', views.cambiar_visita, name='modvisitas'),
-    url(r'^crearvisita/$', views.anadir_visita, name='crearvisita'),
+    url(r'^crearvisita/(?P<nss>\w{0,50})/$', views.crear_visita, name='crearvisita'),
 ]

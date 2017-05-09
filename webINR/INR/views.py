@@ -125,16 +125,17 @@ def cambiar_visita(request, id):
                                    'dosis': obj.dosis, 'duracion': obj.duracion, 'peso': obj.peso, 'rango': obj.rango, 'paciente': obj.paciente, 'comentario': obj.comentario, 'medicacion': obj.medicacion})
     return render(request, 'pages/modificar_visitas.html', {'form': form, 'id': id})
 
-
 @login_required
-def anadir_visita(request):
+def crear_visita(request, nss):
     if request.method == 'POST':
         form = VisitaForm(request.POST)
 
         if form.is_valid():
             form.save()
 
-            return HttpResponse('Visita añadida con exito')
+            return render(request, 'pages/ficha_de_paciente.html')
     else:
+        paciente = PacienteClinica.objects.get(nss=nss)
         form = VisitaForm()
-    return render(request, 'pages/crear_visita.html', {'form': form})
+
+    return render(request, 'pages/crear_visita.html', {'form': form, 'nss': paciente.nss})
