@@ -36,15 +36,15 @@ def dar_alta(request):
         if form.is_valid():  # ...si el formulario es válido...
             # ...establecemos conexión con la base de datos.
             connection = MySQLDriver.MySQLConn(
-                host="localhost", database="usuariossanitarios", username="root", password="root", port=3306)
+                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
             cursor = connection.cursor
 
             # La query cambiará según estemos buscando por dni o por nss
             if form.cleaned_data['query_choice'] == 'dni':
-                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM pacientes WHERE  dni=\"%s\"' % form.cleaned_data[
+                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data[
                     'dni']
             else:
-                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM pacientes WHERE nss=\"%s\"' % form.cleaned_data[
+                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE nss=\"%s\"' % form.cleaned_data[
                     'nss']
 
             # Ejecutamos la query

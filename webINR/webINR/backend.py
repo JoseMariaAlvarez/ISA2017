@@ -13,11 +13,11 @@ class LoginBackend(object):
         try:
             ## Establecemos conexión con la base de datos
             connection = MySQLConn(
-                host="localhost", database="usuariossanitarios", username='root', password='root', port=3306)
+                host="localhost", database="webdb_login", username='root', password='control de INR', port=3307)
             cursor = connection.cursor
 
             ## Establecemos y ejecutamos nuestra query
-            query = 'SELECT usuario, password, nombre, apellido1 FROM usuarios_sanitarios WHERE usuario="%s" AND password="%s"' % (
+            query = 'SELECT usuario, password, nombre, apellido1 FROM webdb_login.usuariosSanitarios WHERE usuario="%s" AND password="%s"' % (
                 request.POST['username'], request.POST['password'])
             cursor.execute(query)
 
