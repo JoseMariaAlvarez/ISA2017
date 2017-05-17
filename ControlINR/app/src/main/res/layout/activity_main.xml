@@ -30,14 +30,14 @@
 
                 <ImageView
                     android:layout_height="100dp"
-                    app:srcCompat="@drawable/calendario_icono"
+                    app:srcCompat="@drawable/pastilla_entera_icono"
                     android:id="@+id/i_calendario"
                     android:cropToPadding="true"
                     android:layout_width="100px"
                     android:padding="20px"/>
 
                 <TextView
-                    android:text="@string/calendar"
+                    android:text="@string/login_texto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tv_calendar"
@@ -64,110 +64,10 @@
                     android:padding="20px"/>
 
                 <TextView
-                    android:text="@string/guide"
+                    android:text="@string/guias_texto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tv_guide"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="15pt"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_weight="0.05"
-                android:background="@color/color3">
-
-                <ImageView
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/graficas_icono"
-                    android:id="@+id/i_graph"
-                    android:cropToPadding="true"
-                    android:layout_width="100px"
-                    android:padding="10dp"/>
-
-                <TextView
-                    android:text="@string/graphs"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tv_graph"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="15pt"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_weight="0.05"
-                android:background="@color/color4">
-
-                <ImageView
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/comidas_icono"
-                    android:id="@+id/i_meals"
-                    android:cropToPadding="true"
-                    android:layout_width="100px"
-                    android:padding="10dp"/>
-
-                <TextView
-                    android:text="@string/meals"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tv_meals"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="15pt"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_weight="0.05"
-                android:background="@color/color5">
-
-                <ImageView
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/automed_icono"
-                    android:id="@+id/i_automed"
-                    android:cropToPadding="true"
-                    android:layout_width="100px"
-                    android:padding="10dp"/>
-
-                <TextView
-                    android:text="@string/automedication"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tv_automed"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="15pt"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_weight="0.05"
-                android:background="@color/color6">
-
-                <ImageView
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/alarmas_icono"
-                    android:id="@+id/i_alarma"
-                    android:cropToPadding="true"
-                    android:layout_width="100px"
-                    android:padding="10dp"/>
-
-                <TextView
-                    android:text="@string/alarm"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tv_alarma"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="15pt"

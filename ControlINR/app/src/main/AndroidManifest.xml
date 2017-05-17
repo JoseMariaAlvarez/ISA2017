@@ -15,20 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="es.uma.controlinr.MenuGuias"
+        <activity android:name="es.uma.controlinr.GuiaPaciente"
             android:parentActivityName="es.uma.controlinr.MainActivity"
             >
         </activity>
-        <activity android:name="es.uma.controlinr.GuiaPaciente"
-            android:parentActivityName="es.uma.controlinr.MenuGuias"
-            >
-        </activity>
-        <activity android:name="es.uma.controlinr.GuiaProfesional"
-            android:parentActivityName="es.uma.controlinr.MenuGuias"
-            >
-        </activity>
         <activity android:name="es.uma.controlinr.GuiaEmergencia"
-            android:parentActivityName="es.uma.controlinr.MenuGuias"
+            android:parentActivityName="es.uma.controlinr.MainActivity"
             >
         </activity>
     </application>

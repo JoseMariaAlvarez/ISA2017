@@ -1,27 +1,30 @@
 <resources>
-    <string name="app_name">ControlINR</string>
+    <string name="app_name">Control INR</string>
 
-    <string name="calendar">Calendario</string>
-    <string name="guide">Guías</string>
-    <string name="graphs">Gráficas</string>
-    <string name="meals">Comidas</string>
-    <string name="automedication">Automedicación</string>
-    <string name="alarm">Alertas</string>
+    //Texto del menú principal:
+    <string name="login_texto">Iniciar Sessión</string>
+    <string name="calendario_texto">Calendario</string>
+    <string name="guias_texto">Guías</string>
+    <string name="graficas_texto">Gráficas</string>
+    <string name="comidas_texto">Comidas</string>
+    <string name="automedicacion_texto">Automedicación</string>
+    <string name="alertas_texto">Alertas</string>
 
-    <string name="calendar_icon">calendario_icono.png</string>
-    <string name="guide_icon">guias_icono.png</string>
-    <string name="graphic_icon">graficas_icono.png</string>
-    <string name="meals_icon">comidas_icono.png</string>
-    <string name="automed_icon">automed_icono.png</string>
+    //Iconos del menú principal:
+    <string name="calendario_icono">calendario_icono.png</string>
+    <string name="guia_icono">guias_icono.png</string>
+    <string name="graficas_icono">graficas_icono.png</string>
+    <string name="comidas_icono">comidas_icono.png</string>
+    <string name="automed_icono">automed_icono.png</string>
     <string name="alarm_icon">alarmas_icono.png</string>
-    <string name="paciente_icon">paciente_icono.png</string>
-    <string name="emergencia_alerta_icon">emergencia_alerta_icono.png</string>
+    <string name="paciente_icono">paciente_icono.png</string>
+    <string name="emergencia_alerta_icono">emergencia_alerta_icono.png</string>
 
-    <string name="guias">Guías</string>
-
+    //Menú desplegable de las guías:
     <string name="para_el_paciente_button">Para el paciente</string>
-    <string name="para_el_profesional">Para el profesional</string>
     <string name="en_caso_de_emergencia_button">En caso de emergencia</string>
+
+    //Guías del Paciente y para casos de emergencia:
     <string name="pregunta_alcohol">¿Puede tomar bebidas alcohólicas?</string>
     <string name="texto_alcohol">Evite el consumo de alcohol porque puede afectar a su tratamiento
         anticoagulante. No obstante, puede tomar vino en una cantidad moderada acompañando a las

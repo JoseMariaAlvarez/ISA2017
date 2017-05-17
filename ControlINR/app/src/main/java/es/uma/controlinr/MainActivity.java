@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     /** Es llamado cuando el usuario hace click sobre la fila llamada Guías */
     public void abrirGuias(View v) {
 
-
         /**
          * Recogemos LinearLayout con id: id_expandable del xml activity_guia_desplegada
          * Recuperamos el LinearLayout con id: id_ del xml activity_main

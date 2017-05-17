@@ -24,9 +24,9 @@ public class GuiaEmergencia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guiaemergencia);
         initdata();
-        ExpandableListView boton = (ExpandableListView) findViewById(R.id.ExpPaciente);
+        ExpandableListView list = (ExpandableListView) findViewById(R.id.ExpPaciente);
         ExpandableListAdapter expandable = new ExpandableListAdapter(this, listDataHeader, listHash);
-        boton.setAdapter(expandable);
+        list.setAdapter(expandable);
     }
 
     private void initdata(){
