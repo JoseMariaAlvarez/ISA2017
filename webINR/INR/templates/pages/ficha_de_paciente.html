@@ -1,17 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Gestor de pacientes{% endblock %}
+{% block title %}Ficha del paciente{% endblock %}
 {% block content %}
-
-{% if not nss %}
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-      <strong>Ningún paciente seleccionado.</strong> Seleccione un paciente desde el menú de búsqueda.
-    </div>
-  </div>
-</div>
-{% endif %}
 
 <div class="row">
   <div class="col-md-8 col-sm-8 col-xs-12">
@@ -20,7 +9,6 @@
           <h2>Información del paciente</h2>
           <div class="clearfix"></div>
         </div>
-
         <div class="x_content">
           <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
@@ -52,71 +40,57 @@
           </div>
         </div>
       </div>
-    <div class="x_panel">
-        <div class="x_title">
-          <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
-          <div class="clearfix"></div>
+
+      <div class="x_panel">
+          <div align="center" class="x_content">              
+              {% if add_to_control %}
+                <a class="btn btn-info" href="/buscar" >Atrás</a>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add_control">Añadir paciente a control</button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="add_control" role="dialog">
+                  <div class="modal-dialog">
+                  
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h1 class="modal-title">Dar de alta</h1>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-md-12 col-sm-3 col-xs-12 form-group">
+                            <h4>Realmente quiere registrar en el sistema a <strong>{{nombre}} {{apellido1}} {{apellido2}}</strong></h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <form action="/alta/" method="POST">
+                              {% csrf_token %}
+                              <input type="hidden" value="{{nss}}" name = "nss">
+                              <button type="submit" class="btn btn-success">Acpetar</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              {% else %}
+              <form action="{% url 'gestor' %}" method="POST">
+                {% csrf_token %}
+                <a class="btn btn-info" href="/buscar" >Atrás</a>
+                <input type="submit" class="btn btn-success" value="Aceptar" style="width: 100px">
+                <input type="hidden" value="{{nss}}" name="nss">
+              </form>
+              {% endif %}
+          </div>
         </div>
-        <div class="x_content">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Diagnóstico</th>
-                  <th>Comentario</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>CPE</th>
-                  <td>Embolismo graso</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th>XNS</th>
-                  <td>Válvula cardiaca izquierda</td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-      </div>
   </div>
-  <div class="col-md-4 col-sm-4 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>Últimas visitas <small>Mostrando últimas 5 visitas</small></h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Resultado</th>
-              <th>Dosis</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for visita in visitas %}
-            <tr>
-              <td>{{ visita.fecha }}</td>
-              <td>{{ visita.valorINR }}</td>
-              <td>{{ visita.dosis }}</td>
-              <td><i class="fa fa-file-pdf-o"></i>&nbsp;<i class="fa fa-search"></i></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div class="ln_solid"></div>
-        <a class="btn btn-success"href="/crearvisita/{{nss}}" >Nueva</a>
-
-      </div>
-    </div>
-  </div>
-</div>
-
 </div>
 {% endblock %}

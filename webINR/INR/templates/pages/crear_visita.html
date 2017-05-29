@@ -1,5 +1,90 @@
 {% extends "base.html" %}
 {% block title %}Nueva visita{% endblock %}
+
+{% block last_patient %}
+<div class="navbar-text">
+  <table style="margin-bottom: -20px; margin-top:-5px" class="table table-responsive">
+    <tbody>
+      <tr>
+        <th>Paciente:</th>
+        <td>Nombre:</td>
+        <td>{{nombre}} {{apellido1}} {{apellido2}}</td>
+        <td></td>
+        <td>NIF:</td>
+        <td>{{dni}}</td>
+        <td></td>
+        <td>NSS:</td>
+        <td>{{nss}}</td>
+      </tr>
+      <tr>
+        <td colspan="9"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="navbar-text">
+  <table style="margin-bottom: -20px">
+    <tbody>
+      <tr>
+        <td>
+          <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="more_info" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Información de: {{nombre}} {{apellido1}} {{apellido2}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+              NSS:
+              <input type="text" readonly="readonly" placeholder="{{nss}}" class="form-control">
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+              NIF:
+              <input type="text" readonly="readonly" placeholder="{{dni}}" class="form-control">
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+              Nombre:
+              <input type="text" readonly="readonly" placeholder="{{nombre}}" class="form-control">
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+              Apellidos:
+              <input type="text" readonly="readonly" placeholder="{{apellido1}} {{apellido2}}" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-9 col-sm-9 col-xs-12 form-group">
+              Dirección:
+              <input type="text" readonly="readonly" placeholder="{{direccion}}, {{ciudad}}, {{provincia}}, {{pais}} - {{cp}}" class="form-control">
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+              Teléfono de contacto:
+              <input type="text" readonly="readonly" placeholder="{{telefono}}" class="form-control">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -12,12 +97,18 @@
 
 					<form action='/crearvisita/{{nss}}/' method="POST">
             {% csrf_token %}
-            {% for field in form %}
+            {% for field in formVisita %}
               <p>
-                <label for="{{ field.name }}">{{ field.label }}:</label>
+                {% if field.name != 'paciente' %}
+                  <label for="{{ field.name }}">{{ field.label }}:</label>
+                {% endif %}
                 {{ field }}
               </p>
             {% endfor %}
+            <p>
+              <label for="{{formComentario.name}}">{{formComentario.label}}</label>
+              {{ formComentario }}
+            </p>
             <div class="ln_solid"></div>
             <input type="submit" class="btn btn-success" value="Añadir">
 					</form>
@@ -27,3 +118,9 @@
   </div>
 </div>
 {% endblock %}
+<!--
+  <label for="example-date-input" class="col-2 col-form-label">Date</label>
+  <div class="col-10">
+    <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+  </div>
+  -->
