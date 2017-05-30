@@ -13,7 +13,7 @@ class LoginBackend(object):
         try:
             ## Establecemos conexión con la base de datos
             connection = MySQLConn(
-                host="localhost", database="webdb_login", username='root', password='control de INR', port=3307)
+                host="localhost", database="webdb_login", username='root', password='control de INR', port=3306)
             cursor = connection.cursor
 
             ## Establecemos y ejecutamos nuestra query
