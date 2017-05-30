@@ -94,25 +94,25 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-
-					<form action='/crearvisita/{{nss}}/' method="POST">
-            {% csrf_token %}
-            {% for field in formVisita %}
+          <div class="col-md-3 col-sm-3 col-xs-3"> 
+  					<form action='/crearvisita/{{nss}}/' method="POST">
+              {% csrf_token %}
+              {% for field in formVisita %}
+                <p>
+                  {% if field.name != 'paciente' %}
+                    <label for="{{ field.name }}">{{ field.label }}:</label>
+                  {% endif %}
+                  {{ field }}
+                </p>
+              {% endfor %}
               <p>
-                {% if field.name != 'paciente' %}
-                  <label for="{{ field.name }}">{{ field.label }}:</label>
-                {% endif %}
-                {{ field }}
+                <label for="{{formComentario.name}}">{{formComentario.label}}</label>
+                {{ formComentario }}
               </p>
-            {% endfor %}
-            <p>
-              <label for="{{formComentario.name}}">{{formComentario.label}}</label>
-              {{ formComentario }}
-            </p>
-            <div class="ln_solid"></div>
-            <input type="submit" class="btn btn-success" value="Añadir">
-					</form>
-
+              <div class="ln_solid"></div>
+              <input type="submit" class="btn btn-success" value="Añadir">
+  					</form>
+            </div>
       </div>
     </div>
   </div>
