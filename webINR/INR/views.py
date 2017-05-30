@@ -25,7 +25,7 @@ def index(request):
 def ver_ficha(request, nss):
     # Nos muestra la página ficha_de_paciente.html
     connection = MySQLDriver.MySQLConn(
-                host="localhost", database="webdb_bdu", username="root", password="root", port=3306)
+                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
     cursor = connection.cursor
     query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % nss
     cursor.execute(query)
@@ -56,7 +56,7 @@ def dar_alta(request):
         # ...si el formulario es válido...
         # ...establecemos conexión con la base de datos.
         connection = MySQLDriver.MySQLConn(
-            host="localhost", database="webdb_bdu", username="root", password="root", port=3306)
+            host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
         cursor = connection.cursor
         query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo, rango FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % request.POST['nss']
           
@@ -126,7 +126,7 @@ def buscar(request):
         # ...establecemos conexión con la base de datos.
         if form.is_valid():
             connection = MySQLDriver.MySQLConn(
-                host="localhost", database="webdb_bdu", username="root", password="root", port=3306)
+                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
             cursor = connection.cursor
 
             query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data['dato']
