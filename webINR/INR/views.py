@@ -2,15 +2,19 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
-from .forms import AltaForm, VisitaForm
+from .forms import AltaForm, VisitaForm, ComentarioVisitaForm
 from webINR import MySQLDriver
-from models import PacienteClinica, Visita
+from .models import PacienteClinica, Visita
 import random
 import string
+import datetime
+from django.db import IntegrityError
+
+# Sobre get_object_or_404():
+# https://docs.djangoproject.com/es/1.11/topics/http/shortcuts/#django.shortcuts.get_object_or_404
 
 # @login_required es un decorador que indica que para acceder a la vista debemos estar logueados en el sistema
 # De no ser así, nos devolverá la pantalla de inicio de sesión.
-
 
 @login_required
 def index(request):
@@ -18,9 +22,26 @@ def index(request):
 
 
 @login_required
-def ver_ficha(request):
+def ver_ficha(request, nss):
     # Nos muestra la página ficha_de_paciente.html
-    return render(request, 'pages/ficha_de_paciente.html')
+    connection = MySQLDriver.MySQLConn(
+                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+    cursor = connection.cursor
+    query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % nss
+    cursor.execute(query)
+    res = cursor.fetchone()
+    #add_to_control = true indica que hay que introducirlo en webdb
+    try:
+        paciente = PacienteClinica.objects.get(nss=nss)
+        request.session['last_patient'] = nss
+        add_to_control = False
+    except PacienteClinica.DoesNotExist:
+        add_to_control = True
+            
+    context = {'nss': res[0], 'dni': res[1], 'nombre': res[2], 'apellido1': res[3], 'apellido2': res[4], 'direccion': res[5], 'cp': res[6],
+               'telefono': res[7], 'ciudad': res[8], 'provincia': res[9], 'pais': res[10], 'fecha_nacimiento': res[11], 'sexo':res[12],
+               'add_to_control':add_to_control}
+    return render(request, 'pages/ficha_de_paciente.html', context)
 
 
 @login_required
@@ -28,76 +49,111 @@ def dar_alta(request):
     """ A connection to the remote server is issued,
     in order to check whether the data given exists. In case
     it doesn't exist a new user is created. """
-
+        
     # Cuando enviemos datos a través del formulario...
+    
     if request.method == 'POST':
-        form = AltaForm(request.POST)
+        # ...si el formulario es válido...
+        # ...establecemos conexión con la base de datos.
+        connection = MySQLDriver.MySQLConn(
+            host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+        cursor = connection.cursor
+        query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo, rango FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % request.POST['nss']
+          
+        cursor.execute(query)
 
-        if form.is_valid():  # ...si el formulario es válido...
-            # ...establecemos conexión con la base de datos.
-            connection = MySQLDriver.MySQLConn(
-                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
-            cursor = connection.cursor
+        res = cursor.fetchone()
 
-            # La query cambiará según estemos buscando por dni o por nss
-            if form.cleaned_data['query_choice'] == 'dni':
-                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data[
-                    'dni']
-            else:
-                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE nss=\"%s\"' % form.cleaned_data[
-                    'nss']
-
-            # Ejecutamos la query
-            cursor.execute(query)
-
-            # Recuperamos el resultado de la query
-            row = cursor.fetchone()
-
-            # Creamos una contraseña aleatoria
-            password = ''.join(random.choice(string.lowercase)
-                               for i in range(10))
-
+        password = ''.join(random.choice(string.lowercase)
+                            for i in range(10))
+        context = {'nss': res[0], 'dni': res[1], 'nombre': res[2], 'apellido1': res[3],
+                   'apellido2': res[4], 'direccion': res[5], 'cp': res[6],
+                   'telefono': res[7], 'ciudad': res[8], 'provincia': res[9],
+                   'pais': res[10], 'fecha_nacimiento': res[11], 'sexo':res[12],
+                   'rango': res[13],}
+        #Este try controla que no se meta el mismo paciente dos veces en la DB
+        try:
             # Creamos el usuario usando los parámetros obtenidos de la query o
             # lo recuperamos en caso de ya existir (get_or_create())
-            PacienteClinica.objects.get_or_create(
-                nss=row[0], dni=row[1], nombre=row[2], apellido_1=row[
-                    3], apellido_2=row[4], direccion=row[5], cp=row[6], telefono=row[7],
-                ciudad=row[8], provincia=row[8], pais=row[10], fecha_nacimiento=row[11], sexo=row[12], password=password)
+            paciente = PacienteClinica.objects.get_or_create(
+                nss=res[0], dni=res[1], nombre=res[2], apellido_1=res[
+                    3], apellido_2=res[4], direccion=res[5], cp=res[6], telefono=res[7],
+                ciudad=res[8], provincia=res[8], pais=res[10], fecha_nacimiento=res[11], sexo=res[12], password=password)
+            visitas = Visita.objects.filter(paciente_id=paciente.id)
+            contex['visitas'] = visitas
+        except IntegrityError:
+            #Entra por aquí si escribimos directamente la url a mano:
+            #ficha/nss donde nss es el nss del paciente
+            context['add_to_control'] = True
+            context['confirm'] = False
 
-            # connection.close()
-            return render(request, 'pages/alta_de_paciente.html', {'success': 'Paciente dado de alta en la base de datos'})
+            return render(request, 'pages/ficha_de_paciente.html', context)
+        
+        request.session['last_patient'] = res[0]
+        # connection.close()
+        return render(request, 'pages/gestor_de_paciente.html', context)
     else:
         form = AltaForm()
+        return render(request, 'pages/buscar_paciente.html', {'form':form, 'error':True})
 
-    # Por defecto, la vista dar_alta nos muestra la página alta_de_paciente.html
-    # Dentro de ésta página encontramos un formulario 'form' que se
-    # corresponde con la clase AltaForm dentro de forms.py
-    return render(request, 'pages/alta_de_paciente.html', {'form': form})
+@login_required
+def gestor(request):
+    if request.method == 'POST':
+        nssValue = request.POST['nss']
+        
+    else:
+        if not request.session['last_patient']:
+            render(request, 'pages/buscar_paciente.html')           
+        nssValue = request.session['last_patient']
 
-
+    paciente = PacienteClinica.objects.get(nss = nssValue)
+    visitas = Visita.objects.filter(paciente_id=paciente.id)
+    context = {'dni': paciente.dni, 'nss': paciente.nss, 'nombre':paciente.nombre,
+               'apellido1':paciente.apellido_1, 'apellido2': paciente.apellido_2,
+               'direccion':paciente.direccion, 'cp':paciente.cp, 'telefono': paciente.telefono,
+               'ciudad':paciente.ciudad, 'provincia':paciente.provincia, 'pais': paciente.pais,
+               'fecha_nacimiento':paciente.fecha_nacimiento, 'sexo':paciente.sexo,
+               'rango':paciente.rango, 'visitas':visitas}
+    return render(request, 'pages/gestor_de_paciente.html', context)
+    
 @login_required
 def buscar(request):
     """ Search in the local DB for DNI and NSS
     information. """
     if request.method == 'POST':
         form = AltaForm(request.POST)
-
+        # ...si el formulario es válido...
+        # ...establecemos conexión con la base de datos.
         if form.is_valid():
-            # Sobre get_object_or_404():
-            # https://docs.djangoproject.com/es/1.11/topics/http/shortcuts/#django.shortcuts.get_object_or_404
-            if form.cleaned_data['query_choice'] == 'dni':
-                res = get_object_or_404(
-                    PacienteClinica, dni=form.cleaned_data['dni'])
+            connection = MySQLDriver.MySQLConn(
+                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+            cursor = connection.cursor
+
+            query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data['dato']
+            # Ejecutamos la query
+            cursor.execute(query)
+            # Recuperamos el resultado de la query
+            res = cursor.fetchone()
+            if not res:
+                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % form.cleaned_data['dato']
+                cursor.execute(query)
+                res = cursor.fetchone()
+                if not res:
+                    return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
+
+            paciente = PacienteClinica.objects.get(nss = res[0])
+            
+            #add_to_control = true indica que hay que añadirlo al control
+            if not paciente:
+                add_to_control = True
             else:
-                res = get_object_or_404(
-                    PacienteClinica, nss=form.cleaned_data['nss'])
+                add_to_control = False
+            
+            context = {'nss': res[0], 'dni': res[1], 'nombre': res[2], 'apellido1': res[3], 'apellido2': res[4], 'direccion': res[5], 'cp': res[6],
+                       'telefono': res[7], 'ciudad': res[8], 'provincia': res[9], 'pais': res[10], 'fecha_nacimiento': res[11], 'sexo':res[12],
+                       'add_to_control':add_to_control}
 
-            visitas = Visita.objects.filter(paciente__nss=res.nss)
-
-            context = {'nss': res.nss, 'dni': res.dni, 'nombre': res.nombre, 'apellido1': res.apellido_1, 'apellido2': res.apellido_2, 'direccion': res.direccion, 'cp': res.cp,
-                       'telefono': res.telefono, 'ciudad': res.ciudad, 'provincia': res.provincia, 'pais': res.pais, 'fecha_nacimiento': res.fecha_nacimiento, 'sexo': res.sexo,
-                       'visitas': visitas}
-
+            request.session['last_patient'] = res[0]
             return render(request, 'pages/ficha_de_paciente.html', context)
     else:
         form = AltaForm()
@@ -128,14 +184,47 @@ def cambiar_visita(request, id):
 @login_required
 def crear_visita(request, nss):
     if request.method == 'POST':
-        form = VisitaForm(request.POST)
+        formVisita = VisitaForm(request.POST, prefix='visita')
+        formComentario = ComentarioVisitaForm(request.POST, prefix='comentario')
+        if formVisita.is_valid() and formComentario.is_valid():  
+            comentario = formComentario.save()
+            new_visit = Visita(**formVisita.cleaned_data)
+            new_visit.comentario_id = comentario.id
+            new_visit.save()
+            paciente = PacienteClinica.objects.get(nss=nss)
+            visitas = Visita.objects.filter(paciente_id=paciente.id)
+            context = {'dni': paciente.dni, 'nss': paciente.nss, 'nombre':paciente.nombre,
+                       'apellido1':paciente.apellido_1, 'apellido2': paciente.apellido_2,
+                       'direccion':paciente.direccion, 'cp':paciente.cp, 'telefono': paciente.telefono,
+                       'ciudad':paciente.ciudad, 'provincia':paciente.provincia, 'pais': paciente.pais,
+                       'fecha_nacimiento':paciente.fecha_nacimiento, 'sexo':paciente.sexo,
+                       'rango': paciente.rango, 'visitas':visitas, 'visit_success':True}
+            return render(request, 'pages/gestor_de_paciente.html', context)
+        
+    paciente = PacienteClinica.objects.get(nss=nss)
+    formVisita = VisitaForm(initial = {'paciente': paciente.id}, prefix = 'visita')
+    formComentario = ComentarioVisitaForm(prefix = 'comentario')
+    context = {'dni': paciente.dni, 'nss': paciente.nss, 'nombre':paciente.nombre,
+               'apellido1':paciente.apellido_1, 'apellido2': paciente.apellido_2,
+               'direccion':paciente.direccion, 'cp':paciente.cp, 'telefono': paciente.telefono,
+               'ciudad':paciente.ciudad, 'provincia':paciente.provincia, 'pais': paciente.pais,
+               'fecha_nacimiento':paciente.fecha_nacimiento, 'sexo':paciente.sexo,
+               'formVisita':formVisita, 'formComentario':formComentario}
+    return render(request, 'pages/crear_visita.html', context)
 
-        if form.is_valid():
-            form.save()
+@login_required
+def nuevo_rango(request):
+    paciente = PacienteClinica.objects.get(nss=request.session['last_patient'])
+    if request.method == 'POST':
+        paciente.rango = request.POST['new_range']
+        paciente.save()
 
-            return render(request, 'pages/ficha_de_paciente.html')
-    else:
-        paciente = PacienteClinica.objects.get(nss=nss)
-        form = VisitaForm()
-
-    return render(request, 'pages/crear_visita.html', {'form': form, 'nss': paciente.nss})
+    visitas = Visita.objects.filter(paciente_id=paciente.id)
+    context = {'dni': paciente.dni, 'nss': paciente.nss, 'nombre':paciente.nombre,
+               'apellido1':paciente.apellido_1, 'apellido2': paciente.apellido_2,
+               'direccion':paciente.direccion, 'cp':paciente.cp, 'telefono': paciente.telefono,
+               'ciudad':paciente.ciudad, 'provincia':paciente.provincia, 'pais': paciente.pais,
+               'fecha_nacimiento':paciente.fecha_nacimiento, 'sexo':paciente.sexo,
+               'rango': paciente.rango, 'visitas':visitas}
+    return render(request, 'pages/gestor_de_paciente.html', context)
+        

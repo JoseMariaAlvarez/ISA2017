@@ -6,7 +6,7 @@ import uuid
 # Comentario model
 class Comentario(models.Model):
     texto = models.CharField(
-        db_column="NSS", max_length=45, blank=True, null=True)
+        db_column="text", max_length=45, blank=True, null=True)
 
     def __str__(self):
         return '%s' % self.texto
@@ -41,11 +41,13 @@ class PacienteClinica(models.Model):
         db_column="pais", max_length=45, blank=False, null=True)
     fecha_nacimiento = models.DateField(
         db_column='fecha_nacimiento', null=True)
+    rango = models.CharField(
+        db_column="rango", max_length=45, blank=True, null=True)
     sexo_choices = (
         ('0', 'hombre'),
         ('1', 'mujer'),)
     sexo = models.CharField(
-        max_length=1, choices=sexo_choices, default='Sin especificar')
+        max_length=1, choices=sexo_choices, default='1')
 
     def __str__(self):
         return '%s - %s %s' % (self.dni, self.nombre, self.apellido_1)
@@ -77,8 +79,6 @@ class Visita(models.Model):
         db_column="duracion", max_length=45, blank=True, null=True)
     peso = models.DecimalField(
         db_column="peso", max_digits=20, decimal_places=10)
-    rango = models.CharField(
-        db_column="rango", max_length=45, blank=True, null=True)
     paciente = models.ForeignKey(PacienteClinica, on_delete=models.CASCADE)
     comentario = models.ForeignKey(Comentario, on_delete=models.CASCADE)
     medicacion = models.ForeignKey(Medicacion, on_delete=models.CASCADE)

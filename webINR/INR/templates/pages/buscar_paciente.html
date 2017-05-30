@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Búsqueda de pacientes{% endblock %}
+
 {% block content %}
+
+{% if error %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>No hemos encontrado al paciente.</strong> Compruebe el NSS o el DNI que se ha introducido en el formulario.
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
@@ -12,25 +25,10 @@
 
           <form action="/buscar/" method="post">
           	{% csrf_token %}
-            {% for field in form %}
-              {% if field.html_name == "query_choice" %}
-              <p>
-                <label for="{{field.html_name}}">Escoja el tipo de busqueda:</label>
-                <div class="btn-group" data-toggle="buttons">
-                  {% for choice in form.fields.query_choice.choices %}
-                  <label id="{{field.id_for_label}}" class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="{{field.html_name}}" id="{{field.id_for_label}}" value="{{choice.0}}">{{choice.1}}
-                  </label>
-                  {% endfor %}
-                </div>
-              </p>
-              {% else %}
-              <p>
-                <label for="{{ field.name }}">{{ field.label }}:</label>
-                {{ field }}
-              </p>
-              {% endif %}
-            {% endfor %}
+            <p>
+              <label for="{{ form.name }}">{{ form.label }}</label>
+              {{ form }}
+            </p>
             <div class="ln_solid"></div>
           	<input type="submit" class="btn btn-success" value="Buscar">
           </form>

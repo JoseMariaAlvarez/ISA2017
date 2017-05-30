@@ -101,39 +101,81 @@
   </div>
 </div>
 {% endif %}
+{% if visit_success%}
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="alert alert-success alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Visita añadida con éxito</strong>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% csrf_token %}
 <div class="row">
   <div class="col-md-8 col-sm-8 col-xs-12">
     <div class="x_panel">
-        <div class="x_title">
-          <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Diagnóstico</th>
-                  <th>Comentario</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>CPE</th>
-                  <td>Embolismo graso</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th>XNS</th>
-                  <td>Válvula cardiaca izquierda</td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
+      <div class="x_title">
+        <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
+        <div class="clearfix"></div>
       </div>
+      <div class="x_content">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Diagnóstico</th>
+              <th>Comentario</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>CPE</th>
+              <td>Embolismo graso</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>XNS</th>
+              <td>Válvula cardiaca izquierda</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Rango <small>Último rango registrado</small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="border:0">Rango Actual:</th>
+              <th style="border:0" colspan="2">Nuevo Rango:</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border:0">{{rango}}</td>
+              <form action="/rango/" method="POST">
+                {% csrf_token %}
+                <td style="border:0; width:200px"><input type="text" class="form-control" name="new_range"></td>
+                <td style="border:0"><input type="submit" class="btn btn-info" value="Cambiar"></td>
+              </form>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 col-sm-8 col-xs-12"></div>
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -146,7 +188,7 @@
             <tr>
               <th>Fecha</th>
               <th>Valor INR</th>
-              <th>Dosis</th>
+              <th>Dosis (mg/sem)</th>
               <th></th>
             </tr>
           </thead>
@@ -163,12 +205,11 @@
         </table>
 
         <div class="ln_solid"></div>
-        <a class="btn btn-success"href="/crearvisita/{{nss}}" >Nueva</a>
+        <a class="btn btn-success" href="/crearvisita/{{nss}}" >Nueva</a>
 
       </div>
     </div>
   </div>
 </div>
 
-</div>
 {% endblock %}

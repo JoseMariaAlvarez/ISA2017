@@ -15,9 +15,12 @@ from . import views
 ## Así, al acceder a /ficha/, estaré accediendo a la vista 'ver_ficha'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^ficha/$', views.ver_ficha, name='ficha'),
+    url(r'^ficha/(?P<nss>\w{0,50})/$', views.ver_ficha, name='ficha'),
     url(r'^alta/$', views.dar_alta, name='alta'),
     url(r'^buscar/$', views.buscar, name='busqueda'),
     url(r'^modvisitas/(?P<id>\w{0,50})/$', views.cambiar_visita, name='modvisitas'),
     url(r'^crearvisita/(?P<nss>\w{0,50})/$', views.crear_visita, name='crearvisita'),
+    url(r'^gestor/$', views.gestor, name='gestor'),
+    url(r'^rango/$' , views.nuevo_rango, name='rango'),
+    
 ]
