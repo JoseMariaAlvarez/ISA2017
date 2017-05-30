@@ -23,7 +23,7 @@ class VisitaForm(forms.ModelForm):
         }
         widgets = {
             'paciente': forms.HiddenInput(attrs={'class' : 'form-control'}),
-            'valorINR': forms.FloatField(min_value=0, max_value=1, attrs={'class' : 'form-control'})
+            'valorINR': forms.FloatField(min_value=0, max_value=1, attrs={'class' : 'form-control'}),
             'dosis': forms.TextInput(attrs={'class' : 'form-control'}),
             'fecha': forms.TextInput(attrs={'class' : 'form-control', 'type':'date'}),
             'duracion': forms.TextInput(attrs={'class' : 'form-control',}),
