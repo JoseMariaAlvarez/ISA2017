@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+﻿# -*- encoding: utf-8 -*-
 
 """
 Django settings for webINR project.
@@ -27,7 +27,7 @@ SECRET_KEY = 'h14oc15t_6n5^2xrto6w58x%tq1=boznxs%1(j8pu&vozv_uo+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['controlinr.uma.es']
 
 
 # Application definition
