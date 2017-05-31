@@ -114,6 +114,7 @@
 
 {% csrf_token %}
 <div class="row">
+  <!-- DIAGNÓSTICO -->
   <div class="col-md-8 col-sm-8 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -145,6 +146,9 @@
       </div>
     </div>
   </div>
+  <!-- DIAGNÓSTICO -->
+
+  <!-- CAMBIAR RANGO -->
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -173,9 +177,12 @@
       </div>
     </div>
   </div>
+  <!-- CAMBIAR RANGO -->
 </div>
 <div class="row">
   <div class="col-md-8 col-sm-8 col-xs-12"></div>
+
+  <!-- VISITAS -->
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -198,18 +205,17 @@
               <td>{{ visita.fecha }}</td>
               <td>{{ visita.valorINR }}</td>
               <td>{{ visita.dosis }}</td>
-              <td><i class="fa fa-file-pdf-o"></i>&nbsp;<i class="fa fa-search"></i></td>
+              <td><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></a></td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-
         <div class="ln_solid"></div>
         <a class="btn btn-success" href="/crearvisita/{{nss}}" >Nueva</a>
-
       </div>
     </div>
   </div>
+  <!-- VISITAS -->
 </div>
 
 {% endblock %}
