@@ -1,5 +1,11 @@
-<form action="/modvisitas/{{ id }}/" method="post">
- {% csrf_token %}
- {{ form }}
- <input type="submit" value="Submit">
+{% extends "base.html" %}
+{% block title %}Modificar visita{% endblock %}
+
+{% block content %}
+<form action="/modvisitas/{{ id }}/" method="POST">
+	 {% csrf_token %}
+	 {{ formVisita }}
+	 {{ formComentario }}
  </form>
+ <a class="btn btn-info" href="/gestor/">Atrás</a>
+ {% endblock %}
