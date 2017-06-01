@@ -19,6 +19,7 @@ class VisitaForm(forms.ModelForm):
             'peso': 'Peso (kg)',
             'dosis': 'Dosis (mg/semana)',
             'valorINR' : 'Valor INR',
+            'medicacion': 'Medicación',
         }
         widgets = {
             'paciente': forms.HiddenInput(attrs={'class' : 'form-control'}),

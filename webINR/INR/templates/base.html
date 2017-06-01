@@ -114,7 +114,7 @@
               </div>
               <!-- hide menu -->
 
-              <ul class="nav navbar-nav navbar-right">
+              <ul style="width:20%;" class="nav navbar-nav navbar-right">
                 <!-- profile -->
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -170,7 +170,89 @@
                 <!-- messages -->
               </ul>
               <!--Patient information-->
-              {% block last_patient %}{% endblock %}
+              {% block last_patient %}
+              <div class="navbar-text">
+                <table class="table" style="margin-bottom: -20px; margin-top:-5px;">
+                  <tbody>
+                    <tr>
+                      <th>Último paciente:</th>
+                      <td>Nombre:</td>
+                      <td>{{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</td>
+                      <td></td>
+                      <td>NIF:</td>
+                      <td>{{request.session.dni}}</td>
+                      <td></td>
+                      <td>NSS:</td>
+                      <td>{{request.session.nss}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="9"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="navbar-text">
+                <table style="margin-bottom: -20px">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Modal -->
+              <div class="modal fade" id="more_info" role="dialog">
+                <div class="modal-dialog">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Información de: {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                            NSS:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.nss}}" class="form-control">
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                            NIF:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.dni}}" class="form-control">
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                            Nombre:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.nombre}}" class="form-control">
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                            Apellidos:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.apellido1}} {{request.session.apellido2}}" class="form-control">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-9 col-sm-9 col-xs-12 form-group">
+                            Dirección:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.direccion}}, {{request.session.ciudad}}, {{request.session.provincia}}, {{request.session.pais}} - {{request.session.cp}}" class="form-control">
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                            Teléfono de contacto:
+                            <input type="text" readonly="readonly" placeholder="{{request.session.telefono}}" class="form-control">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              {% endblock %}
               <!--Patient information-->
             </nav>
           </div>

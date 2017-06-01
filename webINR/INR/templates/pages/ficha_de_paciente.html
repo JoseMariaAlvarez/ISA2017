@@ -13,29 +13,29 @@
           <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
               NSS:
-              <input type="text" readonly="readonly" placeholder="{{nss}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.nss}}" class="form-control">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
               NIF:
-              <input type="text" readonly="readonly" placeholder="{{dni}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.dni}}" class="form-control">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
               Nombre:
-              <input type="text" readonly="readonly" placeholder="{{nombre}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.nombre}}" class="form-control">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
               Apellidos:
-              <input type="text" readonly="readonly" placeholder="{{apellido1}} {{apellido2}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.apellido1}} {{request.session.apellido2}}" class="form-control">
             </div>
           </div>
           <div class="row">
             <div class="col-md-9 col-sm-9 col-xs-12 form-group">
               Dirección:
-              <input type="text" readonly="readonly" placeholder="{{direccion}}, {{ciudad}}, {{provincia}}, {{pais}} - {{cp}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.direccion}}, {{request.session.ciudad}}, {{request.session.provincia}}, {{request.session.pais}} - {{request.session.cp}}" class="form-control">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12 form-group">
               Teléfono de contacto:
-              <input type="text" readonly="readonly" placeholder="{{telefono}}" class="form-control">
+              <input type="text" readonly="readonly" placeholder="{{request.session.telefono}}" class="form-control">
             </div>
           </div>
         </div>
@@ -60,14 +60,14 @@
                       <div class="modal-body">
                         <div class="row">
                           <div class="col-md-12 col-sm-3 col-xs-12 form-group">
-                            <h4>Realmente quiere registrar en el sistema a <strong>{{nombre}} {{apellido1}} {{apellido2}}</strong></h4>
+                            <h3>Este paciente no está dado de alta en el sistema.</h3><h4> ¿Realmente quiere dar de alta a <strong>{{nombre}} {{apellido1}} {{apellido2}}</strong>?</h4>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-12">
                             <form action="/alta/" method="POST">
                               {% csrf_token %}
-                              <input type="hidden" value="{{nss}}" name = "nss">
+                              <input type="hidden" value="{{request.session.nss}}" name = "nss">
                               <button type="submit" class="btn btn-success">Acpetar</button>
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                             </form>
@@ -86,7 +86,7 @@
                 {% csrf_token %}
                 <a class="btn btn-info" href="/buscar" >Atrás</a>
                 <input type="submit" class="btn btn-success" value="Aceptar" style="width: 100px">
-                <input type="hidden" value="{{nss}}" name="nss">
+                <input type="hidden" value="{{request.session.nss}}" name="nss">
               </form>
               {% endif %}
           </div>
