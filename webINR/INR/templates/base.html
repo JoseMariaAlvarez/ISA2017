@@ -30,13 +30,6 @@
       content: "\f205";
     }
     </style>
-    <script>
-      function press(){
-       
-
-        alert(hola);
-      }  
-    </script>
   </head>
 
   <body style="background: #F7F7F7;" class="nav-md">
@@ -176,7 +169,6 @@
                   <tbody>
                     <tr>
                       <th>Último paciente:</th>
-                      <td>Nombre:</td>
                       <td>{{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</td>
                       <td></td>
                       <td>NIF:</td>
@@ -186,7 +178,7 @@
                       <td>{{request.session.nss}}</td>
                     </tr>
                     <tr>
-                      <td colspan="9"></td>
+                      <td colspan="8"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -196,7 +188,9 @@
                   <tbody>
                     <tr>
                       <td>
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button>
+                        {% if request.session.last_patient %}
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button> 
+                        {% endif %}
                       </td>
                     </tr>
                     <tr>

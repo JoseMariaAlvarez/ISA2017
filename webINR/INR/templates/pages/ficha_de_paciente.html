@@ -52,19 +52,19 @@
                   <div class="modal-dialog">
                   
                     <!-- Modal content-->
-                    <div class="modal-content">
+                    <div class="modal-content col-xs-12">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h1 class="modal-title">Dar de alta</h1>
+                        <h2 class="modal-title">Este paciente aún no está registrado en la aplicación de control de INR</h2>
                       </div>
                       <div class="modal-body">
                         <div class="row">
                           <div class="col-md-12 col-sm-3 col-xs-12 form-group">
-                            <h3>Este paciente no está dado de alta en el sistema.</h3><h4> ¿Realmente quiere dar de alta a <strong>{{nombre}} {{apellido1}} {{apellido2}}</strong>?</h4>
+                            <h4> ¿Realmente quiere dar de alta a <strong>{{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</strong>?</h4>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-12">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
                             <form action="/alta/" method="POST">
                               {% csrf_token %}
                               <input type="hidden" value="{{request.session.nss}}" name = "nss">

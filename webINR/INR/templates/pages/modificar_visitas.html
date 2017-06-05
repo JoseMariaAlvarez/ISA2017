@@ -1,11 +1,33 @@
 {% extends "base.html" %}
-{% block title %}Modificar visita{% endblock %}
+{% block title %}Visitas{% endblock %}
 
 {% block content %}
-<form action="/modvisitas/{{ id }}/" method="POST">
-	 {% csrf_token %}
-	 {{ formVisita }}
-	 {{ formComentario }}
- </form>
- <a class="btn btn-info" href="/gestor/">Atrás</a>
+<div class="x_panel">
+	<div class="x_title">
+		<h2>Modificar Visita</h2>
+		<div class="clearfix"></div>
+	</div>
+	<div class="x_content">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<form action="/modvisitas/{{ id }}/" method="POST">
+				 {% csrf_token %}
+				  {% for field in formVisita %}
+				    <p>
+				      {% if field.name != 'paciente' %}
+				        <label for="{{ field.name }}">{{ field.label }}:</label>
+				      {% endif %}
+				      {{ field }}
+				    </p>
+				  {% endfor %}
+				  <p>
+				    <label for="{{formComentario.name}}">{{formComentario.label}}</label>
+				    {{ formComentario }}
+				  </p>
+				  <a class="btn btn-danger" href="/gestor/">Atrás</a>
+				 <input type="submit" class="btn btn-success" value="Cambiar">
+			 </form>
+		</div>
+	</div>
+</div>
+ 
  {% endblock %}
