@@ -37,7 +37,8 @@ def ver_ficha(request, nss):
         add_to_control = False
     except PacienteClinica.DoesNotExist:
         add_to_control = True
-            
+
+    #add_to_control = True indica que dicho paciente se va a añadir al control        
     context = {'add_to_control':add_to_control}
     return render(request, 'pages/ficha_de_paciente.html', context)
 
@@ -75,8 +76,10 @@ def dar_alta(request):
                     3], apellido_2=res[4], direccion=res[5], cp=res[6], telefono=res[7],
                 ciudad=res[8], provincia=res[8], pais=res[10], fecha_nacimiento=res[11],
                 sexo=res[12], password=password, rango='-')
-            visitas = Visita.objects.filter(paciente_id=PacienteClinica.objects.get(nss=res[0]).id)
+            id_paciente = PacienteClinica.objects.get(nss=res[0]).id
+            visitas = Visita.objects.filter(paciente_id= id_paciente)
             context = {'visitas' : visitas}
+            request.session['id'] = id_paciente
         except IntegrityError:
             #Entra por aquí si escribimos directamente la url a mano:
             #ficha/nss donde nss es el nss del paciente
@@ -109,7 +112,10 @@ def gestor(request):
         nssValue = request.session['nss']
 
     #Buscamos el paciente,
-    paciente = PacienteClinica.objects.get(nss = nssValue)
+    try:
+        paciente = PacienteClinica.objects.get(nss = nssValue)
+    except PacienteClinica.DoesNotExist:
+        return HttpResponseRedirect('/ficha/%s' % nssValue)
     #Buscamos las visitas del paciente
     visitas = Visita.objects.filter(paciente_id=paciente.id)
     #Construímos los datos que se usan en el template
@@ -151,6 +157,7 @@ def buscar(request):
                 paciente = PacienteClinica.objects.get(nss = res[0])
                 add_to_control = False
                 request.session['rango'] = paciente.rango
+                request.session['id'] = paciente.id
             except PacienteClinica.DoesNotExist:
                 add_to_control = True
                 request.session['rango'] = '-'
@@ -189,11 +196,14 @@ def cambiar_visita(request, id):
 
     obj = Visita.objects.get(id=id)
     if request.method == 'POST':
-        form = VisitaForm(request.POST, instance=obj)
-
-        if form.is_valid():
-            form.save()
-            return HttpResponse('Visita actualizada con exito')
+        visitaForm = VisitaForm(request.POST, instance=obj)
+        comentarioForm = ComentarioVisitaForm(request.POST, instance=Comentario.objects.get(id = obj.comentario_id))
+        if visitaForm.is_valid() and comentarioForm.is_valid():
+            visitaForm.save()
+            comentarioForm.save()
+            # Recuperamos las visitas del paciente.
+            visitas = Visita.objects.filter(paciente_id = request.session['id'])
+            return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas})
 
     else:
         obj = Visita.objects.get(id=id)
