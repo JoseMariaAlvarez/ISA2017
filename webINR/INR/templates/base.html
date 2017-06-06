@@ -165,46 +165,42 @@
               <!--Patient information-->
               {% block last_patient %}
               <div class="navbar-text">
-                <table class="table" style="margin-bottom: -20px; margin-top:-5px;">
-                  <tbody>
-                    <tr>
-                      <th>Último paciente:</th>
-                      <td>{{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</td>
-                      <td></td>
-                      <td>NIF:</td>
-                      <td>{{request.session.dni}}</td>
-                      <td></td>
-                      <td>NSS:</td>
-                      <td>{{request.session.nss}}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="8"></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="row">
+                  <div class="col-sm-2 col-md-2 col-xs-12">
+                    <strong>Paciente:</strong>
+                  </div>
+                  <div class="col-sm-4 col-md-4 col-xs-12">
+                    {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}
+                  </div>
+                  <div class="col-sm-1 col-md-1 col-xs-12">
+                    <strong>NIF:</strong>
+                  </div>
+                  <div class="col-sm-2 col-md-2 col-xs-12">
+                    {{request.session.dni}}
+                  </div>
+                  <div class="col-sm-1 col-md-1 col-xs-12">
+                    <strong>NSS:</strong>
+                  </div>
+                  <div class="col-sm-1 col-md-1 col-xs-12">
+                    {{request.session.nss}}
+                  </div>
+                </div>
               </div>
-              <div class="navbar-text">
-                <table style="margin-bottom: -20px">
-                  <tbody>
-                    <tr>
-                      <td>
-                        {% if request.session.last_patient %}
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button> 
-                        {% endif %}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class ="navbar-text">
+                <div class="row">
+                  <div class="col-sm-6 col-md-2 col-xs-10">
+                    {% if request.session.last_patient %}
+                      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button> 
+                    {% endif %}
+                  </div>
+                </div>
               </div>
               <!-- Modal -->
               <div class="modal fade" id="more_info" role="dialog">
                 <div class="modal-dialog">
                 
                   <!-- Modal content-->
-                  <div class="modal-content">
+                  <div class="modal-content col-sm-12 col-md-12 col-xs-12">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                       <h4 class="modal-title">Información de: {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</h4>
@@ -277,11 +273,11 @@
                     </div>
                     <div class="x_content">
                       <div data-example-id="simple-jumbotron">
-                      <div class="jumbotron" style="margin-bottom: 0;">
-                        <h1>¡Hola!</h1>
-                        <p>Bienvenido a WebINR. ¡Nuevas funcionalidades llegarán pronto!</p>
+                        <div class="jumbotron" style="margin-bottom: 0;">
+                          <h1>¡Hola!</h1>
+                          <p>Bienvenido a WebINR. ¡Nuevas funcionalidades llegarán pronto!</p>
+                        </div>
                       </div>
-                    </div>.
                     </div>
                   </div>
                 </div>

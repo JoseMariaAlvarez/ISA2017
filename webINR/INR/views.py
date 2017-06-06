@@ -203,7 +203,7 @@ def cambiar_visita(request, id):
             comentarioForm.save()
             # Recuperamos las visitas del paciente.
             visitas = Visita.objects.filter(paciente_id = request.session['id'])
-            return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas})
+            return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas, 'visit_change_success':True})
 
     else:
         obj = Visita.objects.get(id=id)

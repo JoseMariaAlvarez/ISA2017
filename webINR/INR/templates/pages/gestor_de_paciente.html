@@ -13,6 +13,7 @@
   </div>
 </div>
 {% endif %}
+
 {% if visit_success%}
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -24,10 +25,21 @@
 </div>
 {% endif %}
 
+{% if visit_change_success %}
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="alert alert-success alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Visita modificada con éxito</strong>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% csrf_token %}
 <div class="row">
   <!-- DIAGNÓSTICO -->
-  <div class="col-md-8 col-sm-8 col-xs-12">
+  <div class="col-md-7 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
         <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
@@ -61,7 +73,7 @@
   <!-- DIAGNÓSTICO -->
 
   <!-- CAMBIAR RANGO -->
-  <div class="col-md-4 col-sm-4 col-xs-12">
+  <div class="col-md-5 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
         <h2>Rango <small>Último rango registrado</small></h2>
@@ -92,13 +104,13 @@
   <!-- CAMBIAR RANGO -->
 </div>
 <div class="row">
-  <div class="col-md-8 col-sm-8 col-xs-12"></div>
+  <div class="col-md-7 col-sm-8 col-xs-12"></div>
 
   <!-- VISITAS -->
-  <div class="col-md-4 col-sm-4 col-xs-12">
+  <div class="col-md-5 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Últimas visitas <small>Mostrando últimas 5 visitas</small></h2>
+        <h2>Últimas visitas <small></small></h2>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
