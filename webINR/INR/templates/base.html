@@ -102,7 +102,7 @@
           <div class="nav_menu">
             <nav>
               <!-- hide menu -->
-              <div class="nav toggle">
+              <div class="nav toggle" style="width:8%">
                 <a id="menu_toggle"><i class="fa fa-ellipsis-v"></i></a>
               </div>
               <!-- hide menu -->
@@ -164,36 +164,11 @@
               </ul>
               <!--Patient information-->
               {% block last_patient %}
-              <div class="navbar-text">
-                <div class="row">
-                  <div class="col-sm-2 col-md-2 col-xs-12">
-                    <strong>Paciente:</strong>
-                  </div>
-                  <div class="col-sm-4 col-md-4 col-xs-12">
-                    {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}
-                  </div>
-                  <div class="col-sm-1 col-md-1 col-xs-12">
-                    <strong>NIF:</strong>
-                  </div>
-                  <div class="col-sm-2 col-md-2 col-xs-12">
-                    {{request.session.dni}}
-                  </div>
-                  <div class="col-sm-1 col-md-1 col-xs-12">
-                    <strong>NSS:</strong>
-                  </div>
-                  <div class="col-sm-1 col-md-1 col-xs-12">
-                    {{request.session.nss}}
-                  </div>
-                </div>
-              </div>
-              <div class ="navbar-text">
-                <div class="row">
-                  <div class="col-sm-6 col-md-2 col-xs-10">
-                    {% if request.session.last_patient %}
-                      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ información</button> 
-                    {% endif %}
-                  </div>
-                </div>
+              <div style="margin-right:0px; float:left; width:55%" class="navbar-text">
+                <span class="col-md-3 col-sm-3 col-xs-12"><strong>NIF:</strong> {{request.session.dni}}</span><span class="col-md-3 col-sm-3 col-xs-12"><strong>NSS:</strong> {{request.session.nss}}&nbsp;</span><span class="col-md-5 col-sm-5 col-xs-12"><strong>Paciente:</strong> {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</span>
+                {% if request.session.last_patient %}
+                  <span class="col-md-1 col-sm-1 col-xs-12"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ Información</button></span>
+                {% endif %}
               </div>
               <!-- Modal -->
               <div class="modal fade" id="more_info" role="dialog">
