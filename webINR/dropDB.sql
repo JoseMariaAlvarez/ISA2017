@@ -1,0 +1,2 @@
+DROP DATABASE webdb;
+CREATE DATABASE webdb;
