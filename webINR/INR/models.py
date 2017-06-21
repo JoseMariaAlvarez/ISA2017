@@ -87,7 +87,7 @@ class Visita(models.Model):
 class Comentario(models.Model):
     texto = models.CharField(
         db_column="text", max_length=255, blank=True, null=True)
-    visita = models.ForeignKey(Visita)
+    visita = models.ForeignKey(Visita, default=1)
     autor = models.CharField(
         db_column="autor", max_length=45, blank=False, null=False, default='-')
     def __str__(self):
