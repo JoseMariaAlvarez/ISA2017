@@ -1,26 +1,41 @@
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
 import uuid
 
-# Comentario model
-class Comentario(models.Model):
-    texto = models.CharField(
-        db_column="text", max_length=45, blank=True, null=True)
+# Medicación Adicional
+class Medicacion_adicional(models.Model):
+    nombre = models.CharField(
+        db_column='nombre', max_length=255, blank=True, null=True)
+    def __str__(self):
+        return '%s' % (self.nombre)
+
+# Diagnostico model
+class Diagnostico(models.Model):
+    codigo = models.CharField(
+        db_column="codigo", max_length=7, blank=False, null=False, unique=True)
+    descripcion = models.CharField(
+        db_column="descripcion", max_length=255, blank=False, null=True)
+
+# Medicacion model
+class Medicacion(models.Model):
+    nombre = models.CharField(
+        db_column="Nombre", max_length=45, blank=True, null=True)
 
     def __str__(self):
-        return '%s' % self.texto
+        return '%s' % self.nombre
 
 # PacienteClinica model
 class PacienteClinica(models.Model):
     nss = models.CharField(
-        db_column="NSS", max_length=45, blank=True, null=True)
+        db_column="NSS", max_length=45, blank=True, null=True, unique=True)
     password = models.CharField(
         db_column='password', max_length=45, blank=False, null=False, default=uuid.uuid4().hex)
     token = models.CharField(db_column='token', max_length=45,
                              blank=False, null=False, default=uuid.uuid4().hex)
     dni = models.CharField(
-        db_column='dni', max_length=45, blank=True, null=False)
+        db_column='dni', max_length=45, blank=True, null=False, unique=True)
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=False, null=True)
     apellido_1 = models.CharField(
@@ -32,7 +47,7 @@ class PacienteClinica(models.Model):
     cp = models.IntegerField(
         db_column='cp', blank=False, null=True)
     telefono = models.IntegerField(
-        db_column='telefono', blank=False, null=True)
+        db_column='telefono', blank=False, null=True, unique=True)
     ciudad = models.CharField(
         db_column="ciudad", max_length=45, blank=False, null=True)
     provincia = models.CharField(
@@ -48,25 +63,11 @@ class PacienteClinica(models.Model):
         ('1', 'mujer'),)
     sexo = models.CharField(
         max_length=1, choices=sexo_choices, default='1')
+    diagnosticos = models.ManyToManyField(Diagnostico)
+    medicaciones_adicionales = models.ManyToManyField(Medicacion_adicional)
 
     def __str__(self):
         return '%s - %s %s' % (self.dni, self.nombre, self.apellido_1)
-
-# Diagnostico model
-class Diagnostico(models.Model):
-    idDiagnostico = models.CharField(
-        db_column="idDiagnostico", max_length=45, blank=False, null=False, primary_key=True)
-    nombre = models.CharField(
-        db_column="Nombre", max_length=45, blank=False, null=True)
-    paciente = models.ForeignKey(PacienteClinica)
-
-# Medicacion model
-class Medicacion(models.Model):
-    nombre = models.CharField(
-        db_column="Nombre", max_length=45, blank=True, null=True)
-
-    def __str__(self):
-        return '%s' % self.nombre
 
 # Visita model
 class Visita(models.Model):
@@ -80,5 +81,14 @@ class Visita(models.Model):
     peso = models.DecimalField(
         db_column="peso", max_digits=5, decimal_places=2)
     paciente = models.ForeignKey(PacienteClinica, on_delete=models.CASCADE)
-    comentario = models.ForeignKey(Comentario, on_delete=models.CASCADE)
     medicacion = models.ForeignKey(Medicacion, on_delete=models.CASCADE)
+
+# Comentario model
+class Comentario(models.Model):
+    texto = models.CharField(
+        db_column="text", max_length=255, blank=True, null=True)
+    visita = models.ForeignKey(Visita)
+    autor = models.CharField(
+        db_column="autor", max_length=45, blank=False, null=False, default='-')
+    def __str__(self):
+        return '%s' % self.texto

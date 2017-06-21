@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Guías{% endblock %}
+
+{% block content %}
+<div class="col-md-6 col-sm-6 col-xs-12">
+	<div class="panel panel-primary" onclick="showMoreInfo(this)" style="cursor:pointer">
+		<div class="panel-heading">
+			<span class="panel-title">¿Puede tomar bebidas alcohólicas?</span>
+		</div>
+		<p class="panel-body" hidden>
+			Evite el consumo de alcohol porque puede afectar a su tratamiento
+        anticoagulante. No obstante, puede tomar vino en una cantidad moderada acompañando a las
+        comidas, siempre que no se lo hayan restringido por otros motivos. Evite las bebidas
+        alcohólicas de alta graduación y los excesos, ya que pueden llegar a hacer imposible el
+        control del tratamiento.
+		</p>
+	</div>
+
+	<div class="panel panel-primary" onclick="showMoreInfo(this)" style="cursor:pointer">
+		<div class="panel-heading">
+			<span class="panel-title">¿Puede tomar otros medicamentos?</span>
+		</div>
+		<p class="panel-body" hidden>
+			Este tipo de fármacos presentan pocas interacciones con
+        otros fármacos, sin embargo, se han descrito algunas interacciones con diferentes tipos de
+        medicamentos, por ello, no deje de advertir a su médico de su condición de anticoagulado si
+        éste va a recetarle algo nuevo. Ante cualquier duda consulte siempre con su médico o su
+        farmacéutico.
+		</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+function showMoreInfo(caller){
+    var p = $(caller).children("p");
+    if (p.is(':visible')){
+      p.hide();
+    }else{
+      p.show();
+    }
+  }
+</script>
+{% endblock %}   

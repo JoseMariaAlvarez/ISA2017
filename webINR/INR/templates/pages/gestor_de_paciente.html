@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 {% block title %}Gestor de pacientes{% endblock %}
 
+<!-- CAMBIAR RANGO -->
+{% block range %}
+  <div class="pull-right" style="">
+    <table class="table"> 
+      <tbody>
+        <tr>
+          <th style="border:0">Rango:</th>
+          <form action="/rango/" method="POST">
+            {% csrf_token %}
+            <td style="border:0; width:100px"><input type="number" min="0" max="5" step="0.1" class="form-control" name="new_range" value="{{request.session.rango}}" required></td>
+            <td style="border:0"><input type="submit" class="btn btn-info" value="Cambiar"></td>
+          </form>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+<!-- CAMBIAR RANGO -->
+
 {% block content %}
 
 {% if not request.session.last_patient %}
@@ -37,80 +56,80 @@
 {% endif %}
 
 {% csrf_token %}
+
+
 <div class="row">
-  <!-- DIAGNÓSTICO -->
-  <div class="col-md-7 col-sm-12 col-xs-12">
+  <!-- Columna izquierda -->
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <!-- DIAGNÓSTICO -->
     <div class="x_panel">
       <div class="x_title">
-        <h2>Diagnósticos <small>Mostrando todos los diagnósticos del paciente</small></h2>
+        <!-- Trigger the modal with a button -->
+        <h2>Diagnósticos</h2>&nbsp;&nbsp;<a class="btn btn-success" data-toggle="modal" data-target="#diagnostico_modal">Añadir</a>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <table class="table table-bordered">
+        <table id="tabla_diagnosticos" class="table table-bordered">
           <thead>
             <tr>
               <th>Código</th>
-              <th>Diagnóstico</th>
-              <th>Comentario</th>
+              <th>Descripción</th>
             </tr>
           </thead>
           <tbody>
+            {% for d in diagnosticos %}
             <tr>
-              <th>CPE</th>
-              <td>Embolismo graso</td>
-              <td></td>
+              <th>{{d.codigo}}</th>
+              <td>{{d.descripcion}}</td>
             </tr>
-            <tr>
-              <th>XNS</th>
-              <td>Válvula cardiaca izquierda</td>
-              <td></td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
+
+
+  <!-- Modal -->
+  <div id="diagnostico_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Añadir Diagnóstico</h4>
+        </div>
+        <div class="modal-body">
+          <select class="form-control" id="nuevo_diagnóstico">
+            {% for d in all_diagnostics %}
+              <option value="{{d.id}}">{{d.codigo}} - {{d.descripcion}}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <div class="row">
+            <div class="col-xs-12" align="center">
+              <button type="submit" class="btn btn-success" onclick="newDiagnostic()" data-dismiss="modal">Añadir</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+
+    </div>
   </div>
+
   <!-- DIAGNÓSTICO -->
-
-  <!-- CAMBIAR RANGO -->
-  <div class="col-md-5 col-sm-12 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>Rango <small>Último rango registrado</small></h2>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <table class="table">
-          <thead>
-            <tr>
-              <th style="border:0">Rango Actual:</th>
-              <th style="border:0" colspan="2">Nuevo Rango:</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="border:0">{{request.session.rango}}</td>
-              <form action="/rango/" method="POST">
-                {% csrf_token %}
-                <td style="border:0; width:200px"><input type="number" min="0" max="5" step="0.1" class="form-control" name="new_range" required></td>
-                <td style="border:0"><input type="submit" class="btn btn-info" value="Cambiar"></td>
-              </form>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
-  <!-- CAMBIAR RANGO -->
-</div>
-<div class="row">
-  <div class="col-md-7 col-sm-8 col-xs-12"></div>
+  <!-- Fin Columna izquierda -->
 
-  <!-- VISITAS -->
-  <div class="col-md-5 col-sm-12 col-xs-12">
+  <!-- Columna Derecha -->
+  <div class="col-md-6 col-sm-12 col-xs-12">
+    <!-- VISITAS -->
     <div class="x_panel">
       <div class="x_title">
-        <h2>Últimas visitas <small></small></h2>
+        <h2>Últimas visitas</h2> &nbsp;&nbsp; <a class="btn btn-success" href="/crearvisita/{{request.session.nss}}">Nueva</a>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -126,20 +145,65 @@
           <tbody>
             {% for visita in visitas %}
             <tr>
-              <td>{{ visita.fecha }}</td>
-              <td>{{ visita.valorINR }}</td>
-              <td>{{ visita.dosis }}</td>
-              <td><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></a></td>
+              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.fecha|date:"d-m-Y" }}</td>
+              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.valorINR }}</td>
+              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.dosis }}</td>
+              <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-        <div class="ln_solid"></div>
-        <a class="btn btn-success" href="/crearvisita/{{request.session.nss}}" >Nueva</a>
       </div>
     </div>
+    <!-- VISITAS -->
+
+    <!-- INFORMACIÓN DE LA VISITA -->
+    <div id="info_visita" class="col-md-6 col-sm-6 col-xs-12" hidden>
+      <!-- Se crea en JavaScript -->
+    </div>
+    <!-- INFORMACIÓN DE LA VISITA -->
   </div>
-  <!-- VISITAS -->
+  <!-- Fin Columna Derecha -->
 </div>
 
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+    function showVisit(id_visita){
+
+      $.ajax({
+          url: '/mostrarvisita/',
+          data: {
+          'id': id_visita
+          },
+          dataType: 'json',
+          success: function (data) {
+
+            var content ='<div class="x_panel" style="border:none;"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true">×</span></button><table class="table"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
+            
+            $("#info_visita").html(content).addClass("x_panel").show();
+          }
+        });
+      }
+
+      function cerrar_tabla(){
+         $("#info_visita").hide();
+      }
+
+      function newDiagnostic(){
+        var diagnostico = $("#nuevo_diagnóstico :selected").val();
+
+        $.ajax({
+          url: '/asociardiagnostico/',
+          data: {
+            'paciente_id': {{request.session.id}},
+            'diagnostico_id': diagnostico
+          },
+          dataType: 'json',
+          success: function(data){
+            $("#tabla_diagnosticos > tbody").append("<tr><th>"+data.codigo+"</th><td>"+data.descripcion+"</td></tr>");
+          }
+        })
+      }
+</script>
 {% endblock %}

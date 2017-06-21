@@ -21,10 +21,16 @@
                   {{ field }}
                 </p>
               {% endfor %}
-              <p>
-                <label for="{{formComentario.name}}">{{formComentario.label}}</label>
-                {{ formComentario }}
-              </p>
+              {% for field in formComentario %}
+                
+                  <p>
+                    {% if field.name != 'autor' %}
+                      <label for="{{field.name}}">{{field.label}}</label>
+                    {% endif %}
+                    {{ field }}
+                  </p>
+                
+              {% endfor %}
               <div class="ln_solid"></div>
               <a class="btn btn-danger" href="/gestor/">Cancelar</a>
               <input type="submit" class="btn btn-success" value="Añadir">
@@ -35,9 +41,24 @@
   </div>
 </div>
 {% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $( document ).ready(function() {
+      $("#date").datepicker({
+        dateFormat: "yy-mm-dd",
+        firstDay: 1,
+        minDate: 0,
+        dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+      });
+    });
+</script>
+{% endblock %}
 <!--
   <label for="example-date-input" class="col-2 col-form-label">Date</label>
   <div class="col-10">
     <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
   </div>
-  -->
+-->

@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^crearvisita/(?P<nss>\w{0,50})/$', views.crear_visita, name='crearvisita'),
     url(r'^gestor/$', views.gestor, name='gestor'),
     url(r'^rango/$' , views.nuevo_rango, name='rango'),
-    
+    url(r'^guias/$' , views.guias, name='guias'),
+    url(r'^mostrarvisita/$' , views.mostrar_visita, name='mostrarvisita'),
+    url(r'^asociardiagnostico/$', views.asociar_diagnostico, name='asociardiagnostico'),
 ]

@@ -20,9 +20,16 @@
 				    </p>
 				  {% endfor %}
 				  <p>
-				    <label for="{{formComentario.name}}">{{formComentario.label}}</label>
-				    {{ formComentario }}
+				  	<textarea class="form-control" rows="4" disabled>{{ comentariosAntiguos }}</textarea>
 				  </p>
+				  {% for comentario in formComentario %}	
+					  <p>
+					  	{% if comentario.label != 'Autor' %}
+					    	<label for="{{comentario.name}}">Nuevo {{comentario.label}}</label>
+				    	{% endif %}
+					    {{ comentario }}
+					  </p>
+				  {% endfor %}
 				  <a class="btn btn-danger" href="/gestor/">Atrás</a>
 				 <input type="submit" class="btn btn-success" value="Cambiar">
 			 </form>
@@ -31,3 +38,18 @@
 </div>
  
  {% endblock %}
+
+ {% block javascript %}
+<script type="text/javascript">
+    $( document ).ready(function() {
+      $("#date").datepicker({
+        dateFormat: "yy-mm-dd",
+        firstDay: 1,
+        minDate: 0,
+        dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+      });
+    });
+</script>
+{% endblock %}

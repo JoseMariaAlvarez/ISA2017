@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.utils import formats
 from .forms import AltaForm, VisitaForm, ComentarioVisitaForm
 from webINR import MySQLDriver
-from .models import PacienteClinica, Visita, Comentario
+from .models import PacienteClinica, Visita, Comentario, Medicacion, Diagnostico
+from django.core import serializers
 import random
 import string
 import datetime
@@ -35,6 +37,7 @@ def ver_ficha(request, nss):
         paciente = PacienteClinica.objects.get(nss=nss)
         request.session['nss'] = nss
         add_to_control = False
+        request.session['id'] = paciente.id
     except PacienteClinica.DoesNotExist:
         add_to_control = True
 
@@ -118,8 +121,12 @@ def gestor(request):
         return HttpResponseRedirect('/ficha/%s' % nssValue)
     #Buscamos las visitas del paciente
     visitas = Visita.objects.filter(paciente_id=paciente.id)
+    #Buscamos los diagnósticos del paciente
+    diagnosticos = paciente.diagnosticos.all()
+    # Enviamos todos los diagnósticos para generar el formulario
+    all_diagnostics = Diagnostico.objects.all()
     #Construímos los datos que se usan en el template
-    context = {'visitas':visitas}
+    context = {'visitas':visitas, 'diagnosticos':diagnosticos, 'all_diagnostics':all_diagnostics}
     return render(request, 'pages/gestor_de_paciente.html', context)
     
 @login_required
@@ -196,25 +203,35 @@ def cambiar_visita(request, id):
 
     obj = Visita.objects.get(id=id)
     if request.method == 'POST':
+        # Creo el formulario con los datos del post pero instanciando a la visita ya guardada
         visitaForm = VisitaForm(request.POST, instance=obj)
-        comentarioForm = ComentarioVisitaForm(request.POST, instance=Comentario.objects.get(id = obj.comentario_id))
+        # Creo el formulario del comentario a partir de los datos del POST
+        comentarioForm = ComentarioVisitaForm(request.POST)
         if visitaForm.is_valid() and comentarioForm.is_valid():
-            visitaForm.save()
-            comentarioForm.save()
+            new_visita = visitaForm.save()
+            comentario = Comentario(**comentarioForm.cleaned_data)
+            comentario.visita_id = new_visita.id
+            comentario.save()
             # Recuperamos las visitas del paciente.
             visitas = Visita.objects.filter(paciente_id = request.session['id'])
             return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas, 'visit_change_success':True})
 
     else:
-        obj = Visita.objects.get(id=id)
         formVisita = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha,
                                    'valorINR': obj.valorINR, 'dosis': obj.dosis,
                                    'duracion': obj.duracion, 'peso': obj.peso,
                                    'paciente': obj.paciente, 'medicacion': obj.medicacion,
                                    })
-        comentario = Comentario.objects.get(id=obj.comentario_id)
-        formComentario = ComentarioVisitaForm(initial={'texto':comentario.texto})
-    return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'formComentario': formComentario, 'id': id})
+        comentarios = Comentario.objects.filter(visita_id = id)
+        all_comments = ""
+        
+        for comentario in comentarios:
+            if comentario.texto is not None:
+                all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
+          
+        formComentario = ComentarioVisitaForm()
+
+    return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'comentariosAntiguos':all_comments, 'formComentario': formComentario, 'id': id})
 
 @login_required
 def crear_visita(request, nss):
@@ -231,13 +248,18 @@ def crear_visita(request, nss):
 
         #¿Son ambos formularios válidos?
         if formVisita.is_valid() and formComentario.is_valid():  
+            new_visita = formVisita.save()
+            comentario = Comentario(**formComentario.cleaned_data)
+            comentario.visita_id = new_visita.id
+            comentario.save()
+            """
             comentario = formComentario.save()
             #Crear una visita cómodamente con los datos del formulario
             new_visit = Visita(**formVisita.cleaned_data)
             #Añadimos el id del nuevo comentario que se ha creado
             new_visit.comentario_id = comentario.id
             new_visit.save()
-            
+            """
             #Recuperamos todas las visitas, incluída la nueva
             visitas = Visita.objects.filter(paciente_id=paciente.id)
             #Añadimos los datos al context que sean revelantes para gestor_de_paciente
@@ -248,7 +270,7 @@ def crear_visita(request, nss):
     
     #Creamos los formularios que se van a usar en crear_visita
     formVisita = VisitaForm(initial = {'paciente': paciente.id}, prefix = 'visita')
-    formComentario = ComentarioVisitaForm(prefix = 'comentario')
+    formComentario = ComentarioVisitaForm(initial = {'autor': request.user.first_name +' ' + request.user.last_name}, prefix = 'comentario')
     #Añadimos los formularios al context, solo relevantes para la vista crear_visita
     context = {'formVisita' : formVisita, 'formComentario' : formComentario}
     return render(request, 'pages/crear_visita.html', context)
@@ -270,5 +292,43 @@ def nuevo_rango(request):
     visitas = Visita.objects.filter(paciente_id=paciente.id)
     #Creamos el context con los datos necesraios para la template
     context = {'visitas':visitas}
-    return render(request, 'pages/gestor_de_paciente.html', context)
+    return redirect('/gestor/')
         
+@login_required
+def guias(request):
+    return render(request, 'pages/guias.html')
+
+
+# LLAMADAS AJAX:
+@login_required
+def mostrar_visita(request):
+    id_visita = request.GET.get('id', None)
+    visita = Visita.objects.get(id = id_visita)
+    data = {'valorINR':visita.valorINR, 'fecha': str(formats.date_format(visita.fecha, "d-m-Y")),
+            'dosis':visita.dosis, 'duracion':visita.duracion,
+            'peso':visita.peso,
+            'medicacion': Medicacion.objects.get(id=visita.medicacion_id).nombre}
+    comentarios = Comentario.objects.filter(visita_id = id_visita)
+    all_comments = ""
+    for comentario in comentarios:
+        if comentario.texto is not None:
+            all_comments = all_comments + "-" + comentario.texto + "\n"
+    data['comentarios']=all_comments
+    return JsonResponse(data)
+  
+@login_required
+def asociar_diagnostico(request):
+    # Recogemos los datos enviados por GET
+    id_paciente = request.GET.get('paciente_id', None)
+    diagnostico_id = request.GET.get('diagnostico_id', None)
+    # Encontramos el paciente y el diagnostico 
+    paciente = PacienteClinica.objects.get(id=id_paciente)
+    diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+    # Añadimos el diagnóstico a la lista de diagnósticos del paciente
+    paciente.diagnosticos.add(diagnostico)
+    # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
+    data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion}
+
+    return JsonResponse(data)
+
+

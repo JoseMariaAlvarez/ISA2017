@@ -79,8 +79,7 @@
               <div class="menu_section">
                 <h3>Otros</h3>
                 <ul class="nav side-menu">
-                  <li><a href="javascript:void(0)"><i class="fa fa-bar-chart"></i>Estadísticas<span class="label label-success pull-right">Próximamente</span></a></li>
-
+                  <li><a href="{% url 'guias' %}"><i class="fa fa-book"></i>Guías</a></li>
                 </ul>
               </div>
             </div>
@@ -165,7 +164,9 @@
               <!--Patient information-->
               {% block last_patient %}
               <div style="margin-right:0px; float:left; width:55%" class="navbar-text">
-                <span class="col-md-3 col-sm-3 col-xs-12"><strong>NIF:</strong> {{request.session.dni}}</span><span class="col-md-3 col-sm-3 col-xs-12"><strong>NSS:</strong> {{request.session.nss}}&nbsp;</span><span class="col-md-5 col-sm-5 col-xs-12"><strong>Paciente:</strong> {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</span>
+                <span class="col-md-3 col-sm-3 col-xs-12"><strong>NIF:</strong> {{request.session.dni}}</span>
+                <span class="col-md-3 col-sm-3 col-xs-12"><strong>NSS:</strong> {{request.session.nss}}&nbsp;</span>
+                <span class="col-md-5 col-sm-5 col-xs-12"><strong>Paciente:</strong> {{request.session.nombre}} {{request.session.apellido1}} {{request.session.apellido2}}</span>
                 {% if request.session.last_patient %}
                   <span class="col-md-1 col-sm-1 col-xs-12"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#more_info">+ Información</button></span>
                 {% endif %}
@@ -232,6 +233,9 @@
               <div class="title_left">
                 <h3>{% block title %}{% endblock %}</h3>
               </div>
+              <div class="pull-right">
+                {% block range %}{% endblock %}
+              </div>
             </div>
             <!-- /page title -->
 
@@ -270,9 +274,13 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{% static 'INR/vendors/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'INR/vendors/jquery/dist/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'INR/vendors/jquery/dist/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% block javascript %}{% endblock %}
     <!-- Bootstrap -->
     <script src="{% static 'INR/vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
     <!-- FastClick -->
     <script src="{% static 'INR/vendors/fastclick/lib/fastclick.js' %}"></script>
 
