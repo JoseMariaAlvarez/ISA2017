@@ -48,7 +48,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><strong>×</strong></span></button>
       <strong>Visita modificada con éxito</strong>
     </div>
   </div>
@@ -133,26 +133,28 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Valor INR</th>
-              <th>Dosis (mg/sem)</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for visita in visitas %}
-            <tr>
-              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.fecha|date:"d-m-Y" }}</td>
-              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.valorINR }}</td>
-              <td onclick="showVisit({{visita.id}})" style="cursor:pointer">{{ visita.dosis }}</td>
-              <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <div style="width:100%; height:150px; overflow:auto">
+          <table id="tabla_visitas" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Valor INR</th>
+                <th>Dosis (mg/sem)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for visita in visitas %}
+              <tr>
+                <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.fecha|date:"d-m-Y" }}</td>
+                <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.valorINR }}</td>
+                <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.dosis }}</td>
+                <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <!-- VISITAS -->
@@ -169,7 +171,7 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
-    function showVisit(id_visita){
+    function showVisit(id_visita, element){
 
       $.ajax({
           url: '/mostrarvisita/',
@@ -179,15 +181,18 @@
           dataType: 'json',
           success: function (data) {
 
-            var content ='<div class="x_panel" style="border:none;"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true">×</span></button><table class="table"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
+            var content ='<div class="x_panel" style="border:0px; padding:0px; margin:0px"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true">×</span></button><table class="table" style="margin:0px"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
             
             $("#info_visita").html(content).addClass("x_panel").show();
+            $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
+            $(element).closest("tr").css("background-color", "yellow");
           }
         });
       }
 
       function cerrar_tabla(){
          $("#info_visita").hide();
+         $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
       }
 
       function newDiagnostic(){

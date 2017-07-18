@@ -104,7 +104,7 @@ def gestor(request):
         #Recogemos el nss desde el post
         nssValue = request.POST['nss']
 
-    #Si venimos desde un hiperenlace, recogemos el nss de sesion  
+    # Si venimos desde un hiperenlace, recogemos el nss de sesion  
     else:
         #Si el paciente no está en sesion
         #Redirigimos a buscar paciente mostrando un error
@@ -114,16 +114,16 @@ def gestor(request):
         #Recogemos el nss de sesion
         nssValue = request.session['nss']
 
-    #Buscamos el paciente,
+    # Buscamos el paciente,
     try:
         paciente = PacienteClinica.objects.get(nss = nssValue)
     except PacienteClinica.DoesNotExist:
         return HttpResponseRedirect('/ficha/%s' % nssValue)
-    #Buscamos las visitas del paciente
-    visitas = Visita.objects.filter(paciente_id=paciente.id)
-    #Buscamos los diagnósticos del paciente
+    # Buscamos las visitas del paciente
+    visitas = Visita.objects.filter(paciente_id=paciente.id).order_by('id').reverse()
+    # Buscamos los diagnósticos del paciente
     diagnosticos = paciente.diagnosticos.all()
-    # Enviamos todos los diagnósticos para generar el formulario
+    # Enviamos todos los diagnósticos para generar el formulario para añadir nuevo diagnóstico
     all_diagnostics = Diagnostico.objects.all()
     #Construímos los datos que se usan en el template
     context = {'visitas':visitas, 'diagnosticos':diagnosticos, 'all_diagnostics':all_diagnostics}
@@ -202,6 +202,7 @@ def cambiar_visita(request, id):
     given patient """
 
     obj = Visita.objects.get(id=id)
+    error_formulario = None
     if request.method == 'POST':
         # Creo el formulario con los datos del post pero instanciando a la visita ya guardada
         visitaForm = VisitaForm(request.POST, instance=obj)
@@ -216,22 +217,24 @@ def cambiar_visita(request, id):
             visitas = Visita.objects.filter(paciente_id = request.session['id'])
             return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas, 'visit_change_success':True})
 
-    else:
-        formVisita = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha,
-                                   'valorINR': obj.valorINR, 'dosis': obj.dosis,
-                                   'duracion': obj.duracion, 'peso': obj.peso,
-                                   'paciente': obj.paciente, 'medicacion': obj.medicacion,
-                                   })
-        comentarios = Comentario.objects.filter(visita_id = id)
-        all_comments = ""
-        
-        for comentario in comentarios:
-            if comentario.texto is not None:
-                all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
-          
-        formComentario = ComentarioVisitaForm()
+        else:
+            error_formulario = "El formulario no se ha enviado correctamente. Compruebe los datos introducidos"
+    formVisita = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha,
+                               'valorINR': obj.valorINR, 'dosis': obj.dosis,
+                               'duracion': obj.duracion, 'peso': obj.peso,
+                               'paciente': obj.paciente, 'medicacion': obj.medicacion,
+                               })
+    comentarios = Comentario.objects.filter(visita_id = id)
+    all_comments = ""
+    
+    for comentario in comentarios:
+        if comentario.texto is not None:
+            all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
+      
+    formComentario = ComentarioVisitaForm()
 
-    return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'comentariosAntiguos':all_comments, 'formComentario': formComentario, 'id': id})
+    return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'comentariosAntiguos':all_comments, 
+                        'formComentario': formComentario, 'id': id, 'error_formulario': error_formulario})
 
 @login_required
 def crear_visita(request, nss):

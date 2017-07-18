@@ -52,7 +52,7 @@
               </div>
               <div class="profile_info">
                 <span>Bienvenido</span>
-                <h2>{{ user.get_username }}</h2>
+                <h2>{{ user.first_name }}</h2>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -110,7 +110,7 @@
                 <!-- profile -->
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'INR/images/user.png' %}" alt="">{{ user.get_username }}
+                    <img src="{% static 'INR/images/user.png' %}" alt="">{{ user.first_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

@@ -11,7 +11,7 @@
         </div>
         <div class="x_content">
           <div class="col-md-3 col-sm-3 col-xs-12"> 
-  					<form action='/crearvisita/{{request.session.nss}}/' method="POST">
+  					<form action='/crearvisita/{{request.session.nss}}/' method="POST" id="form">
               {% csrf_token %}
               {% for field in formVisita %}
                 <p>
@@ -45,7 +45,7 @@
 {% block javascript %}
 <script type="text/javascript">
     $( document ).ready(function() {
-      $("#date").datepicker({
+      $("#fecha").datepicker({
         dateFormat: "yy-mm-dd",
         firstDay: 1,
         minDate: 0,
@@ -54,6 +54,14 @@
         monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
       });
     });
+
+    function cambiarDuracion(){
+      
+      var date = $("#fecha").datepicker('getDate');
+      var today = new Date();
+        var dayDiff = Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+        $("#duracion").val(dayDiff);
+    }
 </script>
 {% endblock %}
 <!--
