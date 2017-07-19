@@ -10,7 +10,9 @@
           <th style="border:0">Rango:</th>
           <form action="/rango/" method="POST">
             {% csrf_token %}
-            <td style="border:0; width:100px"><input type="number" min="0" max="5" step="0.1" class="form-control" name="new_range" value="{{request.session.rango}}" required></td>
+            <td style="border:0; width:80px"><input type="number" min="0" max="5" step="0.1" class="form-control" name="rango_inf" value="{{request.session.rango_inf}}" required></td>
+            <td  style="border:0;"> _ </td>
+            <td style="border:0; width:80px"><input type="number" min="0" max="5" step="0.1" class="form-control" name="rango_sup" value="{{request.session.rango_sup}}" required></td>
             <td style="border:0"><input type="submit" class="btn btn-info" value="Cambiar"></td>
           </form>
         </tr>

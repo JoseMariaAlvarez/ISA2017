@@ -35,7 +35,7 @@ class PacienteClinica(models.Model):
     token = models.CharField(db_column='token', max_length=45,
                              blank=False, null=False, default=uuid.uuid4().hex)
     dni = models.CharField(
-        db_column='dni', max_length=45, blank=True, null=False, unique=True)
+        db_column='dni', max_length=45, blank=True, null=False, unique=True, default=None)
     nombre = models.CharField(
         db_column="Nombre", max_length=45, blank=False, null=True)
     apellido_1 = models.CharField(
@@ -47,7 +47,7 @@ class PacienteClinica(models.Model):
     cp = models.IntegerField(
         db_column='cp', blank=False, null=True)
     telefono = models.IntegerField(
-        db_column='telefono', blank=False, null=False, unique=True)
+        db_column='telefono', blank=False, null=True, unique=True)
     ciudad = models.CharField(
         db_column="ciudad", max_length=45, blank=False, null=True)
     provincia = models.CharField(
@@ -56,8 +56,10 @@ class PacienteClinica(models.Model):
         db_column="pais", max_length=45, blank=False, null=True)
     fecha_nacimiento = models.DateField(
         db_column='fecha_nacimiento', null=True)
-    rango = models.CharField(
-        db_column="rango", max_length=45, blank=True, null=True)
+    rango_inf = models.CharField(
+        db_column="rango_inf", max_length=45, blank=True, null=True)
+    rango_sup = models.CharField(
+        db_column="rango_sup", max_length=45, blank=True, null=True)
     sexo_choices = (
         ('0', 'hombre'),
         ('1', 'mujer'),)

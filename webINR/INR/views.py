@@ -163,11 +163,13 @@ def buscar(request):
             try:
                 paciente = PacienteClinica.objects.get(nss = res[0])
                 add_to_control = False
-                request.session['rango'] = paciente.rango
+                request.session['rango_inf'] = paciente.rango_inf
+                request.session['rango_sup'] = paciente.rango_sup
                 request.session['id'] = paciente.id
             except PacienteClinica.DoesNotExist:
                 add_to_control = True
-                request.session['rango'] = '-'
+                request.session['rango_inf'] = '-'
+                request.session['rango_sup'] = '-'
             
             #add_to_control = true indica que hay que añadirlo al control
             
@@ -269,7 +271,7 @@ def crear_visita(request, nss):
             context = {'visitas' : visitas, 'visit_success' : True}
             return render(request, 'pages/gestor_de_paciente.html', context)
 
-    #Se llega mediante un hiperenlace (/gestor/nss)
+    #Se llega mediante un hiperenlace (/gestor/nss) o porque el formulario no es válido
     
     #Creamos los formularios que se van a usar en crear_visita
     formVisita = VisitaForm(initial = {'paciente': paciente.id}, prefix = 'visita')
@@ -286,15 +288,13 @@ def nuevo_rango(request):
     #¿Se llega aquí desde un formulario con metodo POST?
     if request.method == 'POST':
         #Añadimos el nuevo rango al paciente de la sesion
-        paciente.rango = request.POST['new_range']
+        paciente.rango_inf = request.POST['rango_inf']
+        paciente.rango_sup = request.POST['rango_sup']
         #Actualizamos el paciente en la base de datos
         paciente.save()
-        request.session['rango'] = request.POST['new_range']
+        request.session['rango_inf'] = request.POST['rango_inf']
+        request.session['rango_sup'] = request.POST['rango_sup']
 
-    #Recogemos todas las visitas dle paciente guardado en sesion
-    visitas = Visita.objects.filter(paciente_id=paciente.id)
-    #Creamos el context con los datos necesraios para la template
-    context = {'visitas':visitas}
     return redirect('/gestor/')
         
 @login_required
