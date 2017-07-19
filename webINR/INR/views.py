@@ -78,7 +78,7 @@ def dar_alta(request):
                 nss=res[0], dni=res[1], nombre=res[2], apellido_1=res[
                     3], apellido_2=res[4], direccion=res[5], cp=res[6], telefono=res[7],
                 ciudad=res[8], provincia=res[8], pais=res[10], fecha_nacimiento=res[11],
-                sexo=res[12], password=password, rango='-')
+                sexo=res[12], password=password, rango_inf='-', rango_sup='-')
             id_paciente = PacienteClinica.objects.get(nss=res[0]).id
             visitas = Visita.objects.filter(paciente_id= id_paciente)
             context = {'visitas' : visitas}
