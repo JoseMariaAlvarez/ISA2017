@@ -71,7 +71,10 @@
     }
 
     function cambiarFecha(){
-
+    	var duracion = $("#duracion").val();
+    	var ms = new Date().getTime() + (86400000 * duracion);
+    	var new_date = new Date(ms);
+    	$("#fecha").datepicker('setDate', new_date);
     }
 </script>
 {% endblock %}

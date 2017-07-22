@@ -18,6 +18,13 @@ from django.db import IntegrityError
 # @login_required es un decorador que indica que para acceder a la vista debemos estar logueados en el sistema
 # De no ser así, nos devolverá la pantalla de inicio de sesión.
 
+
+host = 'localhost'
+database = 'webdb_bdu'
+username = 'root'
+password = 'control de INR'
+port = 3306
+
 @login_required
 def index(request):
     return render(request, 'base.html')
@@ -27,7 +34,7 @@ def index(request):
 def ver_ficha(request, nss):
     # Nos muestra la página ficha_de_paciente.html
     connection = MySQLDriver.MySQLConn(
-                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+                host=host, database=database, username=username, password=password, port=port)
     cursor = connection.cursor
     query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % nss
     cursor.execute(query)
@@ -58,7 +65,7 @@ def dar_alta(request):
         # ...si el formulario es válido...
         # ...establecemos conexión con la base de datos.
         connection = MySQLDriver.MySQLConn(
-            host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+            host=host, database=database, username=username, password=password, port=port)
         cursor = connection.cursor
         # Creamos la query a partir del nss del POST
         query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % request.POST['nss']
@@ -80,7 +87,7 @@ def dar_alta(request):
                 ciudad=res[8], provincia=res[8], pais=res[10], fecha_nacimiento=res[11],
                 sexo=res[12], password=password, rango_inf='-', rango_sup='-')
             id_paciente = PacienteClinica.objects.get(nss=res[0]).id
-            visitas = Visita.objects.filter(paciente_id= id_paciente)
+            visitas = Visita.objects.filter(paciente_id= id_paciente).order_by('id').reverse()
             context = {'visitas' : visitas}
             request.session['id'] = id_paciente
         except IntegrityError:
@@ -139,7 +146,7 @@ def buscar(request):
         # ...establecemos conexión con la base de datos.
         if form.is_valid():
             connection = MySQLDriver.MySQLConn(
-                host="localhost", database="webdb_bdu", username="root", password="control de INR", port=3306)
+                host=host, database=database, username=username, password=password, port=port)
             cursor = connection.cursor
             #Buscamos el paciente cuyo DNI sea igual que el dato que se envía por POST
             query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data['dato']
@@ -216,7 +223,7 @@ def cambiar_visita(request, id):
             comentario.visita_id = new_visita.id
             comentario.save()
             # Recuperamos las visitas del paciente.
-            visitas = Visita.objects.filter(paciente_id = request.session['id'])
+            visitas = Visita.objects.filter(paciente_id = request.session['id']).order_by('id').reverse()
             return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas, 'visit_change_success':True})
 
         else:
@@ -266,11 +273,13 @@ def crear_visita(request, nss):
             new_visit.save()
             """
             #Recuperamos todas las visitas, incluída la nueva
-            visitas = Visita.objects.filter(paciente_id=paciente.id)
+            visitas = Visita.objects.filter(paciente_id=paciente.id).order_by('id').reverse()
             #Añadimos los datos al context que sean revelantes para gestor_de_paciente
             context = {'visitas' : visitas, 'visit_success' : True}
             return render(request, 'pages/gestor_de_paciente.html', context)
-
+        else:
+            context = {'formVisita' : formVisita, 'formComentario' : formComentario}
+            return render(request, 'pages/crear_visita.html', context)
     #Se llega mediante un hiperenlace (/gestor/nss) o porque el formulario no es válido
     
     #Creamos los formularios que se van a usar en crear_visita

@@ -15,6 +15,7 @@
               {% csrf_token %}
               {% for field in formVisita %}
                 <p>
+                  {{ field.errors }}
                   {% if field.name != 'paciente' %}
                     <label for="{{ field.name }}">{{ field.label }}:</label>
                   {% endif %}
@@ -22,7 +23,6 @@
                 </p>
               {% endfor %}
               {% for field in formComentario %}
-                
                   <p>
                     {% if field.name != 'autor' %}
                       <label for="{{field.name}}">{{field.label}}</label>
@@ -61,6 +61,14 @@
       var today = new Date();
         var dayDiff = Math.ceil((date - today) / (1000 * 60 * 60 * 24));
         $("#duracion").val(dayDiff);
+    }
+
+    function cambiarFecha(){
+      var duracion = $("#duracion").val();
+      // 86400000 equivale a un día en milisegundos
+      var ms = new Date().getTime() + (86400000 * duracion);
+      var new_date = new Date(ms);
+      $("#fecha").datepicker('setDate', new_date);
     }
 </script>
 {% endblock %}
