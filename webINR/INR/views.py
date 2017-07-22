@@ -18,13 +18,6 @@ from django.db import IntegrityError
 # @login_required es un decorador que indica que para acceder a la vista debemos estar logueados en el sistema
 # De no ser así, nos devolverá la pantalla de inicio de sesión.
 
-
-host = 'localhost'
-database = 'webdb_bdu'
-username = 'root'
-password = 'control de INR'
-port = 3306
-
 @login_required
 def index(request):
     return render(request, 'base.html')
@@ -34,7 +27,7 @@ def index(request):
 def ver_ficha(request, nss):
     # Nos muestra la página ficha_de_paciente.html
     connection = MySQLDriver.MySQLConn(
-                host=host, database=database, username=username, password=password, port=port)
+                host='localhost', database='webdb_bdu', username='root', password='control de INR', port=3306)
     cursor = connection.cursor
     query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % nss
     cursor.execute(query)
@@ -65,7 +58,7 @@ def dar_alta(request):
         # ...si el formulario es válido...
         # ...establecemos conexión con la base de datos.
         connection = MySQLDriver.MySQLConn(
-            host=host, database=database, username=username, password=password, port=port)
+            host='localhost', database='webdb_bdu', username='root', password='control de INR', port=3306)
         cursor = connection.cursor
         # Creamos la query a partir del nss del POST
         query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % request.POST['nss']
@@ -146,7 +139,7 @@ def buscar(request):
         # ...establecemos conexión con la base de datos.
         if form.is_valid():
             connection = MySQLDriver.MySQLConn(
-                host=host, database=database, username=username, password=password, port=port)
+                host='localhost', database='webdb_bdu', username='root', password='control de INR', port=3306)
             cursor = connection.cursor
             #Buscamos el paciente cuyo DNI sea igual que el dato que se envía por POST
             query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data['dato']
