@@ -79,10 +79,11 @@ def dar_alta(request):
                     3], apellido_2=res[4], direccion=res[5], cp=res[6], telefono=res[7],
                 ciudad=res[8], provincia=res[8], pais=res[10], fecha_nacimiento=res[11],
                 sexo=res[12], password=password, rango_inf='-', rango_sup='-')
-            id_paciente = PacienteClinica.objects.get(nss=res[0]).id
-            visitas = Visita.objects.filter(paciente_id= id_paciente).order_by('id').reverse()
+            paciente = PacienteClinica.objects.get(nss=res[0])
+            insertarPacienteSesion(request, paciente)
+            visitas = Visita.objects.filter(paciente_id= paciente.id).order_by('id').reverse()
             context = {'visitas' : visitas}
-            request.session['id'] = id_paciente
+            
         except IntegrityError:
             #Entra por aquí si escribimos directamente la url a mano:
             #ficha/nss donde nss es el nss del paciente
@@ -103,12 +104,14 @@ def gestor(request):
     if request.method == 'POST':
         #Recogemos el nss desde el post
         nssValue = request.POST['nss']
+        paciente = PacienteClinica.objects.get(nss=nssValue)
+        insertarPacienteSesion(request, paciente)
 
-    # Si venimos desde un hiperenlace, recogemos el nss de sesion  
+    # Si venimos desde un hiperenlace
     else:
         #Si el paciente no está en sesion
         #Redirigimos a buscar paciente mostrando un error
-        if 'last_patient' not in request.session:
+        if not request.session['last_patient']:
             form = AltaForm()
             return render(request, 'pages/buscar_paciente.html', {'form':form, 'search_first':True})           
         #Recogemos el nss de sesion
@@ -129,6 +132,26 @@ def gestor(request):
     context = {'visitas':visitas, 'diagnosticos':diagnosticos, 'all_diagnostics':all_diagnostics}
     return render(request, 'pages/gestor_de_paciente.html', context)
     
+
+def insertarPacienteSesion(request, paciente):
+        request.session['last_patient'] = True
+        request.session['id'] = paciente.id
+        request.session['nss'] = paciente.nss
+        request.session['dni'] = paciente.dni
+        request.session['nombre'] = paciente.nombre
+        request.session['apellido1'] = paciente.apellido_1
+        request.session['apellido2'] = paciente.apellido_2
+        request.session['direccion'] = paciente.direccion
+        request.session['cp'] = paciente.cp
+        request.session['telefono'] = paciente.telefono
+        request.session['ciudad'] = paciente.ciudad
+        request.session['provincia'] = paciente.provincia
+        request.session['pais'] = paciente.pais
+        request.session['fecha_nacimiento'] = str(paciente.fecha_nacimiento)
+        request.session['sexo'] = paciente.sexo
+        request.session['rango_inf'] = paciente.rango_inf
+        request.session['rango_sup'] = paciente.rango_sup
+
 @login_required
 def buscar(request):
     """ Search in the local DB for DNI and NSS
@@ -138,11 +161,12 @@ def buscar(request):
         # ...si el formulario es válido...
         # ...establecemos conexión con la base de datos.
         if form.is_valid():
+            dato = form.cleaned_data['dato']
             connection = MySQLDriver.MySQLConn(
                 host='localhost', database='webdb_bdu', username='root', password='control de INR', port=3306)
             cursor = connection.cursor
             #Buscamos el paciente cuyo DNI sea igual que el dato que se envía por POST
-            query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % form.cleaned_data['dato']
+            query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  dni=\"%s\"' % dato
             # Ejecutamos la query
             cursor.execute(query)
             # Recuperamos el paciente resultante de la query
@@ -150,45 +174,49 @@ def buscar(request):
             #¿Hay algún paciente que corresponda con la descripción?
             if not res:
                 #Si no existe ningún paciente con ese DNI, buscamos por NSS
-                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % form.cleaned_data['dato']
+                query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % dato
                 cursor.execute(query)
                 res = cursor.fetchone()
+                # buscar por fecha
                 if not res:
-                    #Si no hay ningún paciente con ese NSS, redirigimos a buscar
-                    #Ha habido algún error
-                    return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
+                    try:
+                        pacientes = PacienteClinica.objects.filter(visita__fecha= str(formats.date_format(datetime.datetime.strptime(str(dato), "%d-%m-%Y"), "Y-m-d"))).distinct()
+                    except ValueError:
+                        return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
+
+                    if not res and not pacientes:
+                        #Si no hay ningún paciente con ese NSS, ni con ese DNI, ni con esa fecha, redirigimos a buscar
+                        #Ha habido algún error
+                        return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
+
+                    return render(request, 'pages/ficha_de_paciente.html', {'pacientes': pacientes, 'add_to_control': False})
 
             #En este punto, tenemos un paciente (res) que coincide(dni o nss)
             #Buscamos en webdb si el paciente está dado de alta
             try:
                 paciente = PacienteClinica.objects.get(nss = res[0])
                 add_to_control = False
-                request.session['rango_inf'] = paciente.rango_inf
-                request.session['rango_sup'] = paciente.rango_sup
-                request.session['id'] = paciente.id
             except PacienteClinica.DoesNotExist:
                 add_to_control = True
-                request.session['rango_inf'] = '-'
-                request.session['rango_sup'] = '-'
             
             #add_to_control = true indica que hay que añadirlo al control
             
             context = {'add_to_control':add_to_control}
 
-            request.session['last_patient'] = True
-            request.session['nss'] = res[0]
-            request.session['dni'] = str(res[1])
-            request.session['nombre'] = str(res[2])
-            request.session['apellido1'] = str(res[3])
-            request.session['apellido2'] = str(res[4])
-            request.session['direccion'] = str(res[5])
-            request.session['cp'] = res[6]
-            request.session['telefono'] = str(res[7])
-            request.session['ciudad'] = str(res[8])
-            request.session['provincia'] = str(res[9])
-            request.session['pais'] = str(res[10])
-            request.session['fecha_nacimiento'] = str(res[11])
-            request.session['sexo'] = str(res[12])
+            # request.session['last_patient'] = None
+            context['nss'] = res[0]
+            context['dni'] = str(res[1])
+            context['nombre'] = str(res[2])
+            context['apellido1'] = str(res[3])
+            context['apellido2'] = str(res[4])
+            context['direccion'] = str(res[5])
+            context['cp'] = res[6]
+            context['telefono'] = str(res[7])
+            context['ciudad'] = str(res[8])
+            context['provincia'] = str(res[9])
+            context['pais'] = str(res[10])
+            context['fecha_nacimiento'] = str(res[11])
+            context['sexo'] = str(res[12])
             
             return render(request, 'pages/ficha_de_paciente.html', context)
     else:
@@ -289,13 +317,15 @@ def nuevo_rango(request):
 
     #¿Se llega aquí desde un formulario con metodo POST?
     if request.method == 'POST':
-        #Añadimos el nuevo rango al paciente de la sesion
-        paciente.rango_inf = request.POST['rango_inf']
-        paciente.rango_sup = request.POST['rango_sup']
-        #Actualizamos el paciente en la base de datos
-        paciente.save()
-        request.session['rango_inf'] = request.POST['rango_inf']
-        request.session['rango_sup'] = request.POST['rango_sup']
+        # Comprobamos los rangos:
+        if request.POST['rango_inf'] < request.POST['rango_sup']:
+            #Añadimos el nuevo rango al paciente de la sesion
+            paciente.rango_inf = request.POST['rango_inf']
+            paciente.rango_sup = request.POST['rango_sup']
+            #Actualizamos el paciente en la base de datos
+            paciente.save()
+            request.session['rango_inf'] = request.POST['rango_inf']
+            request.session['rango_sup'] = request.POST['rango_sup']
 
     return redirect('/gestor/')
         
