@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^ficha/(?P<nss>\w{0,50})/$', views.ver_ficha, name='ficha'),
     url(r'^alta/$', views.dar_alta, name='alta'),
     url(r'^buscar/$', views.buscar, name='busqueda'),
+    url(r'^buscar_fecha/$', views.buscar_fecha, name='busqueda_fecha'),
     url(r'^modvisitas/(?P<id>\w{0,50})/$', views.cambiar_visita, name='modvisitas'),
     url(r'^crearvisita/(?P<nss>\w{0,50})/$', views.crear_visita, name='crearvisita'),
     url(r'^gestor/$', views.gestor, name='gestor'),

@@ -177,19 +177,11 @@ def buscar(request):
                 query = 'SELECT nss, dni, nombre, apellido1, apellido2, direccion, cp, telefono, ciudad, provincia, pais, fecha_nacimiento, sexo FROM webdb_bdu.paciente WHERE  nss=\"%s\"' % dato
                 cursor.execute(query)
                 res = cursor.fetchone()
-                # buscar por fecha
+
                 if not res:
-                    try:
-                        pacientes = PacienteClinica.objects.filter(visita__fecha= str(formats.date_format(datetime.datetime.strptime(str(dato), "%d-%m-%Y"), "Y-m-d"))).distinct()
-                    except ValueError:
-                        return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
-
-                    if not res and not pacientes:
-                        #Si no hay ningún paciente con ese NSS, ni con ese DNI, ni con esa fecha, redirigimos a buscar
-                        #Ha habido algún error
-                        return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
-
-                    return render(request, 'pages/ficha_de_paciente.html', {'pacientes': pacientes, 'add_to_control': False})
+                    #Si no hay ningún paciente con ese NSS, ni con ese DNI, ni con esa fecha, redirigimos a buscar
+                    #Ha habido algún error
+                    return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': form})
 
             #En este punto, tenemos un paciente (res) que coincide(dni o nss)
             #Buscamos en webdb si el paciente está dado de alta
@@ -224,7 +216,18 @@ def buscar(request):
 
     return render(request, 'pages/buscar_paciente.html', {'form': form})
 
-#En construcción
+@login_required
+def buscar_fecha(request):
+    if request.method == 'POST':
+        dato = request.POST['fecha_visita']
+        try:
+            pacientes = PacienteClinica.objects.filter(visita__fecha= str(dato)).distinct()
+        except ValueError:
+            return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': AltaForm()})
+
+        return render(request, 'pages/ficha_de_paciente.html', {'pacientes': pacientes, 'add_to_control': False})
+
+
 @login_required
 def cambiar_visita(request, id):
     """ Allowing for Visita objects modification,

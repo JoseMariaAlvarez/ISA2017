@@ -49,10 +49,34 @@
                 </p>
                 <input type="submit" class="btn btn-success" value="Buscar">
               </div>  
-
+          </form>
+          <br>
+          <form action="/buscar_fecha/" method="post">
+            {% csrf_token %}
+            
+              <div class="col-md-2 col-sm-2 col-xs-12">
+                <p>
+                  <label>Fecha:</label>
+                  <input type="input" id="fecha_visita" name="fecha_visita" class="form-control">
+                </p>
+                <input type="submit" class="btn btn-success" value="Buscar">
+              </div>  
           </form>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+    $( document ).ready(function() {
+      $("#fecha_visita").datepicker({
+        dateFormat: "yy-mm-dd",
+        firstDay: 1,
+        dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+      });
+    });
+</script>
 {% endblock %}
