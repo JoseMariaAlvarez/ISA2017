@@ -111,7 +111,7 @@ def gestor(request):
     else:
         #Si el paciente no está en sesion
         #Redirigimos a buscar paciente mostrando un error
-        if not request.session['last_patient']:
+        if not 'last_patient' in request.session:
             form = AltaForm()
             return render(request, 'pages/buscar_paciente.html', {'form':form, 'search_first':True})           
         #Recogemos el nss de sesion
