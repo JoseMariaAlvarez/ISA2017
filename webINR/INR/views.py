@@ -225,6 +225,9 @@ def buscar_fecha(request):
         except ValueError:
             return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': AltaForm()})
 
+        if not pacientes:
+            return render(request, 'pages/buscar_paciente.html', {'error' : True, 'form': AltaForm()})
+            
         return render(request, 'pages/ficha_de_paciente.html', {'pacientes': pacientes, 'add_to_control': False})
 
 
