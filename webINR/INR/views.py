@@ -339,6 +339,14 @@ def nuevo_rango(request):
 def guias(request):
     return render(request, 'pages/guias.html')
 
+@login_required
+def borrar_diagnostico(request, id):
+    diagnostico = Diagnostico.objects.get(id=id)
+    paciente = PacienteClinica.objects.get(id= request.session['id'])
+    paciente.diagnosticos.remove(diagnostico)
+
+    return redirect('/gestor/')
+
 
 # LLAMADAS AJAX:
 @login_required
@@ -370,7 +378,7 @@ def asociar_diagnostico(request):
             # Añadimos el diagnóstico a la lista de diagnósticos del paciente
             paciente.diagnosticos.add(diagnostico)
             # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
-            data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion}
+            data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion, 'id':diagnostico_id}
         except DoesNotExist:
             data = {}
     return JsonResponse(data)

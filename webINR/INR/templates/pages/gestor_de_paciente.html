@@ -28,7 +28,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="alert alert-danger alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" class="fa fa-times"></span></button>
       <strong>Ningún paciente seleccionado.</strong> Seleccione un paciente desde el menú de búsqueda. <a style="color:yellow" href="/buscar/"> Buscar</a>
     </div>
   </div>
@@ -39,7 +39,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" class="fa fa-times"></span></button>
       <strong>Visita añadida con éxito</strong>
     </div>
   </div>
@@ -50,7 +50,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><strong>×</strong></span></button>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><strong class="fa fa-times"></strong></span></button>
       <strong>Visita modificada con éxito</strong>
     </div>
   </div>
@@ -76,6 +76,7 @@
             <tr>
               <th>Código</th>
               <th>Descripción</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -83,6 +84,7 @@
             <tr>
               <th>{{d.codigo}}</th>
               <td>{{d.descripcion}}</td>
+              <td align="center"><a href="/borrar_diagnostico/{{d.id}}" class="fa fa-times" title="Borrar diagnóstico"></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -151,7 +153,7 @@
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.fecha|date:"d-m-Y" }}</td>
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.valorINR }}</td>
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.dosis }}</td>
-                <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search"></td>
+                <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search" title="Modificar visita"></td>
               </tr>
               {% endfor %}
             </tbody>
@@ -183,7 +185,7 @@
           dataType: 'json',
           success: function (data) {
 
-            var content ='<div class="x_panel" style="border:0px; padding:0px; margin:0px"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true">×</span></button><table class="table" style="margin:0px"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
+            var content ='<div class="x_panel" style="border:0px; padding:0px; margin:0px"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true" class="fa fa-times"></span></button><table class="table" style="margin:0px"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
             
             $("#info_visita").html(content).addClass("x_panel").show();
             $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
@@ -208,9 +210,9 @@
           },
           dataType: 'json',
           success: function(data){
-            $("#tabla_diagnosticos > tbody").append("<tr><th>"+data.codigo+"</th><td>"+data.descripcion+"</td></tr>");
+            $("#tabla_diagnosticos > tbody").append("<tr><th>"+data.codigo+"</th><td>"+data.descripcion+"</td><td align='center'><a href='/borrar_diagnostico/"+data.id+"' class='fa fa-times' title='Borrar diagnóstico'></td></tr>");
           }
-        })
+        });
       }
 </script>
 {% endblock %}
