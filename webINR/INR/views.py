@@ -267,7 +267,7 @@ def cambiar_visita(request, id):
         if comentario.texto is not None:
             all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
       
-    formComentario = ComentarioVisitaForm()
+    formComentario = ComentarioVisitaForm(initial = {'autor': request.user.first_name +' ' + request.user.last_name}, prefix = 'comentario')
 
     return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'comentariosAntiguos':all_comments, 
                         'formComentario': formComentario, 'id': id, 'error_formulario': error_formulario})
@@ -363,13 +363,39 @@ def asociar_diagnostico(request):
     id_paciente = request.GET.get('paciente_id', None)
     diagnostico_id = request.GET.get('diagnostico_id', None)
     # Encontramos el paciente y el diagnostico 
-    paciente = PacienteClinica.objects.get(id=id_paciente)
-    diagnostico = Diagnostico.objects.get(id=diagnostico_id)
-    # Añadimos el diagnóstico a la lista de diagnósticos del paciente
-    paciente.diagnosticos.add(diagnostico)
-    # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
-    data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion}
-
+    if id_paciente and diagnostico_id:
+        try:
+            paciente = PacienteClinica.objects.get(id=id_paciente)
+            diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+            # Añadimos el diagnóstico a la lista de diagnósticos del paciente
+            paciente.diagnosticos.add(diagnostico)
+            # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
+            data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion}
+        except DoesNotExist:
+            data = {}
     return JsonResponse(data)
 
+@login_required
+def anadir_comentario(request):
+    id_visita = request.GET.get('id', None)
+    nuevo_comentario = request.GET.get('nuevo_comentario', None)
+    autor = request.GET.get('autor', None)
+    if id_visita and nuevo_comentario and autor:
+        comentario = Comentario()
+        comentario.visita_id = id_visita
+        comentario.texto = nuevo_comentario
+        comentario.autor = autor
+        comentario.save()
 
+        comentarios = Comentario.objects.filter(visita_id = id_visita)
+        all_comments = ""
+        for comentario in comentarios:
+            if comentario.texto is not None:
+                all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
+
+        data = {'todos_comentarios': all_comments}
+
+    else:
+        data = {}
+
+    return JsonResponse(data)

@@ -31,18 +31,20 @@
 				    </p>
 				  {% endfor %}
 				  <p>
-				  	<textarea class="form-control" rows="4" disabled>{{ comentariosAntiguos }}</textarea>
+				  	<textarea id="comentarios" class="form-control" rows="4" disabled>{{ comentariosAntiguos }}</textarea>
 				  </p>
 				  {% for comentario in formComentario %}	
-					  <p>
-					  	{% if comentario.label != 'Autor' %}
+					<p>
+						{% if comentario.label != 'Autor' %}
 					    	<label for="{{comentario.name}}">Nuevo {{comentario.label}}</label>
 				    	{% endif %}
 					    {{ comentario }}
-					  </p>
+					</p>
 				  {% endfor %}
+				  <div></div>
 				  <a class="btn btn-danger" href="/gestor/">Atrás</a>
-				 <input type="submit" class="btn btn-success" value="Cambiar">
+				  <input type="submit" class="btn btn-success" value="Cambiar">
+				  <a href="#" id="nuevo_comentario" class="btn btn-info" onclick="anadir_comentario()">Añadir comentario</a>
 			 </form>
 		</div>
 	</div>
@@ -75,6 +77,25 @@
     	var ms = new Date().getTime() + (86400000 * duracion);
     	var new_date = new Date(ms);
     	$("#fecha").datepicker('setDate', new_date);
+    }
+
+    function anadir_comentario(){
+    	var nuevo_comentario = $("#id_comentario-texto").val();
+      if (nuevo_comentario != "" && nuevo_comentario != " "){
+        $.ajax({
+          url: '/anadir_comentario/',
+          data: {
+          'id': {{id}},
+          'nuevo_comentario' : nuevo_comentario,
+          'autor' : $("#id_comentario-autor").val()
+          },
+          dataType: 'json',
+          success: function (data) {
+            $("#comentarios").val(data.todos_comentarios);
+            $("#id_comentario-texto").val("");
+          }
+        });
+      }
     }
 </script>
 {% endblock %}

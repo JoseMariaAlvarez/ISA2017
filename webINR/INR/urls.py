@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^guias/$' , views.guias, name='guias'),
     url(r'^mostrarvisita/$' , views.mostrar_visita, name='mostrarvisita'),
     url(r'^asociardiagnostico/$', views.asociar_diagnostico, name='asociardiagnostico'),
+    url(r'^anadir_comentario/$', views.anadir_comentario, name='anadir_comentario'),
 ]
