@@ -84,6 +84,8 @@ class Visita(models.Model):
         db_column="peso", max_digits=5, decimal_places=2)
     paciente = models.ForeignKey(PacienteClinica, on_delete=models.CASCADE)
     medicacion = models.ForeignKey(Medicacion, on_delete=models.CASCADE)
+    distribucion = models.CharField(max_length=200,db_column="distribucion", blank=True, null=True)
+    heparina = models.CharField(max_length=200,db_column="heparina", blank=True, null=True)
 
 # Comentario model
 class Comentario(models.Model):

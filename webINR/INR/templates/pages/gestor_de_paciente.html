@@ -35,23 +35,12 @@
 </div>
 {% endif %}
 
-{% if visit_success%}
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="alert alert-success alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" class="fa fa-times"></span></button>
-      <strong>Visita añadida con éxito</strong>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-{% if visit_change_success %}
+{% if visit_success %}
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="alert alert-success alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><strong class="fa fa-times"></strong></span></button>
-      <strong>Visita modificada con éxito</strong>
+      <strong>{{visit_success}}</strong>
     </div>
   </div>
 </div>
@@ -175,44 +164,45 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
-    function showVisit(id_visita, element){
+  
+  function showVisit(id_visita, element){
+
+    $.ajax({
+        url: '/mostrarvisita/',
+        data: {
+        'id': id_visita
+        },
+        dataType: 'json',
+        success: function (data) {
+
+          var content ='<div class="x_panel" style="border:0px; padding:0px; margin:0px"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true" class="fa fa-times"></span></button><table class="table" style="margin:0px"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
+          
+          $("#info_visita").html(content).addClass("x_panel").show();
+          $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
+          $(element).closest("tr").css("background-color", "yellow");
+        }
+      });
+    }
+
+    function cerrar_tabla(){
+       $("#info_visita").hide();
+       $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
+    }
+
+    function newDiagnostic(){
+      var diagnostico = $("#nuevo_diagnóstico :selected").val();
 
       $.ajax({
-          url: '/mostrarvisita/',
-          data: {
-          'id': id_visita
-          },
-          dataType: 'json',
-          success: function (data) {
-
-            var content ='<div class="x_panel" style="border:0px; padding:0px; margin:0px"><div class="x_content"><button type="button" class="close" onclick="cerrar_tabla()"><span aria-hidden="true" class="fa fa-times"></span></button><table class="table" style="margin:0px"><tr><th>Fecha: </th><td>'+data.fecha+'</td><th>Duración (días): </th><td>'+data.duracion+'</td></tr><tr><th>Valor de INR: </th><td>'+data.valorINR+'</td><th>Peso (kg): </th><td>'+data.peso+'</td></tr><tr><th>Dosis (mg/semana): </th><td>'+data.dosis+'</td><th>Medicación: </th><td>'+data.medicacion+'</td></tr></table></div></div>';
-            
-            $("#info_visita").html(content).addClass("x_panel").show();
-            $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
-            $(element).closest("tr").css("background-color", "yellow");
-          }
-        });
-      }
-
-      function cerrar_tabla(){
-         $("#info_visita").hide();
-         $("#tabla_visitas").children("tbody").find("tr").css("background-color", "white");
-      }
-
-      function newDiagnostic(){
-        var diagnostico = $("#nuevo_diagnóstico :selected").val();
-
-        $.ajax({
-          url: '/asociardiagnostico/',
-          data: {
-            'paciente_id': {{request.session.id}},
-            'diagnostico_id': diagnostico
-          },
-          dataType: 'json',
-          success: function(data){
-            $("#tabla_diagnosticos > tbody").append("<tr><th>"+data.codigo+"</th><td>"+data.descripcion+"</td><td align='center'><a href='/borrar_diagnostico/"+data.id+"' class='fa fa-times' title='Borrar diagnóstico'></td></tr>");
-          }
-        });
-      }
+        url: '/asociardiagnostico/',
+        data: {
+          'paciente_id': {{request.session.id}},
+          'diagnostico_id': diagnostico
+        },
+        dataType: 'json',
+        success: function(data){
+          $("#tabla_diagnosticos > tbody").append("<tr><th>"+data.codigo+"</th><td>"+data.descripcion+"</td><td align='center'><a href='/borrar_diagnostico/"+data.id+"' class='fa fa-times' title='Borrar diagnóstico'></td></tr>");
+        }
+      });
+    }
 </script>
 {% endblock %}

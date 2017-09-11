@@ -12,23 +12,23 @@ class VisitaForm(forms.ModelForm):
     prefix = 'visita'
     class Meta:
         model = Visita
-        fields = ['paciente', 'valorINR', 'dosis', 'duracion', 'peso', 'fecha','medicacion']
+        fields = ['paciente', 'valorINR', 'dosis', 'medicacion', 'duracion', 'fecha', 'peso']
         labels = {
             'paciente': 'Paciente',
             'duracion': 'Duración (días)',
             'peso': 'Peso (kg)',
-            'dosis': 'Dosis (mg/semana)',
+            'dosis': 'Dosis (mg/periodo)',
             'valorINR' : 'Valor INR',
             'medicacion': 'Medicación',
         }
         widgets = {
             'paciente': forms.HiddenInput(attrs={'class' : 'form-control'}),
-            'valorINR': forms.NumberInput(attrs={'class' : 'form-control','min': 0, 'max': 5, 'step':0.1}),
-            'dosis': forms.TextInput(attrs={'class' : 'form-control'}),
-            'fecha': forms.TextInput(attrs={'class' : 'form-control', 'id':'fecha', 'onchange':'cambiarDuracion()', 'required':'true'}),
-            'duracion': forms.TextInput(attrs={'class' : 'form-control','id':'duracion', 'onchange':'cambiarFecha()', 'required':'true'}),
-            'peso': forms.TextInput(attrs={'class' : 'form-control'}),
-            'medicacion': forms.Select(attrs={'class' : 'form-control'}),
+            'valorINR': forms.NumberInput(attrs={'class' : 'form-control','min': 0, 'max': 5, 'step':0.1, 'name':'valorINR'}),
+            'dosis': forms.NumberInput(attrs={'class' : 'form-control', 'id':'dosis', 'min':0.25, 'name':'dosis'}),
+            'fecha': forms.TextInput(attrs={'class' : 'form-control', 'id':'fecha', 'onchange':'cambiarDuracion()', 'required':'true', 'name':'fecha'}),
+            'duracion': forms.NumberInput(attrs={'class' : 'form-control','id':'duracion', 'name':'duracion', 'min': 1, 'onkeyup':'cambiarFecha()', 'required':'true'}),
+            'peso': forms.TextInput(attrs={'class' : 'form-control', 'name':'peso'}),
+            'medicacion': forms.Select(attrs={'class' : 'form-control', 'name':'medicacion', 'id':'medicacion'}),
         }
 
 class ComentarioVisitaForm(forms.ModelForm):

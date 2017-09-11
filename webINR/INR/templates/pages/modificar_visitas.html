@@ -1,59 +1,73 @@
 {% extends "base.html" %}
-{% block title %}Visitas{% endblock %}
-
 {% block content %}
 
 {% if error_formulario %}
 <div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-      <strong>{{error_formulario}}</strong>
+  
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="alert alert-danger alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <strong>{{error_formulario}}</strong>
+      </div>
     </div>
   </div>
-</div>
-{% endif %}
-<div class="x_panel">
-	<div class="x_title">
-		<h2>Modificar Visita</h2>
-		<div class="clearfix"></div>
-	</div>
-	<div class="x_content">
-		<div class="col-md-3 col-sm-3 col-xs-12">
-			<form action="/modvisitas/{{ id }}/" method="POST">
-				 {% csrf_token %}
-				  {% for field in formVisita %}
-				    <p>
-				      {% if field.name != 'paciente' %}
-				        <label for="{{ field.name }}">{{ field.label }}:</label>
-				      {% endif %}
-				      {{ field }}
-				    </p>
-				  {% endfor %}
-				  <p>
-				  	<textarea id="comentarios" class="form-control" rows="4" disabled>{{ comentariosAntiguos }}</textarea>
-				  </p>
-				  {% for comentario in formComentario %}	
-					<p>
-						{% if comentario.label != 'Autor' %}
-					    	<label for="{{comentario.name}}">Nuevo {{comentario.label}}</label>
-				    	{% endif %}
-					    {{ comentario }}
-					</p>
-				  {% endfor %}
-				  <div></div>
-				  <a class="btn btn-danger" href="/gestor/">Atrás</a>
-				  <input type="submit" class="btn btn-success" value="Cambiar">
-				  <a href="#" id="nuevo_comentario" class="btn btn-info" onclick="anadir_comentario()">Añadir comentario</a>
-			 </form>
-		</div>
-	</div>
+  {% endif %}
+  <form action="/modvisitas/{{ id }}/" method="POST" id="form">
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="x_panel">
+      	<div class="x_title">
+      		<h2>Modificar Visita</h2>
+      		<div class="clearfix"></div>
+      	</div>
+      	<div class="x_content">
+    		 {% csrf_token %}
+    		  {% for field in formVisita %}
+    		    <div class="form-group">
+    		      {% if field.name != 'paciente' %}
+    		        <label for="{{ field.name }}">{{ field.label }}:</label>
+    		      {% endif %}
+    		      {{ field }}
+    		    </div>
+    		  {% endfor %}
+    		  <div class="form-group">
+            <label>Comentarios:</label>
+    		  	<textarea id="comentarios" class="form-control" rows="4" disabled>{{ comentariosAntiguos }}</textarea>
+    		  </div>
+    		  {% for comentario in formComentario %}	
+    			<div class="form-group">
+    				{% if comentario.label != 'Autor' %}
+    			    	<label for="{{comentario.name}}">Nuevo {{comentario.label}}:</label>
+    		    	{% endif %}
+    			    {{ comentario }}
+    			</div>
+    		  {% endfor %}
+      	</div>
+      </div>
+    </div>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Dosificación</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content" id="panel_dosificacion">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div style="padding: 15px">
+    <a class="btn btn-danger" href="/gestor/">Cancelar</a>
+    <button class="btn btn-success" onclick="submit_formulario()">Cambiar</button>
+    <a href="#" id="nuevo_comentario" class="btn btn-info" onclick="anadir_comentario()">Añadir comentario</a>
+  </div>
 </div>
  
  {% endblock %}
 
  {% block javascript %}
 <script type="text/javascript">
+    dosificacion_inicial = $.trim("{{distribucion_inicial}}").split(" ");
+    heparina_inicial = $.trim("{{heparina_inicial}}").split(" ");
     $( document ).ready(function() {
       $("#fecha").datepicker({
         dateFormat: "yy-mm-dd",
@@ -63,7 +77,150 @@
         dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
         monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
       });
+
+      $("#dosis").focus(function(){
+        $('#dosis').closest('.form-group').removeClass('has-error'); 
+        $('#dosis').css("background-color", "white");
+      });
+      $("#duracion").focus(function(){
+        $('#duracion').closest('.form-group').removeClass('has-error');
+        $('#duracion').css("background-color", "white");
+      });
+
+      construir_vista_dosificacion(dosificacion_inicial, "#panel_dosificacion");
+      insertar_input_dosificacion(heparina_inicial, "#panel_dosificacion");
+
+      
     });
+
+    $('#dosis, #duracion, #medicacion').change(function(){
+      crear_dosificacion();
+    });
+
+
+    function crear_dosificacion(){
+      if (parseInt($("#dosis").val()) > 0 && parseInt($("#duracion").val()) > 0 && $("#medicacion").val() != ''){
+        $.ajax({
+          url: '/anadirDosificacion/',
+          data: {
+            'dosis': parseInt($("#dosis").val()),
+            'medicacion': $("#medicacion").val(),
+            'duracion': parseInt($("#duracion").val()),
+          },
+          dataType: 'json',
+          success: function(data){
+            construir_vista_dosificacion(data.dosificacion, "#panel_dosificacion");
+            insertar_input_dosificacion(data.dosificacion, "#panel_dosificacion");            
+          }
+        });
+      }
+    }
+    
+    function construir_vista_dosificacion(dosificacion, id){
+      var salida ="<input type='hidden' name='num_dias' value='"+dosificacion.length+"'>"+
+                  "<table class='table table-th'><tr><th><i class='fa fa-chevron-left' aria-hidden='true' onclick='distribuir_a_izquierda()'></i></th></tr><tr><th>Pastillas</th></tr><tr><th>Heparina</th></tr></table>"+
+                  "<div class='wrap'><table class='table'>";
+      var imagen_jeringa = "/static/INR/images/jeringuilla.png";
+      dosificacion_inicial = dosificacion;
+      for (var i = 0; i < dosificacion.length; i++){
+        salida += "<tr class='vertical'><td class='vertical'>"+dosificacion[i]+"mg</td>"+
+                      "<td class='vertical'>";
+        salida += generar_codigo_pastillas(dosificacion[i]);
+        salida += "</td><td class='vertical'>";
+        if(heparina_inicial != [] && (heparina_inicial[i] == "on")){
+           salida += "<input type='checkbox' name='cb"+i+"' id='cb"+i+"' checked='true' />"+
+                    "<label for='cb"+i+"' class='btn'><img src='"+imagen_jeringa+"'/></label></td>"
+        }else{
+          salida += "<input type='checkbox' name='cb"+i+"' id='cb"+i+"'/>"+
+                    "<label for='cb"+i+"' class='btn'><img src='"+imagen_jeringa+"'/></label></td>";
+        }
+        
+        salida += "</tr>";
+      }
+      salida += "</table></div><table class='table table-th'><tr><th><i class='fa fa-chevron-right' aria-hidden='true' onclick='distribuir_a_derecha()'></i></th></tr><tr><td></td></tr></table>";
+      $(id).html(salida);
+
+    }
+
+    function generar_codigo_pastillas(dosis){
+      salida_pastilla = "";
+      proporcion = 2;
+      mg_pastilla = $("#medicacion").find(":selected").val();
+      pastilla_1mg = true;
+      dosis_local = dosis;
+      if(mg_pastilla != 1){
+        proporcion = 8;
+        pastilla_1mg = false;
+      }
+      do{
+        proporcion /= 2;
+        for (var i = parseInt(dosis_local / proporcion); i > 0; i--){
+          if (pastilla_1mg){
+            salida_pastilla += "<img src='/static/INR/images/pastilla4.png'>";
+          }else{
+            salida_pastilla += "<img src='/static/INR/images/pastilla"+proporcion+".png'>";
+          }
+          
+        }
+        dosis_local = dosis_local % proporcion;
+      }while (dosis_local > 0);
+
+      return salida_pastilla;
+    }
+
+    function insertar_input_dosificacion(dosificacion, id){
+      var string_dosificacion ="";
+      for (var i = 0; i < dosificacion.length; i++) {
+        string_dosificacion += dosificacion[i]+" ";
+      }
+      $(id).append("<input type='hidden' name='dosificacion_final' value='"+string_dosificacion+"'>");
+    }
+
+        function distribuir_a_izquierda(){
+      nueva_dosificacion = dosificacion_inicial;
+      nueva_dosificacion.push(nueva_dosificacion.shift());
+      
+      nueva_heparina = obtener_heparina_clickada();
+      nueva_heparina.push(nueva_heparina.shift());
+      heparina_inicial = nueva_heparina;
+      
+      construir_vista_dosificacion(nueva_dosificacion, "#panel_dosificacion");
+      insertar_input_dosificacion(nueva_dosificacion, "#panel_dosificacion");
+      
+      marcar_heparina();
+    }
+
+    function distribuir_a_derecha(){
+      nueva_dosificacion = dosificacion_inicial;
+      nueva_dosificacion.unshift(nueva_dosificacion.pop());
+      
+      nueva_heparina = obtener_heparina_clickada();
+      nueva_heparina.unshift(nueva_heparina.pop());
+      heparina_inicial = nueva_heparina;
+      
+      construir_vista_dosificacion(nueva_dosificacion, "#panel_dosificacion");
+      insertar_input_dosificacion(nueva_dosificacion, "#panel_dosificacion");
+      
+      marcar_heparina();
+    }
+
+    function obtener_heparina_clickada(){
+      var duracion = $("#duracion").val();
+      var salida = [];
+      for (var i = 0; i< duracion; i++){
+        salida.push($("#cb"+i).is(":checked"));
+      }
+      return salida;
+    }
+
+    function marcar_heparina(){
+      for(var i = 0; i<heparina_inicial.length; i++){
+        if (heparina_inicial[i]){
+          $("#cb"+i).prop('checked', true);
+        }
+      }
+    }
+
     function cambiarDuracion(){
     	
     	var date = $("#fecha").datepicker('getDate');
@@ -97,5 +254,64 @@
         });
       }
     }
+    function submit_formulario(){
+      var valor_duracion = parseInt($("#duracion").val());
+      var valor_dosis = parseInt($("#dosis").val());
+
+      if( valor_duracion > 0 && valor_dosis > 0){
+        $("#form").submit();
+      }else{
+        if(valor_dosis <= 0){
+          $('#dosis').closest('.form-group').addClass('has-error');  
+          $('#dosis').css("background-color", "yellow");
+        }
+        if(valor_duracion <= 0){
+          $('#duracion').closest('.form-group').addClass('has-error');  
+          $('#duracion').css("background-color", "yellow");
+        }
+      }
+    }
 </script>
+
+<style type="text/css">
+  tr.vertical { display: inline-block;}
+  th.vertical, td.vertical { display: block; } 
+
+  .table-th{
+    width: 5%;
+    float: left;
+  }
+
+  .wrap {
+    height: 200px;
+    max-width: 87%;
+    overflow-x: auto;
+    white-space: nowrap;
+    float: left;
+    }
+
+  input[type="checkbox"][id^="cb"] {
+    display: none;
+  }
+
+  label img {
+    height: 30px;
+    width: 30px;
+  }
+  :checked + label.btn {
+    background-color: #5cb85c;
+  }
+
+   label.btn {
+    background-color: #ddd ;
+   }
+
+   p {
+    padding-left: 9px;
+   }
+
+   i {
+    cursor: pointer;
+   }
+</style>
 {% endblock %}

@@ -24,8 +24,10 @@ urlpatterns = [
     url(r'^gestor/$', views.gestor, name='gestor'),
     url(r'^rango/$' , views.nuevo_rango, name='rango'),
     url(r'^guias/$' , views.guias, name='guias'),
+    ## AJAX
     url(r'^mostrarvisita/$' , views.mostrar_visita, name='mostrarvisita'),
     url(r'^asociardiagnostico/$', views.asociar_diagnostico, name='asociardiagnostico'),
     url(r'^borrar_diagnostico/(?P<id>\w{0,50})/$', views.borrar_diagnostico, name='borrar_diagnostico' ),
     url(r'^anadir_comentario/$', views.anadir_comentario, name='anadir_comentario'),
+    url(r'^anadirDosificacion/$', views.anadirDosificacion, name='anadirDosificacion'),
 ]

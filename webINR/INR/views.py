@@ -11,6 +11,7 @@ import random
 import string
 import datetime
 from django.db import IntegrityError
+from . import distribuir
 
 # Sobre get_object_or_404():
 # https://docs.djangoproject.com/es/1.11/topics/http/shortcuts/#django.shortcuts.get_object_or_404
@@ -244,14 +245,31 @@ def cambiar_visita(request, id):
         visitaForm = VisitaForm(request.POST, instance=obj)
         # Creo el formulario del comentario a partir de los datos del POST
         comentarioForm = ComentarioVisitaForm(request.POST)
+
+        #Obtenemos los datos resultantes de la dosificacion:
+        duracion = request.POST['num_dias']
+        dosificacion_final = request.POST['dosificacion_final']
+        heparina = ""
+        for i in range(0, int(duracion)):
+            heparina += request.POST.get('cb'+str(i), 'off') + " "
+
+
         if visitaForm.is_valid() and comentarioForm.is_valid():
             new_visita = visitaForm.save()
             comentario = Comentario(**comentarioForm.cleaned_data)
             comentario.visita_id = new_visita.id
             comentario.save()
+            
+           
+            new_visita.distribucion = dosificacion_final
+            new_visita.heparina = heparina
+            new_visita.save()
+
             # Recuperamos las visitas del paciente.
             visitas = Visita.objects.filter(paciente_id = request.session['id']).order_by('id').reverse()
-            return render(request, 'pages/gestor_de_paciente.html', {'visitas' : visitas, 'visit_change_success':True})
+
+            context = {'visitas': visitas, 'visit_success':'Visita modificada con éxito'}
+            return render(request, 'pages/gestor_de_paciente.html', context)
 
         else:
             error_formulario = "El formulario no se ha enviado correctamente. Compruebe los datos introducidos"
@@ -270,7 +288,8 @@ def cambiar_visita(request, id):
     formComentario = ComentarioVisitaForm(initial = {'autor': request.user.first_name +' ' + request.user.last_name}, prefix = 'comentario')
 
     return render(request, 'pages/modificar_visitas.html', {'formVisita': formVisita, 'comentariosAntiguos':all_comments, 
-                        'formComentario': formComentario, 'id': id, 'error_formulario': error_formulario})
+                        'formComentario': formComentario, 'id': id, 'distribucion_inicial':str(obj.distribucion),
+                        'heparina_inicial':str(obj.heparina), 'error_formulario': error_formulario})
 
 @login_required
 def crear_visita(request, nss):
@@ -284,10 +303,15 @@ def crear_visita(request, nss):
         # Utilizamos prefix para identificar los datos enviados con su correspondiente form
         formVisita = VisitaForm(request.POST, prefix='visita')
         formComentario = ComentarioVisitaForm(request.POST, prefix='comentario')
+        duracion = request.POST['num_dias']
+        dosificacion_final = request.POST['dosificacion_final']
+        heparina = ""
+        for i in range(0, int(duracion)):
+            heparina += request.POST.get('cb'+str(i), 'off')+" "
 
         #¿Son ambos formularios válidos?
         if formVisita.is_valid() and formComentario.is_valid():  
-            new_visita = formVisita.save()
+            new_visita = formVisita.save(commit=False)
             comentario = Comentario(**formComentario.cleaned_data)
             comentario.visita_id = new_visita.id
             comentario.save()
@@ -299,10 +323,16 @@ def crear_visita(request, nss):
             new_visit.comentario_id = comentario.id
             new_visit.save()
             """
+           
+            new_visita.distribucion = dosificacion_final
+            new_visita.heparina = heparina
+            new_visita.save()
+
             #Recuperamos todas las visitas, incluída la nueva
             visitas = Visita.objects.filter(paciente_id=paciente.id).order_by('id').reverse()
+
             #Añadimos los datos al context que sean revelantes para gestor_de_paciente
-            context = {'visitas' : visitas, 'visit_success' : True}
+            context = {'visitas' : visitas, 'visit_success' : 'Visita añadida con éxito'}
             return render(request, 'pages/gestor_de_paciente.html', context)
         else:
             context = {'formVisita' : formVisita, 'formComentario' : formComentario}
@@ -407,3 +437,14 @@ def anadir_comentario(request):
         data = {}
 
     return JsonResponse(data)
+
+@login_required
+def anadirDosificacion(request):
+    dosis = request.GET.get('dosis', None)
+    medicacion = request.GET.get('medicacion', None)
+    duracion = request.GET.get('duracion', None)
+    if dosis and medicacion and duracion:
+        d = distribuir.Distribuir(int(dosis), int(duracion))
+        return JsonResponse({'dosificacion':d.distribucion})
+    else:
+        return JsonResponse({'error':'error'})
