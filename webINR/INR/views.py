@@ -267,12 +267,22 @@ def cambiar_visita(request, id):
 
             # Recuperamos las visitas del paciente.
             visitas = Visita.objects.filter(paciente_id = request.session['id']).order_by('id').reverse()
+            nssValue = request.session['nss']
 
-            context = {'visitas': visitas, 'visit_success':'Visita modificada con éxito'}
+            # Buscamos el paciente,
+            try:
+                paciente = PacienteClinica.objects.get(nss = nssValue)
+            except PacienteClinica.DoesNotExist:
+                return HttpResponseRedirect('/ficha/%s' % nssValue)
+            # Buscamos los diagnósticos del paciente
+            diagnosticos = paciente.diagnosticos.all()
+
+            context = {'visitas': visitas, 'visit_success':'Visita modificada con éxito', 'diagnosticos':diagnosticos}
             return render(request, 'pages/gestor_de_paciente.html', context)
 
         else:
             error_formulario = "El formulario no se ha enviado correctamente. Compruebe los datos introducidos"
+
     formVisita = VisitaForm(initial={'id': obj.id, 'fecha': obj.fecha,
                                'valorINR': obj.valorINR, 'dosis': obj.dosis,
                                'duracion': obj.duracion, 'peso': obj.peso,
@@ -303,15 +313,16 @@ def crear_visita(request, nss):
         # Utilizamos prefix para identificar los datos enviados con su correspondiente form
         formVisita = VisitaForm(request.POST, prefix='visita')
         formComentario = ComentarioVisitaForm(request.POST, prefix='comentario')
-        duracion = request.POST['num_dias']
-        dosificacion_final = request.POST['dosificacion_final']
+        duracion = request.POST.get('num_dias', None)
+        dosificacion_final = request.POST.get('dosificacion_final', None)
         heparina = ""
-        for i in range(0, int(duracion)):
-            heparina += request.POST.get('cb'+str(i), 'off')+" "
+        if duracion:
+            for i in range(0, int(duracion)):
+                heparina += request.POST.get('cb'+str(i), 'off')+" "
 
         #¿Son ambos formularios válidos?
         if formVisita.is_valid() and formComentario.is_valid():  
-            new_visita = formVisita.save(commit=False)
+            new_visita = formVisita.save()
             comentario = Comentario(**formComentario.cleaned_data)
             comentario.visita_id = new_visita.id
             comentario.save()
@@ -330,12 +341,23 @@ def crear_visita(request, nss):
 
             #Recuperamos todas las visitas, incluída la nueva
             visitas = Visita.objects.filter(paciente_id=paciente.id).order_by('id').reverse()
+            
+            nssValue = request.session['nss']
+
+            # Buscamos el paciente,
+            try:
+                paciente = PacienteClinica.objects.get(nss = nssValue)
+            except PacienteClinica.DoesNotExist:
+                return HttpResponseRedirect('/ficha/%s' % nssValue)
+            # Buscamos los diagnósticos del paciente
+            diagnosticos = paciente.diagnosticos.all()
 
             #Añadimos los datos al context que sean revelantes para gestor_de_paciente
-            context = {'visitas' : visitas, 'visit_success' : 'Visita añadida con éxito'}
+            context = {'visitas' : visitas, 'visit_success' : 'Visita añadida con éxito', 'diagnosticos':diagnosticos}
             return render(request, 'pages/gestor_de_paciente.html', context)
         else:
-            context = {'formVisita' : formVisita, 'formComentario' : formComentario}
+            error_formulario = "El formulario no se ha enviado correctamente. Compruebe los datos introducidos"
+            context = {'formVisita' : formVisita, 'formComentario' : formComentario, 'error_formulario': error_formulario}
             return render(request, 'pages/crear_visita.html', context)
     #Se llega mediante un hiperenlace (/gestor/nss) o porque el formulario no es válido
     
