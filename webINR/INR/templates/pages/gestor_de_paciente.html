@@ -142,7 +142,7 @@
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.fecha|date:"d-m-Y" }}</td>
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.valorINR }}</td>
                 <td onclick="showVisit({{visita.id}}, this)" style="cursor:pointer">{{ visita.dosis }}</td>
-                <td align="center"><i class="fa fa-file-pdf-o"></i>&nbsp;<a href="/modvisitas/{{visita.id}}" class="fa fa-search" title="Modificar visita"></td>
+                <td align="center"><a href="/modvisitas/{{visita.id}}" class="fa fa-search" title="Modificar visita"></td>
               </tr>
               {% endfor %}
             </tbody>

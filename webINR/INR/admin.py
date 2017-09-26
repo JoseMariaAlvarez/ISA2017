@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import admin
-from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita
+from .models import Comentario, PacienteClinica, Diagnostico, Medicacion, Visita, Guia
 
 
 """class AuthDBModelAdmin(admin.ModelAdmin):
@@ -37,3 +37,4 @@ admin.site.register(PacienteClinica)
 admin.site.register(Diagnostico)
 admin.site.register(Medicacion)
 admin.site.register(Visita)
+admin.site.register(Guia)

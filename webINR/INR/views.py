@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import formats
 from .forms import AltaForm, VisitaForm, ComentarioVisitaForm
 from webINR import MySQLDriver
-from .models import PacienteClinica, Visita, Comentario, Medicacion, Diagnostico
+from .models import PacienteClinica, Visita, Comentario, Medicacion, Diagnostico, Guia
 from django.core import serializers
 import random
 import string
@@ -389,7 +389,8 @@ def nuevo_rango(request):
         
 @login_required
 def guias(request):
-    return render(request, 'pages/guias.html')
+    guias = Guia.objects.all();
+    return render(request, 'pages/guias.html', {'guias':guias})
 
 @login_required
 def borrar_diagnostico(request, id):
@@ -403,70 +404,76 @@ def borrar_diagnostico(request, id):
 # LLAMADAS AJAX:
 @login_required
 def mostrar_visita(request):
-    id_visita = request.GET.get('id', None)
-    visita = Visita.objects.get(id = id_visita)
-    data = {'valorINR':visita.valorINR, 'fecha': str(formats.date_format(visita.fecha, "d-m-Y")),
-            'dosis':visita.dosis, 'duracion':visita.duracion,
-            'peso':visita.peso,
-            'medicacion': Medicacion.objects.get(id=visita.medicacion_id).nombre}
-    comentarios = Comentario.objects.filter(visita_id = id_visita)
-    all_comments = ""
-    for comentario in comentarios:
-        if comentario.texto is not None:
-            all_comments = all_comments + "-" + comentario.texto + "\n"
-    data['comentarios']=all_comments
-    return JsonResponse(data)
-  
-@login_required
-def asociar_diagnostico(request):
-    # Recogemos los datos enviados por GET
-    id_paciente = request.GET.get('paciente_id', None)
-    diagnostico_id = request.GET.get('diagnostico_id', None)
-    # Encontramos el paciente y el diagnostico 
-    if id_paciente and diagnostico_id:
-        try:
-            paciente = PacienteClinica.objects.get(id=id_paciente)
-            diagnostico = Diagnostico.objects.get(id=diagnostico_id)
-            # Añadimos el diagnóstico a la lista de diagnósticos del paciente
-            paciente.diagnosticos.add(diagnostico)
-            # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
-            data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion, 'id':diagnostico_id}
-        except DoesNotExist:
-            data = {}
-    return JsonResponse(data)
-
-@login_required
-def anadir_comentario(request):
-    id_visita = request.GET.get('id', None)
-    nuevo_comentario = request.GET.get('nuevo_comentario', None)
-    autor = request.GET.get('autor', None)
-    if id_visita and nuevo_comentario and autor:
-        comentario = Comentario()
-        comentario.visita_id = id_visita
-        comentario.texto = nuevo_comentario
-        comentario.autor = autor
-        comentario.save()
-
+    data = {}
+    if request.is_ajax():
+        id_visita = request.GET.get('id', None)
+        visita = Visita.objects.get(id = id_visita)
+        data = {'valorINR':visita.valorINR, 'fecha': str(formats.date_format(visita.fecha, "d-m-Y")),
+                'dosis':visita.dosis, 'duracion':visita.duracion,
+                'peso':visita.peso,
+                'medicacion': Medicacion.objects.get(id=visita.medicacion_id).nombre}
         comentarios = Comentario.objects.filter(visita_id = id_visita)
         all_comments = ""
         for comentario in comentarios:
             if comentario.texto is not None:
-                all_comments = all_comments + "-" + comentario.autor + ": " + comentario.texto + "\n --- \n"
+                all_comments = all_comments + "-" + comentario.texto + "\n"
+        data['comentarios']=all_comments
+    return JsonResponse(data)
+  
+@login_required
+def asociar_diagnostico(request):
+    data = {}
+    if request.is_ajax():
+        # Recogemos los datos enviados por GET
+        id_paciente = request.GET.get('paciente_id', None)
+        diagnostico_id = request.GET.get('diagnostico_id', None)
+        # Encontramos el paciente y el diagnostico 
+        if id_paciente and diagnostico_id:
+            try:
+                paciente = PacienteClinica.objects.get(id=id_paciente)
+                diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+                # Añadimos el diagnóstico a la lista de diagnósticos del paciente
+                paciente.diagnosticos.add(diagnostico)
+                # Creamos los datos que se van a devolver para crear la nueva fila de la tabla
+                data = {'codigo':diagnostico.codigo, 'descripcion':diagnostico.descripcion, 'id':diagnostico_id}
+            except DoesNotExist:
+                data = {}
+    
+    return JsonResponse(data)
 
-        data = {'todos_comentarios': all_comments}
+@login_required
+def anadir_comentario(request):
+    data = {}
+    if request.is_ajax():
+        id_visita = request.GET.get('id', None)
+        nuevo_comentario = request.GET.get('nuevo_comentario', None)
+        autor = request.GET.get('autor', None)
+        if id_visita and nuevo_comentario and autor:
+            comentario = Comentario()
+            comentario.visita_id = id_visita
+            comentario.texto = nuevo_comentario
+            comentario.autor = autor
+            comentario.save()
 
-    else:
-        data = {}
+            comentarios = Comentario.objects.filter(visita_id = id_visita)
+            all_comments = ""
+            for comentario in comentarios:
+                if comentario.texto is not None:
+                    all_comments = all_comments + "-" + comentario.autor + ": " 
+                    + comentario.texto + "\n --- \n"
 
+            data = {'todos_comentarios': all_comments}
+        
     return JsonResponse(data)
 
 @login_required
 def anadirDosificacion(request):
-    dosis = request.GET.get('dosis', None)
-    medicacion = request.GET.get('medicacion', None)
-    duracion = request.GET.get('duracion', None)
-    if dosis and medicacion and duracion:
-        d = distribuir.Distribuir(int(dosis), int(duracion))
-        return JsonResponse({'dosificacion':d.distribucion})
-    else:
-        return JsonResponse({'error':'error'})
+    if request.is_ajax():
+        dosis = request.GET.get('dosis', None)
+        medicacion = request.GET.get('medicacion', None)
+        duracion = request.GET.get('duracion', None)
+        if dosis and medicacion and duracion:
+            d = distribuir.Distribuir(int(dosis), int(duracion))
+            return JsonResponse({'dosificacion':d.distribucion})
+    
+    return JsonResponse({'error':'error'})

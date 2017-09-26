@@ -43,12 +43,12 @@
           <section class="login_content">
 
             {% if form.non_field_errors %}
-              {% for error in form.non_field_errors %}
+              
               <div class="alert alert-info alert-dismissible fade in"  style="text-shadow:none;" role="alert">
                 
-                <strong>{{ error }}</strong>
+                <strong>Por favor, introduce un nombre de usuario y contraseña correctos. Recuerde que ambos campos son sensibles a mayúsuclas y minúsculas</strong>
               </div>
-              {% endfor %}
+              
             {% endif %}
 
             <form method="post" style="text-shadow:none;" >
@@ -66,11 +66,11 @@
                 <input type="hidden" name="next" value="/" />
               </div>
               <div class="form-actions">
-                <input class="btn btn-default" type="submit" style="float:none;margin-left:0px" value="{% trans 'Log in' %}" />
+                <input class="btn btn-default" type="submit" style="float:none;margin-left:0px" value="Iniciar sesión" />
               </div>
               <div class="clearfix"></div>
             </form>
-
+            <!--
             {% url 'admin_password_reset' as password_reset_url %}
             {% if password_reset_url %}
             <div class="separator">
@@ -80,7 +80,7 @@
               <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
             </div>
             {% endif %}
-
+            -->
           </section>
         </div>
       </div>

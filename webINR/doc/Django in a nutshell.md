@@ -360,9 +360,3 @@ Modificaremos la plantilla *base.html* para hacer referencia a estos ficheros es
   <title>Blog - {% block title %}{% endblock %}</title>
 </head>
 ```
-
-### Formularios
->// TODO
-
-# Autentificación
->// TODO

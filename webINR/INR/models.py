@@ -96,3 +96,9 @@ class Comentario(models.Model):
         db_column="autor", max_length=45, blank=False, null=False, default='-')
     def __str__(self):
         return '%s' % self.texto
+
+class Guia(models.Model):
+    titulo = models.CharField(db_column="titulo", max_length=100, null=False)
+    texto = models.CharField(db_column="texto", max_length=500, null=False)
+    def __str__(self):
+        return u'%s' % (self.titulo)

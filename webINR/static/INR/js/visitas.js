@@ -156,7 +156,7 @@ function submit_formulario(){
     items = $(this).find(":input");
     
     for (var i = 1; i < items.length; i++){
-      if(items[i].required && items[i].value == ""){
+      if(items[i].required && (items[i].value == "" || items[i].value <= 0) ){
         ok = false;
         $("#"+items[i].id).closest('.form-group').addClass('has-error');
         $("#"+items[i].id).css("background-color", "yellow");

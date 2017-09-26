@@ -30,7 +30,7 @@ class Distribuir(object):
         for i in range(0, interval - samples):
             remaining_strings.append([0])
         
-        while(0 < len(remaining_strings)):
+        while(1 < len(remaining_strings)):
             make_new_remaining_strings = \
                 len(remaining_strings) < len(distributed_strings)
             former_remaining_strings_length = len(remaining_strings)
@@ -43,5 +43,6 @@ class Distribuir(object):
                 remaining_strings = distributed_strings[former_remaining_strings_length:]
                 distributed_strings = \
                     distributed_strings[0: former_remaining_strings_length]
-
+        if len(remaining_strings) > 0 :
+            distributed_strings[0].extend(remaining_strings.pop(0))
         self.flatten(distributed_strings)
